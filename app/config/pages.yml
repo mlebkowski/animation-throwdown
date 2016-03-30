@@ -1,0 +1,38 @@
+kunstmaan_node:
+  pages:
+    'ArsThanea\Acme\Entity\Pages\HomePage':
+      name: Home page
+      indexable: false
+      is_homepage: true
+      icon: fa fa-home
+      allowed_children: []
+
+kunstmaan_page_part:
+  pageparts:
+    home:
+      name: Home Page
+      context: main
+      types:
+        - name: Content
+          class: 'ArsThanea\Acme\Entity\PageParts\ContentPagePart'
+
+    footer:
+      name: Footer
+      context: footer
+      types: []
+
+  pagetemplates:
+    home:
+      name: Home Page
+      template: "AcmeBundle::Pages\Home\defaultTemplate.html.twig"
+      rows:
+        - regions:
+            - name: main
+              span: 12
+            - name: footer
+              span: 12
+
+page_media_set:
+  formats:
+    packshot: ~
+    background: ~

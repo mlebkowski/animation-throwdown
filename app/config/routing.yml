@@ -1,0 +1,56 @@
+_liip_imagine:
+    resource: "@LiipImagineBundle/Resources/config/routing.xml"
+
+KunstmaanMediaBundle:
+    resource: "@KunstmaanMediaBundle/Resources/config/routing.yml"
+    prefix:   /
+
+KunstmaanAdminBundle:
+    resource: "@KunstmaanAdminBundle/Resources/config/routing.yml"
+    prefix:   /
+
+
+KunstmaanMultiDomainBundle:
+    resource: "@KunstmaanMultiDomainBundle/Resources/config/routing.yml"
+    requirements:
+        _locale: %requiredlocales%
+
+KunstmaanNodeBundle:
+    resource: "@KunstmaanNodeBundle/Resources/config/routing.yml"
+    prefix:   /
+
+KunstmaanPagePartBundle:
+    resource: "@KunstmaanPagePartBundle/Resources/config/routing.yml"
+    prefix:   /
+
+KunstmaanMenuBundle:
+    resource: "@KunstmaanMenuBundle/Resources/config/routing.yml"
+    prefix:   /
+
+KunstmaanSitemapBundle:
+    resource: "@KunstmaanSitemapBundle/Resources/config/routing.yml"
+    prefix:   /
+
+KunstmaanRedirectBundle:
+    resource: "@KunstmaanRedirectBundle/Resources/config/routing.yml"
+    prefix:   /
+
+KunstmaanUserManagementBundle:
+    resource: "@KunstmaanUserManagementBundle/Resources/config/routing.yml"
+    prefix:   /
+
+KunstmaanDashboardBundle:
+    resource: "@KunstmaanDashboardBundle/Resources/config/routing.yml"
+    prefix:   /
+
+KunstmaanSeoBundle:
+    resource: "@KunstmaanSeoBundle/Resources/config/routing.yml"
+    prefix:   /
+
+
+KunstmaanSeoBundle_robots:
+    resource: "@KunstmaanSeoBundle/Controller/RobotsController.php"
+    type:     annotation
+
+AcmeBundle:
+    resource: "@AcmeBundle/Resources/config/routing.yml"

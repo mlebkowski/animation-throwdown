@@ -1,0 +1,86 @@
+{
+  "name": "arsthanea/acme",
+  "license": "proprietary",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "ArsThanea\\Acme\\": "src/"
+    },
+    "classmap": [
+      "app/AppKernel.php",
+      "app/AppCache.php"
+    ],
+    "files": [
+      "app/VendorOverride/DisconnectedMetadataFactory.php"
+    ]
+  },
+  "require": {
+    "php": "~5.6",
+    "ext-imagick": "*",
+    "ext-pcntl": "*",
+    "ext-intl": "*",
+    "ext-mcrypt": "*",
+    "ext-apcu": "*",
+    "ext-redis": "*",
+    "kunstmaan/bundles-cms": "~3.5",
+    "symfony-cmf/routing-bundle": "~1.4.0-RC1",
+    "symfony-cmf/routing": "~1.4.0-RC2",
+    "raven/raven": "~0.13.0",
+    "friendsofsymfony/http-cache-bundle": "~1.3.6",
+    "doctrine/doctrine-migrations-bundle": "~1.1.1",
+    "friendsofsymfony/user-bundle": "2.0.*@dev",
+    "arsthanea/page-media-set-bundle": "^1.1",
+    "arsthanea/kunstmaan-extra-bundle": "~0.4",
+    "arsthanea/remote-media-bundle": "~1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.4",
+    "fzaninotto/faker": "~1.5",
+    "nelmio/alice": "~1.6",
+    "fabpot/goutte": "~1.0"
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
+    ],
+    "post-update-cmd": [
+      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
+    ],
+    "init-project": [
+      "npm install",
+      "app/console doctrine:migrations:migrate --no-interaction"
+    ]
+  },
+  "config": {
+    "platform": {
+      "php": "5.6"
+    }
+  },
+  "extra": {
+    "symfony-app-dir": "app",
+    "symfony-web-dir": "web",
+    "symfony-assets-install": "relative",
+    "incenteev-parameters": {
+      "file": "app/config/parameters.yml",
+      "env-map": {
+          "database_host": "MYSQL_HOST",
+          "database_port": "MYSQL_PORT",
+          "database_name": "MYSQL_DATABASE",
+          "database_user": "MYSQL_USERNAME",
+          "database_password": "MYSQL_PASSWORD",
+          "sentry_dsn": "SENTRY_DSN",
+          "assets_cdn_url": "ASSETS_CDN_URL",
+          "redis.host": "REDIS_HOST",
+          "redis.port": "REDIS_PORT"
+      }
+    }
+  }
+}

@@ -1,0 +1,280 @@
+imports:
+  - resource: parameters.yml
+  - resource: env_parameters.php
+  - resource: security.yml
+  - resource: pages.yml
+  - resource: cache.yml
+  - resource: http_cache.yml
+
+
+parameters:
+    assetic.cache.class: Assetic\Cache\ArrayCache
+    websitetitle: Acme TODO
+    locale: en
+    secret: "0LiAiQVw8YKqwZ12N56"
+    google.api.client_id: ~
+    google.api.client_secret: ~
+    google.api.dev_key: ~
+    mailer_transport:           smtp
+    mailer_host:                127.0.0.1
+    mailer_user:                ~
+    mailer_password:            ~
+
+    multilanguage: false
+    defaultlocale: en
+    requiredlocales: 'pl'
+
+kunstmaan_extra:
+    redis:
+        host: "%redis.host%"
+        port: "%redis.port%"
+        password: "%redis.password%"
+    assets:
+        web_prefix: assets
+        cdn_url: %assets_cdn_url%
+
+remote_media:
+  cdn:
+    media_url: https://acme-media.szg.io
+    cache_provider: liip_imagine
+
+    s3:
+      bucket: 'acme-bucket'
+      region: 'eu-west-1'
+      access_key: 'TODO'
+      access_secret: 'TODO'
+
+framework:
+    csrf_protection: ~
+    default_locale: "en"
+    esi:
+        enabled: true
+    fragments:
+        path: /_fragment
+    form: ~
+    http_method_override: true
+    ide: "phpstorm://open?file=%%f&line=%%l"
+    validation:
+        enable_annotations: true
+        strict_email: true
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    secret: "25WBznx6VuwnZnqq6xGKWh9N"
+    session:
+        name: "acme"
+        cookie_httponly: true
+        handler_id: kunstmaan_extra.redis_session_handler
+    templating:
+        engines: ['twig']
+    translator:
+        fallback: 'en'
+    trusted_hosts: ~
+    trusted_proxies: ~
+
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+    globals:
+        websitetitle: %websitetitle%
+        defaultlocale: en
+        requiredlocales: %requiredlocales%
+        gtm_code: %analytics.googletagmanager%
+        #titlecolor: "#000000"
+        #titlebgcolor: "#2997CE"
+
+swiftmailer:
+    transport: "%mailer_transport%"
+    host:      "%mailer_host%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
+    spool:     { type: memory }
+
+assetic:
+    debug:          false
+    use_controller: false
+    node: env
+    filters:
+        cssrewrite: ~
+        scss: ~
+        uglifyjs2:
+            bin: uglifyjs
+            compress: true
+        uglifycss:
+            bin: uglifycss
+        jpegoptim:
+            bin: jpegoptim
+            strip_all: true
+            max: 85
+            apply_to: "\.jpe?g$"
+        optipng:
+            bin: optipng
+            apply_to: "\.png$"
+            level: 3
+        jpegtran:
+            bin: jpegtran
+            apply_to: "\.jpe?g$"
+            optimisation: true
+            progressive: true
+
+doctrine:
+    dbal:
+        driver:   "pdo_mysql"
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "%database_name%"
+        user:     "%database_user%"
+        password: "%database_password%"
+        charset:  UTF8
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        entity_managers:
+            default:
+                auto_mapping: true
+                mappings:
+                    gedmo_translatable:
+                        type: annotation
+                        prefix: Gedmo\Translatable\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity"
+                        alias: GedmoTranslatable # this one is optional and will default to the name set for the mapping
+                        is_bundle: false
+                    gedmo_translator:
+                        type: annotation
+                        prefix: Gedmo\Translator\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translator/Entity"
+                        alias: GedmoTranslator # this one is optional and will default to the name set for the mapping
+                        is_bundle: false
+                    gedmo_loggable:
+                        type: annotation
+                        prefix: Gedmo\Loggable\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
+                        alias: GedmoLoggable # this one is optional and will default to the name set for the mapping
+                        is_bundle: false
+                    gedmo_tree:
+                        type: annotation
+                        prefix: Gedmo\Tree\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
+                        alias: GedmoTree # this one is optional and will default to the name set for the mapping
+                        is_bundle: false
+
+stof_doctrine_extensions:
+    default_locale: en
+    translation_fallback: true
+    orm:
+        default:
+            tree: true
+            loggable: true
+            translatable: true
+            sluggable: true
+
+liip_imagine:
+    resolvers:
+        default:
+            web_path:
+                cache_prefix: uploads/cache
+    driver: imagick
+    data_loader: remote_media
+    cache: remote_media
+    filter_sets:
+        optim:
+            quality: 85
+            format: jpg
+            filters:
+                strip: ~
+        optimjpg:
+            quality: 85
+            format: jpg
+            filters:
+                strip: ~
+        optimpng:
+            quality: 85
+            format: png
+            filters:
+                strip: ~
+
+        image_huge_jpg:
+            quality: 95
+            format: jpg
+            filters:
+                strip: ~
+                thumbnail: { size: [2400,null], mode: outbound, allow_upscale: false }
+        image_big_jpg:
+            quality: 95
+            format: jpg
+            filters:
+                strip: ~
+                thumbnail: { size: [1200,null], mode: outbound, allow_upscale: false }
+        image_medium_jpg:
+            quality: 95
+            format: jpg
+            filters:
+                strip: ~
+                thumbnail: { size: [600,null], mode: outbound, allow_upscale: false }
+        image_small_jpg:
+            quality: 95
+            format: jpg
+            filters:
+                strip: ~
+                thumbnail: { size: [400,null], mode: outbound, allow_upscale: false }
+
+        image_huge_png:
+            quality: 95
+            format: png
+            filters:
+                strip: ~
+                thumbnail: { size: [2400,null], mode: outbound, allow_upscale: false }
+        image_big_png:
+            quality: 95
+            format: png
+            filters:
+                strip: ~
+                thumbnail: { size: [1200,null], mode: outbound, allow_upscale: false }
+        image_medium_png:
+            quality: 95
+            format: png
+            filters:
+                strip: ~
+                thumbnail: { size: [600,null], mode: outbound, allow_upscale: false }
+        image_small_png:
+            quality: 95
+            format: png
+            filters:
+                strip: ~
+                thumbnail: { size: [400,null], mode: outbound, allow_upscale: false }
+                
+services:
+    twig.extension.text:
+        class: Twig_Extensions_Extension_Text
+        tags:
+            - { name: twig.extension }
+
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }
+
+    kunstmaan_logging_introspection:
+        class: Monolog\Processor\IntrospectionProcessor
+        tags:
+            - { name: monolog.processor }
+
+    kunstmaan_logging_web:
+        class: Symfony\Bridge\Monolog\Processor\WebProcessor
+        tags:
+            - { name: monolog.processor }
+
+    kunstmaan_logging_formatter:
+        class: Monolog\Formatter\LineFormatter
+
+    kunstmaan_newrelic_naming_strategy:
+        class: Kunstmaan\UtilitiesBundle\Helper\UrlTransactionNamingStrategy
+
+    fos_user.doctrine_registry:
+        alias: doctrine
+
+white_october_pagerfanta:
+    default_view: twitter_bootstrap
+
+kunstmaan_admin:
+    admin_password: ~
+    dashboard_route: 'KunstmaanNodeBundle_nodes'

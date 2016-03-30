@@ -1,0 +1,15 @@
+/web/bundles/
+/app/bootstrap.php.cache
+/app/cache
+/app/config/parameters.yml
+/app/logs/*
+/app/KunstmaanExtraPageController.php
+!app/cache/.gitkeep
+!app/logs/.gitkeep
+
+/vendor/
+/node_modules/
+
+/web/uploads
+/web/assets
+/src/Resources/ui/scss/_partials/_sprite.scss

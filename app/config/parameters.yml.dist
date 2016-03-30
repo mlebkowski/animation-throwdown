@@ -1,0 +1,16 @@
+parameters:
+    database_host:              127.0.0.1
+    database_port:              ~
+    database_name:              acme
+    database_user:              acme
+    database_password:          ~
+
+    debug_toolbar:              true
+    debug_redirects:            false
+
+    sentry_dsn:                 https://XXXXXXXX:XXXXXXXX@app.getsentry.com/XXXX
+    analytics.googletagmanager: GTM-XXXXXX
+    assets_cdn_url:             null
+    redis.host:                 localhost
+    redis.port:                 6379
+    redis.password:             ~

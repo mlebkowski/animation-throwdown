@@ -1,0 +1,6 @@
+doctrine_cache:
+  providers:
+    liip_imagine:
+      type: redis
+      redis:
+        connection_id: doctrine_cache.redis_client
