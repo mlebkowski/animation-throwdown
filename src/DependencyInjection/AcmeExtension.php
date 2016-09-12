@@ -28,10 +28,6 @@ class AcmeExtension extends Extension
         $loader->load('twig_extensions.yml');
         $loader->load('form_types.yml');
 
-
-
-        $container->setParameter('syzygy.offices', $configs['offices']);
-
     }
 
 }

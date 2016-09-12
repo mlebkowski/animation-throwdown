@@ -29,6 +29,7 @@ class AppKernel extends Kernel
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+            new Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
             new Kunstmaan\AdminBundle\KunstmaanAdminBundle(),
             new Kunstmaan\PagePartBundle\KunstmaanPagePartBundle(),
             new Kunstmaan\AdminListBundle\KunstmaanAdminListBundle(),
@@ -38,8 +39,8 @@ class AppKernel extends Kernel
             new Kunstmaan\RedirectBundle\KunstmaanRedirectBundle(),
             new Kunstmaan\UserManagementBundle\KunstmaanUserManagementBundle(),
             new Kunstmaan\DashboardBundle\KunstmaanDashboardBundle(),
-            new Kunstmaan\MultiDomainBundle\KunstmaanMultiDomainBundle(),
             new ArsThanea\PageMediaSetBundle\PageMediaSetBundle(),
+            new ArsThanea\KunstmaanExtraBundle\KunstmaanExtraBundle(),
             new ArsThanea\RemoteMediaBundle\RemoteMediaBundle(),
 
             new ArsThanea\Acme\AcmeBundle(),

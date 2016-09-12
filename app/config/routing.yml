@@ -9,12 +9,6 @@ KunstmaanAdminBundle:
     resource: "@KunstmaanAdminBundle/Resources/config/routing.yml"
     prefix:   /
 
-
-KunstmaanMultiDomainBundle:
-    resource: "@KunstmaanMultiDomainBundle/Resources/config/routing.yml"
-    requirements:
-        _locale: %requiredlocales%
-
 KunstmaanNodeBundle:
     resource: "@KunstmaanNodeBundle/Resources/config/routing.yml"
     prefix:   /

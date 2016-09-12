@@ -3,4 +3,4 @@ doctrine_cache:
     liip_imagine:
       type: redis
       redis:
-        connection_id: doctrine_cache.redis_client
+        connection_id: kunstmaan_extra.redis_client
