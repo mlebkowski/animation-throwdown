@@ -17,6 +17,21 @@ DirectoryIndex app.php
     Options -MultiViews
 </IfModule>
 
+# if access is restricted to IP, require password
+SetEnvIfExpr "-T env('ALLOW_FROM_IP')" PROTECTED
+# the request is from the allowed IP, don’t block it:
+SetEnvIfExpr "%{HTTP:X-Forwarded-For} == env('ALLOW_FROM_IP')" !PROTECTED
+
+
+AuthType Basic
+AuthName "Password Required"
+AuthUserFile .htpasswd
+Require valid-user
+Order deny,allow
+Deny from env=PROTECTED
+Satisfy any
+
+
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
