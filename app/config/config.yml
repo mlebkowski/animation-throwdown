@@ -21,7 +21,7 @@ parameters:
     mailer_password:            ~
 
     multilanguage: false
-    defaultlocale: en
+    defaultlocale: 'pl'
     requiredlocales: 'pl'
 
 kunstmaan_extra:
@@ -46,7 +46,7 @@ remote_media:
 
 framework:
     csrf_protection: ~
-    default_locale: "en"
+    default_locale: "%defaultlocale%"
     esi:
         enabled: true
     fragments:
