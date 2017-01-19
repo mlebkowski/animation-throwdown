@@ -21,13 +21,28 @@ if (extension_loaded('apc') && ini_get('apc.enabled')) {
 
 $kernel = new AppKernel('prod', false);
 $kernel->loadClassCache();
+$request = Request::createFromGlobals();
+Request::setTrustedProxies([$request->server->get('REMOTE_ADDR'), '127.0.0.1']);
 
-if (!isset($_SERVER['HTTP_SURROGATE_CAPABILITY']) || false === strpos($_SERVER['HTTP_SURROGATE_CAPABILITY'], 'ESI/1.0')) {
+$isBehindCache = $request->headers->has('X-ProxyCache') || false !== strpos($request->headers->get('Surrogate-Capability', ''), 'ESI/1.0');
+if (false === $isBehindCache) {
     $kernel = new AppCache($kernel);
 }
 
-$request = Request::createFromGlobals();
-Request::setTrustedProxies([$request->server->get('REMOTE_ADDR')]);
 $response = $kernel->handle($request);
+
+//
+// we don’t need the chunked transfer encoding if behind cache;
+// also, if PHP sends content larger than one buffer, Apache
+// turns on the chunked transfer encoding and disables Content-Length
+// header -- this in turn messes up the CloudFront automatic gzipping
+//
+// http://serverfault.com/questions/59047/apache-sending-transfer-encoding-chunked
+// http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/ServingCompressedFiles.html
+//
+if ($isBehindCache && false === $response->headers->has('Transfer-Encoding')) {
+    $response->headers->set('Content-Length', strlen($response->getContent()));
+}
+
 $response->send();
 $kernel->terminate($request, $response);
