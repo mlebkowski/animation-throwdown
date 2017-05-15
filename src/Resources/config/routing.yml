@@ -1,0 +1,5 @@
+
+cartoonbattlebundle_unit_admin_list:
+    resource: '@CartoonBattleBundle/Controller/UnitAdminListController.php'
+    type:     annotation
+    prefix:   /admin/unit/

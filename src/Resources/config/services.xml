@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service class="Nassau\CartoonBattle\Services\Assets" id="nassau.cartoon_battle.services.assets">
+            <argument>%cartoon_battle.url%</argument>
+        </service>
+
+        <service id="cartoon_battle.s3_client" class="Aws\S3\S3Client">
+            <argument type="collection">
+                <argument key="credentials" type="collection">
+                    <argument key="key">%amazon_access_key%</argument>
+                    <argument key="secret">%amazon_access_secret%</argument>
+                </argument>
+                <argument key="region">%remote_media.cdn.s3.region%</argument>
+                <argument key="version">2006-03-01</argument>
+            </argument>
+        </service>
+
+        <service id="cartoon_battle.cloudfront_client" class="Aws\CloudFront\CloudFrontClient">
+            <argument type="collection">
+                <argument key="credentials" type="collection">
+                    <argument key="key">%amazon_access_key%</argument>
+                    <argument key="secret">%amazon_access_secret%</argument>
+                </argument>
+                <argument key="region">eu-west-1</argument>
+                <argument key="version">2016-09-07</argument>
+            </argument>
+        </service>
+
+    </services>
+</container>

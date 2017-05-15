@@ -1,8 +1,8 @@
 parameters:
     database_host:              127.0.0.1
     database_port:              ~
-    database_name:              acme
-    database_user:              acme
+    database_name:              cartoon_battle
+    database_user:              cartoon_battle
     database_password:          ~
 
     debug_toolbar:              true

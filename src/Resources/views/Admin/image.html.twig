@@ -1,0 +1,10 @@
+{% if object %}
+    <a class="thumbnail media-thumbnail" href="{{ path("KunstmaanMediaBundle_media_show", {mediaId: object.id}) }}" style="max-width: 160px">
+        <figure>
+            <img src="{{ object.url|imagine_filter("card") }}" alt="{{ object.name }}" class="media-thumbnail__img">
+            <figcaption class="media-thumbnail__caption">
+                {{ object.name }}
+            </figcaption>
+        </figure>
+    </a>
+{% endif %}

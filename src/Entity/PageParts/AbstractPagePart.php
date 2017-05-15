@@ -1,6 +1,6 @@
 <?php
 
-namespace ArsThanea\Acme\Entity\PageParts;
+namespace Nassau\CartoonBattle\Entity\PageParts;
 
 use ArsThanea\KunstmaanExtraBundle\Page\KunstmaanExtraPagePart;
 

@@ -5,11 +5,14 @@ imports:
   - resource: pages.yml
   - resource: cache.yml
   - resource: http_cache.yml
+  - resource: menu.yml
+  - resource: images.yml
+  - resource: cartoon_battle.yml
 
 
 parameters:
     assetic.cache.class: Assetic\Cache\ArrayCache
-    websitetitle: Acme TODO
+    websitetitle: Animation Throwdown Knowledge Base
     locale: en
     secret: "0LiAiQVw8YKqwZ12N56"
     google.api.client_id: ~
@@ -19,6 +22,9 @@ parameters:
     mailer_host:                127.0.0.1
     mailer_user:                ~
     mailer_password:            ~
+
+    amazon_access_key: 'todo'
+    amazon_access_secret: 'todo'
 
     multilanguage: false
     defaultlocale: 'pl'
@@ -35,14 +41,14 @@ kunstmaan_extra:
 
 remote_media:
   cdn:
-    media_url: https://acme-media.szg.io
+    media_url: https://cartoon-battle.narzekasz.pl
     cache_provider: liip_imagine
 
     s3:
-      bucket: 'acme-bucket'
+      bucket: 'cartoon-battle'
       region: 'eu-west-1'
-      access_key: 'TODO'
-      access_secret: 'TODO'
+      access_key: '%amazon_access_key%'
+      access_secret: '%amazon_access_secret%'
 
 framework:
     csrf_protection: ~
@@ -62,7 +68,7 @@ framework:
         strict_requirements: ~
     secret: "25WBznx6VuwnZnqq6xGKWh9N"
     session:
-        name: "acme"
+        name: "cartoon_battle"
         cookie_httponly: true
         handler_id: kunstmaan_extra.redis_session_handler
     templating:
@@ -125,6 +131,7 @@ doctrine:
         dbname:   "%database_name%"
         user:     "%database_user%"
         password: "%database_password%"
+        server_version: 5.5
         charset:  UTF8
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
@@ -166,6 +173,7 @@ stof_doctrine_extensions:
             loggable: true
             translatable: true
             sluggable: true
+            timestampable: true
 
 liip_imagine:
     resolvers:

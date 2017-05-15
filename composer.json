@@ -1,10 +1,10 @@
 {
-  "name": "arsthanea/acme",
+  "name": "nassau/cartoon-battle",
   "license": "proprietary",
   "type": "project",
   "autoload": {
     "psr-4": {
-      "ArsThanea\\Acme\\": "src/"
+      "Nassau\\CartoonBattle\\": "src/"
     },
     "classmap": [
       "app/AppKernel.php",

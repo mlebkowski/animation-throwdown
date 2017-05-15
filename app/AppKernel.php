@@ -43,7 +43,7 @@ class AppKernel extends Kernel
             new ArsThanea\KunstmaanExtraBundle\KunstmaanExtraBundle(),
             new ArsThanea\RemoteMediaBundle\RemoteMediaBundle(),
 
-            new ArsThanea\Acme\AcmeBundle(),
+            new Nassau\CartoonBattle\CartoonBattleBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev'], true)) {

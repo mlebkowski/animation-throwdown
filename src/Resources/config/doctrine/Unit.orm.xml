@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          http://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
+
+    <entity name="Nassau\CartoonBattle\Entity\Unit" table="card_unit">
+
+        <id name="id" type="integer" column="id"/>
+
+        <field name="name" column="name" type="string" nullable="false"/>
+        <field name="slug" column="slug" type="string" nullable="false">
+            <gedmo:slug fields="name" unique="true" updatable="false"/>
+        </field>
+        <field name="picture" column="picture" type="string" nullable="false"/>
+        <field name="commander" column="commander" type="boolean" nullable="false"/>
+
+        <field name="createdAt" type="datetime" column="created_at" nullable="false">
+            <gedmo:timestampable on="create"/>
+        </field>
+
+        <field name="updatedAt" type="datetime" column="updated_at">
+            <gedmo:timestampable on="update"/>
+        </field>
+
+        <many-to-one target-entity="Kunstmaan\MediaBundle\Entity\Media" field="image">
+            <join-column name="image_id" nullable="true" on-delete="CASCADE"/>
+        </many-to-one>
+
+        <many-to-one target-entity="Nassau\CartoonBattle\Entity\Rarity" field="rarity">
+            <join-column name="rarity_id" nullable="false" on-delete="RESTRICT"/>
+        </many-to-one>
+
+        <many-to-one target-entity="Nassau\CartoonBattle\Entity\CardSet" field="cardSet">
+            <join-column name="card_set_id" nullable="false" on-delete="RESTRICT"/>
+        </many-to-one>
+
+        <many-to-one target-entity="Nassau\CartoonBattle\Entity\UnitType" field="type">
+            <join-column name="card_type_id" nullable="false" on-delete="RESTRICT"/>
+        </many-to-one>
+
+        <one-to-one field="imageStorage" target-entity="Nassau\CartoonBattle\Entity\CardImageStorage" mapped-by="unit" orphan-removal="true">
+            <cascade><cascade-persist/><cascade-remove/></cascade>
+        </one-to-one>
+
+    </entity>
+
+</doctrine-mapping>

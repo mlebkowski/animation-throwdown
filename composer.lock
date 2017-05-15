@@ -4,30 +4,32 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6f566575e5fe7b9ebe94077cf7d076de",
-    "content-hash": "b3b82bca6fde3f0bea7adb1aa8dcddd4",
+    "hash": "d406d5565a49538117dd6b04a763c318",
+    "content-hash": "e580d39ce3215985e5509ed961341caf",
     "packages": [
         {
             "name": "arsthanea/kunstmaan-extra-bundle",
-            "version": "0.4.0",
+            "version": "0.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/syzygypl/kunstmaan-extra-bundle.git",
-                "reference": "64056c04d47227b58ede6df2fbd908356f38363d"
+                "reference": "80323ac0246216183eb6f341448b7f0e69c38c98"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/syzygypl/kunstmaan-extra-bundle/zipball/64056c04d47227b58ede6df2fbd908356f38363d",
-                "reference": "64056c04d47227b58ede6df2fbd908356f38363d",
+                "url": "https://api.github.com/repos/syzygypl/kunstmaan-extra-bundle/zipball/80323ac0246216183eb6f341448b7f0e69c38c98",
+                "reference": "80323ac0246216183eb6f341448b7f0e69c38c98",
                 "shasum": ""
             },
             "require": {
                 "ext-intl": "*",
+                "guzzlehttp/guzzle": ">=6.0",
                 "kunstmaan/bundles-cms": "~3.5",
                 "nassau/registry-compiler": "^1.1"
             },
             "require-dev": {
-                "friendsofsymfony/user-bundle": "2.0.*@dev"
+                "friendsofsymfony/user-bundle": "2.0.*@dev",
+                "phpunit/phpunit": "^5.5"
             },
             "type": "library",
             "autoload": {
@@ -45,7 +47,7 @@
                     "email": "m.lebkowski@gmail.com"
                 }
             ],
-            "time": "2016-09-12 11:48:26"
+            "time": "2017-03-22 12:24:53"
         },
         {
             "name": "arsthanea/page-media-set-bundle",
@@ -86,16 +88,16 @@
         },
         {
             "name": "arsthanea/remote-media-bundle",
-            "version": "1.1",
+            "version": "1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/syzygypl/remote-media-bundle.git",
-                "reference": "9cf630ecc632f4b8ca307133356c3e3c66729907"
+                "reference": "c56a578165af7f8b49624c9d7638627364a9c73e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/syzygypl/remote-media-bundle/zipball/9cf630ecc632f4b8ca307133356c3e3c66729907",
-                "reference": "9cf630ecc632f4b8ca307133356c3e3c66729907",
+                "url": "https://api.github.com/repos/syzygypl/remote-media-bundle/zipball/c56a578165af7f8b49624c9d7638627364a9c73e",
+                "reference": "c56a578165af7f8b49624c9d7638627364a9c73e",
                 "shasum": ""
             },
             "require": {
@@ -118,7 +120,7 @@
                     "email": "m.lebkowski@gmail.com"
                 }
             ],
-            "time": "2016-05-10 12:05:45"
+            "time": "2017-03-21 12:41:55"
         },
         {
             "name": "aws/aws-sdk-php",

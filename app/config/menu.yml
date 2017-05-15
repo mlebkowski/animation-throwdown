@@ -1,0 +1,4 @@
+kunstmaan_admin:
+  menu_items:
+    - label: Cards
+      route: cartoonbattlebundle_admin_unit

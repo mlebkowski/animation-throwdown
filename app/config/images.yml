@@ -1,0 +1,11 @@
+kunstmaan_extra:
+    tinypng_api_key: 2IgQvBB70SBuavZXdsUUmTR5EoWdq3hN
+
+liip_imagine:
+    filter_sets:
+        card:
+            filters:
+                thumbnail: { size: [231, 331], mode: outbound }
+                relative_resize: { widen: 231 }
+            post_processors:
+                tinypng_com: ~

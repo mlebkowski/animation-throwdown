@@ -1,13 +1,7 @@
 <?php
 
-namespace ArsThanea\Acme\Entity\Pages;
+namespace Nassau\CartoonBattle\Entity\Pages;
 
-use Doctrine\ORM\Mapping as ORM;
-
-/**
- * @ORM\Entity()
- * @ORM\Table(name="home_pages")
- */
 class HomePage extends AbstractPage
 {
 

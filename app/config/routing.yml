@@ -46,5 +46,5 @@ KunstmaanSeoBundle_robots:
     resource: "@KunstmaanSeoBundle/Controller/RobotsController.php"
     type:     annotation
 
-AcmeBundle:
-    resource: "@AcmeBundle/Resources/config/routing.yml"
+CartoonBattleBundle:
+    resource: "@CartoonBattleBundle/Resources/config/routing.yml"
