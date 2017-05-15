@@ -71,6 +71,7 @@ class SyncImagesCommand extends ContainerAwareCommand
             $em->flush();
         }
 
+        $invalidationPaths = array_unique($invalidationPaths);
         $sizeofInvalidationPaths = sizeof($invalidationPaths);
 
         if ($sizeofInvalidationPaths) {
