@@ -44,7 +44,7 @@ class SyncImagesCommand extends ContainerAwareCommand
                 continue;
             }
 
-            if (!$cacheManager->isStored($path, $filterName)) {
+            if (false === $cacheManager->isStored($path, $filterName)) {
                 $output->writeln(sprintf('Storing <comment>%s</comment>', $unit->getName()));
                 $binary = $dataManager->find($filterName, $path);
                 $cacheManager->store($filterManager->applyFilter($binary, $filterName), $path, $filterName);
@@ -54,24 +54,26 @@ class SyncImagesCommand extends ContainerAwareCommand
             $em->persist($unit);
 
             $targetPath = $unit->getImageUrl();
-            $output->writeln(sprintf('Updating <comment>%s</comment> image: <info>%s</info>', $unit->getName(), $targetPath));
 
-            $uploader->copyObject([
-                'Bucket' => $bucketName,
-                'Key' => $targetPath,
-                'CopySource' => "{$bucketName}{$source}",
-                'MetadataDirective' => 'REPLACE',
-                'ContentType' => 'image/png',
-                'CacheControl' => 'public, max-age=283824000',
-                'Expires' => gmdate('D, d M Y H:i:s T', strtotime('+9 years')),
-            ]);
+            if (false === in_array($targetPath, $invalidationPaths)) {
+                $output->writeln(sprintf('Updating <comment>%s</comment> image: <info>%s</info>', $unit->getName(), $targetPath));
 
-            $invalidationPaths[] = '/' . $targetPath;
+                $uploader->copyObject([
+                    'Bucket' => $bucketName,
+                    'Key' => trim($targetPath, '/'),
+                    'CopySource' => "{$bucketName}{$source}",
+                    'MetadataDirective' => 'REPLACE',
+                    'ContentType' => 'image/png',
+                    'CacheControl' => 'public, max-age=283824000',
+                    'Expires' => gmdate('D, d M Y H:i:s T', strtotime('+9 years')),
+                ]);
+            }
+
+            $invalidationPaths[] = $targetPath;
 
             $em->flush();
         }
 
-        $invalidationPaths = array_unique($invalidationPaths);
         $sizeofInvalidationPaths = sizeof($invalidationPaths);
 
         if ($sizeofInvalidationPaths) {

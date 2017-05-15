@@ -189,7 +189,7 @@ class Unit
     public function getImageUrl()
     {
         return sprintf(
-            'deck/cards/%s_%s.png',
+            '/deck/cards/%s_%s.png',
             $this->getType()->getPrefix(),
             preg_replace('/^(fg|koth|ad|bb|ft|kh|fr|generic)_/i', '', $this->getPicture())
         );
