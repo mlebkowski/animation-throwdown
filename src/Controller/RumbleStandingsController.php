@@ -22,6 +22,13 @@ class RumbleStandingsController extends Controller
 
         $format = $request->getRequestFormat();
 
-        return new Response($serializer->serialize($rumbles, $format));
+        return new Response($serializer->serialize($rumbles, $format), Response::HTTP_OK, [
+            'Access-Control-Allow-Credentials' => 'true',
+            'Access-Control-Allow-Methods' => 'POST, GET, PUT, DELETE, PATCH, OPTIONS',
+            'Access-Control-Allow-Headers' => 'Origin, Content-Type, Accept, Authorization',
+            'Access-Control-Allow-Origin' => $request->headers->get('origin'),
+            'Access-Control-Max-Age' => 3600,
+            'Vary' => 'Origin',
+        ]);
     }
 }
