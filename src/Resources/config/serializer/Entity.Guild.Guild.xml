@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer>
+    <class name="Nassau\CartoonBattle\Entity\Guild\Guild" exclusion-policy="ALL" xml-root-name="guild" access-type="public_method" >
+        <property name="name" expose="true" type="string" />
+        <property name="factionId" expose="true" type="integer" />
+        <property name="recruiting" expose="true" type="boolean" />
+        <property name="recruiting" expose="true" type="boolean" />
+        <property name="message" expose="true" type="string" />
+        <property name="url" expose="true" type="string" />
+    </class>
+</serializer>

@@ -42,6 +42,7 @@ class AppKernel extends Kernel
             new ArsThanea\PageMediaSetBundle\PageMediaSetBundle(),
             new ArsThanea\KunstmaanExtraBundle\KunstmaanExtraBundle(),
             new ArsThanea\RemoteMediaBundle\RemoteMediaBundle(),
+            new JMS\SerializerBundle\JMSSerializerBundle(),
 
             new Nassau\CartoonBattle\CartoonBattleBundle(),
         ];

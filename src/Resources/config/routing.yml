@@ -1,5 +1,19 @@
+cartoonbattlebundle_rumble_standings:
+    resource: '@CartoonBattleBundle/Controller/RumbleStandingsController.php'
+    type:     annotation
+    prefix:   /api/
 
 cartoonbattlebundle_unit_admin_list:
     resource: '@CartoonBattleBundle/Controller/UnitAdminListController.php'
     type:     annotation
     prefix:   /admin/unit/
+
+cartoonbattlebundle_guild_admin_list:
+    resource: '@CartoonBattleBundle/Controller/GuildAdminListController.php'
+    type:     annotation
+    prefix:   /admin/guild/
+
+cartoonbattlebundle_rumble_admin_list:
+    resource: '@CartoonBattleBundle/Controller/RumbleAdminListController.php'
+    type:     annotation
+    prefix:   /admin/rumble/

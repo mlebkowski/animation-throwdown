@@ -31,7 +31,8 @@
     "friendsofsymfony/user-bundle": "2.0.*@dev",
     "arsthanea/page-media-set-bundle": "^1.1",
     "arsthanea/kunstmaan-extra-bundle": "~0.4",
-    "arsthanea/remote-media-bundle": "~1.0"
+    "arsthanea/remote-media-bundle": "~1.0",
+    "jms/serializer-bundle": "^1.5"
   },
   "require-dev": {
     "phpunit/phpunit": "~4.4",

@@ -2,3 +2,12 @@ kunstmaan_admin:
   menu_items:
     - label: Cards
       route: cartoonbattlebundle_admin_unit
+      role: ROLE_CARDS
+
+    - label: Guilds
+      route: cartoonbattlebundle_admin_guild_guild
+      role: ROLE_GUILDS
+
+    - label: Rumbles
+      route: cartoonbattlebundle_admin_rumble_rumble
+      role: ROLE_RUMBLES

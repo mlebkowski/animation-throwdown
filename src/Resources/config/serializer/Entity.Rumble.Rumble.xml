@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer>
+    <class name="Nassau\CartoonBattle\Entity\Rumble\Rumble" exclusion-policy="ALL" xml-root-name="rumble" access-type="public_method" >
+        <property name="start" expose="true" type="DateTime" />
+        <property name="end" expose="true" type="DateTime" />
+        <property name="standings" expose="true" read-only="true"><![CDATA[ArrayCollection<Nassau\CartoonBattle\Entity\Rumble\RumbleStanding]]></property>
+    </class>
+</serializer>

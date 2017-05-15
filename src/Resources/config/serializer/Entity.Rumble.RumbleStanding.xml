@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer>
+    <class name="Nassau\CartoonBattle\Entity\Rumble\RumbleStanding" exclusion-policy="ALL" xml-root-name="rumble" access-type="public_method" >
+        <property name="place" expose="true" type="integer" />
+        <property name="guild" expose="true" type="Nassau\CartoonBattle\Entity\Guild\Guild" />
+    </class>
+</serializer>

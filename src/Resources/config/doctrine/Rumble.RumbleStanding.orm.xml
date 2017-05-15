@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          http://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
+
+    <entity name="Nassau\CartoonBattle\Entity\Rumble\RumbleStanding" table="rumble_standing">
+
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO"/>
+        </id>
+
+        <field name="place" nullable="false" type="integer" />
+
+        <many-to-one target-entity="Nassau\CartoonBattle\Entity\Rumble\Rumble" field="rumble">
+            <join-column nullable="false" />
+        </many-to-one>
+
+        <many-to-one target-entity="Nassau\CartoonBattle\Entity\Guild\Guild" field="guild">
+            <join-column nullable="false" />
+        </many-to-one>
+
+    </entity>
+
+</doctrine-mapping>

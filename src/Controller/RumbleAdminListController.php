@@ -3,7 +3,7 @@
 namespace Nassau\CartoonBattle\Controller;
 
 use Kunstmaan\AdminListBundle\AdminList\Configurator\AbstractAdminListConfigurator;
-use Nassau\CartoonBattle\AdminList\UnitAdminListConfigurator;
+use Nassau\CartoonBattle\AdminList\RumbleAdminListConfigurator;
 use Kunstmaan\AdminListBundle\Controller\AdminListController;
 use Kunstmaan\AdminListBundle\AdminList\Configurator\AdminListConfiguratorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -12,9 +12,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * The admin list controller for Unit
+ * The admin list controller for Rumble
  */
-class UnitAdminListController extends AdminListController
+class RumbleAdminListController extends AdminListController
 {
     /**
      * @var AdminListConfiguratorInterface
@@ -28,7 +28,7 @@ class UnitAdminListController extends AdminListController
     {
         if (!isset($this->configurator)) {
             /** @noinspection PhpParamsInspection */
-            $this->configurator = new UnitAdminListConfigurator($this->getEntityManager());
+            $this->configurator = new RumbleAdminListConfigurator($this->getEntityManager());
         }
 
         return $this->configurator;
@@ -37,15 +37,30 @@ class UnitAdminListController extends AdminListController
     /**
      * The index action
      *
-     * @Route("/", name="cartoonbattlebundle_admin_unit")
+     * @Route("/", name="cartoonbattlebundle_admin_rumble_rumble")
      * @param Request $request
      * @return array
      */
     public function indexAction(Request $request)
     {
-        $this->denyAccessUnlessGranted('ROLE_CARDS');
+        $this->denyAccessUnlessGranted('ROLE_RUMBLES');
 
         return parent::doIndexAction($this->getAdminListConfigurator(), $request);
+    }
+
+    /**
+     * The add action
+     *
+     * @Route("/add", name="cartoonbattlebundle_admin_rumble_rumble_add")
+     * @Method({"GET", "POST"})
+     * @param Request $request
+     * @return array
+     */
+    public function addAction(Request $request)
+    {
+        $this->denyAccessUnlessGranted('ROLE_RUMBLES');
+
+        return parent::doAddAction($this->getAdminListConfigurator(), null, $request);
     }
 
     /**
@@ -54,13 +69,13 @@ class UnitAdminListController extends AdminListController
      * @param Request $request
      * @param int $id
      * @return array|Response
-     * @Route("/{id}", requirements={"id" = "\d+"}, name="cartoonbattlebundle_admin_unit_edit")
+     * @Route("/{id}", requirements={"id" = "\d+"}, name="cartoonbattlebundle_admin_rumble_rumble_edit")
      * @Method({"GET", "POST"})
      *
      */
     public function editAction(Request $request, $id)
     {
-        $this->denyAccessUnlessGranted('ROLE_CARDS');
+        $this->denyAccessUnlessGranted('ROLE_RUMBLES');
 
         return parent::doEditAction($this->getAdminListConfigurator(), $id, $request);
     }
@@ -71,15 +86,30 @@ class UnitAdminListController extends AdminListController
      * @param Request $request
      * @param int $id
      * @return array
-     * @Route("/{id}", requirements={"id" = "\d+"}, name="cartoonbattlebundle_admin_unit_view")
+     * @Route("/{id}", requirements={"id" = "\d+"}, name="cartoonbattlebundle_admin_rumble_rumble_view")
      * @Method({"GET"})
      *
      */
     public function viewAction(Request $request, $id)
     {
-        $this->denyAccessUnlessGranted('ROLE_CARDS');
-
         return parent::doViewAction($this->getAdminListConfigurator(), $id, $request);
+    }
+
+    /**
+     * The delete action
+     *
+     * @param Request $request
+     * @param int $id
+     * @return array|Response
+     * @Route("/{id}/delete", requirements={"id" = "\d+"}, name="cartoonbattlebundle_admin_rumble_rumble_delete")
+     * @Method({"GET", "POST"})
+     *
+     */
+    public function deleteAction(Request $request, $id)
+    {
+        $this->denyAccessUnlessGranted('ROLE_RUMBLES');
+
+        return parent::doDeleteAction($this->getAdminListConfigurator(), $id, $request);
     }
 
 }
