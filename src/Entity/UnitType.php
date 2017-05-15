@@ -78,5 +78,10 @@ class UnitType
         return ['FG', 'AD', 'BB', 'KH', 'FT', 'generic'][$this->id - 1];
     }
 
+    public function isGeneric()
+    {
+        return "6" === (string)$this->id;
+    }
+
 
 }

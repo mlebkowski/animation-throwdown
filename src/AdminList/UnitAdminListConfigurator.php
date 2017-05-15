@@ -32,9 +32,9 @@ class UnitAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurator
         $this->addField('id', 'Id', true);
         $this->addField('image', 'Image', true, '@CartoonBattle/Admin/image.html.twig');
         $this->addField('name', 'Name', true);
-        $this->addField('type', 'Type', false);
-        $this->addField('rarity', 'Rarity', false);
         $this->addField('cardSet', 'Set', false);
+        $this->addField('type', 'Type', false, '@CartoonBattle/Admin/unitType.html.twig');
+        $this->addField('rarity', 'Rarity', false, '@CartoonBattle/Admin/rarity.html.twig');
         $this->addField('createdAt', 'Created at', true);
     }
 
