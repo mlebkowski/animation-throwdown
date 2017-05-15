@@ -191,7 +191,7 @@ class Unit
         return sprintf(
             'deck/cards/%s_%s.png',
             $this->getType()->getPrefix(),
-            str_replace('/^(fg|koth|ad|bb|ft|kh|fr|generic)_/i', '', $this->getPicture())
+            preg_replace('/^(fg|koth|ad|bb|ft|kh|fr|generic)_/i', '', $this->getPicture())
         );
     }
 
