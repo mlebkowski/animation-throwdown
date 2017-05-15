@@ -8,8 +8,6 @@
 !app/logs/.gitkeep
 
 /vendor/
-/node_modules/
 
 /web/uploads
 /web/assets
-/src/Resources/ui/scss/_partials/_sprite.scss
