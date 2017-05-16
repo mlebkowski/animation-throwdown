@@ -29,6 +29,11 @@
         <field name="updatedAt" type="datetime" column="updated_at">
             <gedmo:timestampable on="update"/>
         </field>
+
+        <one-to-many target-entity="Nassau\CartoonBattle\Entity\Rumble\RumbleStanding" mapped-by="guild" field="standings" orphan-removal="true">
+            <cascade><cascade-persist/></cascade>
+        </one-to-many>
+
     </entity>
 
 </doctrine-mapping>

@@ -2,12 +2,10 @@
 
 namespace Nassau\CartoonBattle\Form;
 
-use Nassau\CartoonBattle\Entity\Rumble\RumbleStanding;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
@@ -46,6 +44,9 @@ class RumbleAdminType extends AbstractType
         $builder->add('standings', CollectionType::class, [
             'label' => false,
             'entry_type' => RumbleStandingAdminType::class,
+            'entry_options' => [
+                'relation_to' => RumbleStandingAdminType::RELATION_TO_RUMBLE
+            ],
             'allow_delete' => true,
             'allow_add' => true,
             'by_reference' => false,

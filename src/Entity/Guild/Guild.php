@@ -2,7 +2,10 @@
 
 namespace Nassau\CartoonBattle\Entity\Guild;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Gedmo\Timestampable\Traits\Timestampable;
+use Nassau\CartoonBattle\Entity\Rumble\RumbleStanding;
 
 class Guild
 {
@@ -39,6 +42,17 @@ class Guild
      * @var string
      */
     private $url;
+
+
+    /**
+     * @var RumbleStanding[]|Collection
+     */
+    private $standings;
+
+    public function __construct()
+    {
+        $this->standings = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -164,6 +178,28 @@ class Guild
     public function setUrl($url)
     {
         $this->url = $url ?: null;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RumbleStanding[]
+     */
+    public function getStandings()
+    {
+        return $this->standings;
+    }
+
+    public function addStanding(RumbleStanding $standing)
+    {
+        $this->standings->add($standing->setGuild($this));
+
+        return $this;
+    }
+
+    public function removeStanding(RumbleStanding $standing)
+    {
+        $this->standings->removeElement($standing);
 
         return $this;
     }
