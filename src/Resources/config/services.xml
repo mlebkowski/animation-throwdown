@@ -31,5 +31,25 @@
             </argument>
         </service>
 
+        <service class="Nassau\CartoonBattle\Services\Game\GameFactory" id="cartoon_battle.game.factory">
+            <argument type="service" id="cartoon_battle.game.http_client"/>
+        </service>
+
+        <service class="Nassau\CartoonBattle\Services\Game\Game" id="cartoon_battle.game.default">
+            <argument type="service" id="cartoon_battle.game.http_client"/>
+            <argument type="service" id="cartoon_battle.game.default_user"/>
+        </service>
+
+        <service class="Nassau\CartoonBattle\Services\Game\DTO\User" id="cartoon_battle.game.default_user">
+            <argument>%cartoon_battle.user_id%</argument>
+            <argument>%cartoon_battle.password%</argument>
+        </service>
+
+        <service id="cartoon_battle.game.http_client" class="GuzzleHttp\Client" public="false">
+            <argument type="collection">
+                <argument key="base_uri">https://cb-live.synapse-games.com/api.php</argument>
+            </argument>
+        </service>
+
     </services>
 </container>

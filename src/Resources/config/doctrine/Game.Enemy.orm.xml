@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          http://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
+
+    <entity name="Nassau\CartoonBattle\Entity\Game\Enemy" table="game_enemy">
+
+        <id name="id" type="integer" column="id"/>
+        <field name="name" type="string" nullable="false"/>
+        <field name="guildName" column="guild_name" type="string" nullable="false"/>
+        <field name="level" type="integer" nullable="false"/>
+        <field name="pvpRating" column="pvp_rating" type="integer" nullable="false"/>
+        <field name="commanderLevel" column="commander_level" type="integer" nullable="false" />
+
+        <field name="createdAt" type="datetime" column="created_at" nullable="false">
+            <gedmo:timestampable on="create"/>
+        </field>
+
+        <field name="updatedAt" type="datetime" column="updated_at">
+            <gedmo:timestampable on="update"/>
+        </field>
+
+        <one-to-many target-entity="Nassau\CartoonBattle\Entity\Game\InventoryCard" mapped-by="enemy" field="cards"/>
+
+        <many-to-one target-entity="Nassau\CartoonBattle\Entity\Game\Hero" field="hero">
+            <join-column nullable="false" name="hero_id"/>
+        </many-to-one>
+    </entity>
+
+</doctrine-mapping>

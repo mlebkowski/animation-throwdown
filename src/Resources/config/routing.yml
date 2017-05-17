@@ -1,3 +1,8 @@
+harvesting_deck:
+    path: /enemy-deck/{enemy}
+    defaults:
+      _controller: CartoonBattleBundle:Harvesting:deck
+
 cartoonbattlebundle_rumble_standings:
     resource: '@CartoonBattleBundle/Controller/RumbleStandingsController.php'
     type:     annotation

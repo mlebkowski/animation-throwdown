@@ -195,5 +195,10 @@ class Unit
         );
     }
 
+    public function getFrontendSlug()
+    {
+        return strtolower(preg_replace('/ +/', '-', preg_replace('/[^\d\w -]/', '', $this->name)));
+    }
+
 
 }

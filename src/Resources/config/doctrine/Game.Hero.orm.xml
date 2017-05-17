@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          http://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
+
+    <entity name="Nassau\CartoonBattle\Entity\Game\Hero" table="game_hero">
+
+        <id name="id" type="integer" column="id"/>
+        <field name="name" type="string" nullable="false"/>
+        <field name="tokenId" column="token_id" type="integer" nullable="false" />
+
+        <one-to-one field="card" target-entity="Nassau\CartoonBattle\Entity\Unit">
+            <join-column nullable="false" on-delete="CASCADE"/>
+        </one-to-one>
+
+    </entity>
+
+</doctrine-mapping>

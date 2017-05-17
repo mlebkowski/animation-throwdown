@@ -1,0 +1,23 @@
+{% extends "CartoonBattleBundle::Layout.html.twig" %}
+{% block titke %}{{ enemy.name }}’s Deck{% endblock %}
+{% block content %}
+{% set slug -%}{%- for card in enemy.cards if not card.unit.commander -%}
+    {{ card.unit.frontendSlug }}={{ card.level }}&amp;
+{%- endfor -%}{%- endset %}
+<div class="jumbotron">
+    <h1>{{ enemy.name }}’s deck</h1>
+    <p>{{ enemy.guildName }}</p>
+    <a href="https://cartoon-battle.github.io/share-your-deck?{{ slug }}" class="btn btn-primary">Show full deck</a>
+</div>
+
+<ul class="list unstyled">
+    {% for card in enemy.cards if not card.unit.commander %}
+    <li>
+        <a href="https://cartoon-battle.github.io/recipes?{{ card.unit.slug }}" >
+            {{ card.unit.name }} ({{card.level}})
+         </a>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
