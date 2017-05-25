@@ -23,7 +23,7 @@ class Version20170525211539 extends AbstractMigration
 
         $this->addSql('SET FOREIGN_KEY_CHECKS=0');
         $this->addSql('UPDATE rumble SET id = 50007');
-        $this->addSql('UPDATE rumble_standing SET rumble_id = 5000');
+        $this->addSql('UPDATE rumble_standing SET rumble_id = 50007');
         $this->addSql('SET FOREIGN_KEY_CHECKS=1');
     }
 
