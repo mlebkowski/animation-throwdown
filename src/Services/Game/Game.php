@@ -4,6 +4,7 @@ namespace Nassau\CartoonBattle\Services\Game;
 
 use GuzzleHttp\Client;
 use Nassau\CartoonBattle\Services\AnimationThrowdown\Mission;
+use Nassau\CartoonBattle\Services\Game\DTO\Rumble;
 
 class Game
 {
@@ -199,6 +200,18 @@ class Game
         $result = $this('startChallenge', ['challenge_id' => $challengeId]);
 
         return $result['battle_data']['battle_id'];
+    }
+
+    public function getRumble()
+    {
+        return new Rumble($this('getGuildWarStatus'));
+    }
+
+    public function getRumbleStats(Rumble $rumble)
+    {
+        $result = $this('getRankings', ['ranking_index' => $rumble->getId(), 'ranking_id' => 'event_guild']);
+
+        return $result['rankings']['data'];
     }
 
     public function __invoke($message, array $data = [], array $query = [])

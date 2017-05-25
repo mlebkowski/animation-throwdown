@@ -3,10 +3,8 @@
 namespace Nassau\CartoonBattle\Form;
 
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * The type for Rumble
@@ -26,21 +24,6 @@ class RumbleAdminType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('start', DateTimeType::class, [
-            'label' => 'Start date',
-            'date_widget' => 'single_text',
-            'time_widget' => 'single_text',
-            'date_format' => 'dd/MM/yyyy',
-            'constraints' => new NotBlank(),
-        ]);
-        $builder->add('end', DateTimeType::class, [
-            'label' => 'End date',
-            'date_widget' => 'single_text',
-            'time_widget' => 'single_text',
-            'date_format' => 'dd/MM/yyyy',
-            'constraints' => new NotBlank(),
-        ]);
-
         $builder->add('standings', CollectionType::class, [
             'label' => false,
             'entry_type' => RumbleStandingAdminType::class,

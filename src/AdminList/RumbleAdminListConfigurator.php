@@ -27,6 +27,7 @@ class RumbleAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurat
      */
     public function buildFields()
     {
+        $this->addField('id', 'Id', true);
         $this->addField('start', 'Start', true);
         $this->addField('end', 'End', true);
     }
