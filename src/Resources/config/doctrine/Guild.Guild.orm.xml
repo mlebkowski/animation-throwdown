@@ -34,6 +34,18 @@
             <cascade><cascade-persist/></cascade>
         </one-to-many>
 
+        <many-to-many target-entity="Kunstmaan\AdminBundle\Entity\User" field="moderators" orphan-removal="true">
+            <join-table name="guild_moderators">
+                <join-columns>
+                    <join-column name="guild_id" nullable="false" on-delete="CASCADE"/>
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="user_id" nullable="false" on-delete="CASCADE"/>
+                </inverse-join-columns>
+            </join-table>
+            <cascade><cascade-persist/></cascade>
+        </many-to-many>
+
     </entity>
 
 </doctrine-mapping>

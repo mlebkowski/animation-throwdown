@@ -6,7 +6,6 @@ kunstmaan_admin:
 
     - label: Guilds
       route: cartoonbattlebundle_admin_guild_guild
-      role: ROLE_GUILDS
 
     - label: Rumbles
       route: cartoonbattlebundle_admin_rumble_rumble

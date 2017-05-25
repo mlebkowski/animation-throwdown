@@ -2,15 +2,21 @@
 
 namespace Nassau\CartoonBattle\Form;
 
+use Kunstmaan\AdminBundle\Entity\User;
 use Kunstmaan\AdminBundle\Form\WysiwygType;
+use Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionMap;
 use Nassau\CartoonBattle\Entity\Guild\Guild;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
@@ -18,6 +24,17 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  */
 class GuildAdminType extends AbstractType
 {
+    /**
+     * @var AuthorizationCheckerInterface
+     */
+    private $authorizationChecker;
+
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker)
+    {
+        $this->authorizationChecker = $authorizationChecker;
+    }
+
+
     /**
      * Builds the form.
      *
@@ -66,8 +83,26 @@ class GuildAdminType extends AbstractType
             'by_reference' => false,
             'attr' => [
                 'nested_form' => true,
-            ]
+            ],
         ]);
+
+        $builder->add('moderators', EntityType::class, [
+            'label' => 'Users with access to edit this guild',
+            'required' => false,
+            'class' => User::class,
+            'multiple' => true,
+            'expanded' => false,
+            'attr' => [
+                'class' => 'js-advanced-select',
+            ],
+            'by_reference' => false,
+        ]);
+
+        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
+            if (false === $this->authorizationChecker->isGranted(PermissionMap::PERMISSION_PUBLISH, $event->getData())) {
+                $event->getForm()->remove('moderators')->remove('standings');
+            }
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver)

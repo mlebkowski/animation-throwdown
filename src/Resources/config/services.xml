@@ -51,5 +51,19 @@
             </argument>
         </service>
 
+        <service class="Nassau\CartoonBattle\Security\GuildVoter" id="nassau.cartoon_battle.security.guild_voter" public="false">
+            <argument id="security.access.decision_manager" type="service"/>
+            <tag name="security.voter"/>
+        </service>
+
+        <service class="Nassau\CartoonBattle\EventListener\EntityAclUpdaterSubscriber" id="nassau.cartoon_battle.event_listener.guild_moderators_acl_updater_subscriber">
+            <argument id="nassau.cartoon_battle.services.acl.acl_moderators_updater" type="service"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service class="Nassau\CartoonBattle\Services\Acl\AclModeratorsUpdater" id="nassau.cartoon_battle.services.acl.acl_moderators_updater" public="false">
+            <argument id="security.acl.dbal.provider" type="service"/>
+        </service>
+
     </services>
 </container>

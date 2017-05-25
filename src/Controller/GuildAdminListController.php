@@ -2,6 +2,7 @@
 
 namespace Nassau\CartoonBattle\Controller;
 
+use Kunstmaan\AdminBundle\Helper\Security\Acl\Permission\PermissionMap;
 use Kunstmaan\AdminListBundle\AdminList\Configurator\AbstractAdminListConfigurator;
 use Nassau\CartoonBattle\AdminList\GuildAdminListConfigurator;
 use Kunstmaan\AdminListBundle\Controller\AdminListController;
@@ -28,8 +29,11 @@ class GuildAdminListController extends AdminListController
     public function getAdminListConfigurator()
     {
         if (!isset($this->configurator)) {
-            /** @noinspection PhpParamsInspection */
-            $this->configurator = new GuildAdminListConfigurator($this->getEntityManager());
+            $this->configurator = new GuildAdminListConfigurator(
+                $this->get('doctrine.orm.entity_manager'),
+                $this->get('kunstmaan_admin.acl.helper'),
+                $this->get('security.authorization_checker')
+            );
         }
 
         return $this->configurator;
@@ -44,8 +48,6 @@ class GuildAdminListController extends AdminListController
      */
     public function indexAction(Request $request)
     {
-        $this->denyAccessUnlessGranted('ROLE_GUILDS');
-
         return parent::doIndexAction($this->getAdminListConfigurator(), $request);
     }
 
@@ -59,7 +61,7 @@ class GuildAdminListController extends AdminListController
      */
     public function addAction(Request $request)
     {
-        $this->denyAccessUnlessGranted('ROLE_GUILDS');
+        $this->denyAccessUnlessGranted(PermissionMap::PERMISSION_EDIT, Guild::class);
 
         return parent::doAddAction($this->getAdminListConfigurator(), null, $request);
     }
@@ -76,7 +78,7 @@ class GuildAdminListController extends AdminListController
      */
     public function editAction(Request $request, Guild $guild)
     {
-        $this->denyAccessUnlessGranted('ROLE_GUILDS', $guild);
+        $this->denyAccessUnlessGranted(PermissionMap::PERMISSION_EDIT, $guild);
 
         return parent::doEditAction($this->getAdminListConfigurator(), $guild->getId(), $request);
     }
@@ -93,7 +95,7 @@ class GuildAdminListController extends AdminListController
      */
     public function deleteAction(Request $request, Guild $guild)
     {
-        $this->denyAccessUnlessGranted('ROLE_GUILDS', $guild);
+        $this->denyAccessUnlessGranted(PermissionMap::PERMISSION_DELETE, $guild);
 
         return parent::doDeleteAction($this->getAdminListConfigurator(), $guild->getId(), $request);
     }

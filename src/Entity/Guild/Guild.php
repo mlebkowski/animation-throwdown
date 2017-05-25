@@ -5,13 +5,15 @@ namespace Nassau\CartoonBattle\Entity\Guild;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Gedmo\Timestampable\Traits\Timestampable;
+use Kunstmaan\AdminBundle\Entity\User;
+use Nassau\CartoonBattle\Entity\AclObjectTrait;
 use Nassau\CartoonBattle\Entity\Rumble\RumbleStanding;
+use Nassau\CartoonBattle\Services\Acl\HasModeratorsInterface;
 
-class Guild
+class Guild implements HasModeratorsInterface
 {
     use Timestampable;
-
-    private $id;
+    use AclObjectTrait;
 
     /**
      * @var string
@@ -43,6 +45,10 @@ class Guild
      */
     private $url;
 
+    /**
+     * @var User[]|Collection
+     */
+    private $moderators;
 
     /**
      * @var RumbleStanding[]|Collection
@@ -52,14 +58,7 @@ class Guild
     public function __construct()
     {
         $this->standings = new ArrayCollection();
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
+        $this->moderators = new ArrayCollection();
     }
 
     /**
@@ -204,10 +203,31 @@ class Guild
         return $this;
     }
 
+    /**
+     * @return Collection|User[]
+     */
+    public function getModerators()
+    {
+        return $this->moderators;
+    }
+
+    public function addModerator(User $user)
+    {
+        $this->moderators->add($user);
+
+        return $this;
+    }
+
+    public function removeModerator(User $user)
+    {
+        $this->moderators->removeElement($user);
+
+        return $this;
+    }
+
     public function __toString()
     {
         return $this->name;
     }
-
 
 }
