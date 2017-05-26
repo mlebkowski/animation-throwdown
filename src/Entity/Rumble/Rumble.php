@@ -102,7 +102,7 @@ class Rumble
 
     public function __toString()
     {
-        return sprintf("%s — %s", $this->start->format('Y-m-d'), $this->end->format('Y-m-d'));
+        return sprintf("%s (%s — %s)", $this->id, $this->start->format('Y-m-d'), $this->end->format('Y-m-d'));
     }
 
 
