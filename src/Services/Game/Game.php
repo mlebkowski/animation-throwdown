@@ -214,6 +214,13 @@ class Game
         return $result['rankings']['data'];
     }
 
+    public function getGuildInfo($factionId)
+    {
+        $result = $this('getGuildInfo', ['faction_id' => $factionId]);
+
+        return $result['guild_info'];
+    }
+
     public function __invoke($message, array $data = [], array $query = [])
     {
         $url = '?' . http_build_query($query + ['user_id' => $this->user->getUserId(), 'message' => $message]);

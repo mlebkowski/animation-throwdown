@@ -3,6 +3,11 @@ harvesting_deck:
     defaults:
       _controller: CartoonBattleBundle:Harvesting:deck
 
+rumble_stats:
+    path: /rumble-stats/{rumble}/{factionId}.csv
+    defaults:
+      _controller: CartoonBattleBundle:RumbleStats:csv
+
 cartoonbattlebundle_rumble_standings:
     resource: '@CartoonBattleBundle/Controller/RumbleStandingsController.php'
     type:     annotation
