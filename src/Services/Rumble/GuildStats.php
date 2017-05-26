@@ -33,12 +33,10 @@ class GuildStats
     {
         $guild = $this->game->getGuildInfo($factionId);
 
-        $result = array_combine(array_map(function ($user) {
-            return $user['user_id'];
-        }, $guild['members']), array_map(function ($user) {
+        $result = array_combine(array_column($guild['members'], 'user_id'), array_map(function ($user) {
             return [
                 'name' => $user['name'],
-                'points' => array_pad([], 18 + 1, 0), // the first one is zero, meh
+                'points' => [],
             ];
         }, $guild['members']));
 

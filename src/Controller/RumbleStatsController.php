@@ -15,7 +15,8 @@ class RumbleStatsController extends Controller
         $stats = $this->get('cartoon_battle.guild_stats')->getStats($rumble, $factionId);
 
         foreach ($stats as $user) {
-            fputcsv($handle, [$user['name']] + array_values($user['points']));
+            $points = 0 === end($user['points']) ? array_slice($user['points'], 0, -1) : $user['points'];
+            fputcsv($handle, array_merge([$user['name']], $points));
         }
 
         fseek($handle, 0);
