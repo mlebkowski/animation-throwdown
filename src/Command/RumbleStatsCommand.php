@@ -51,7 +51,7 @@ class RumbleStatsCommand extends ContainerAwareCommand
             ON DUPLICATE KEY UPDATE points = :points
         ');
 
-        $matchNumber = $rumble->getFinishedMatchesCount() + 1;
+        $matchNumber = $rumble->getHighestStartedMatchNumber() ?: 1;
 
         foreach ($stats as $user) {
             $query->execute([

@@ -16,10 +16,10 @@ class Rumble
         return $this->data['guild_war_event_data']['id'];
     }
 
-    public function getFinishedMatchesCount()
+    public function getHighestStartedMatchNumber()
     {
         return sizeof(array_filter($this->data['guild_war_matches'], function (array $match) {
-            return $match['end_time'] + 60*30 < time();
+            return $match['us_kills'] > 0;
         }));
     }
 
