@@ -23,7 +23,7 @@ class RumbleStandingAdminType extends AbstractType
     {
         $builder->add('place', TextType::class, [
             'label' => 'Final ranking position',
-            'constraints' => [new Range(['min' => 1, 'max' => 250]), new NotBlank()],
+            'constraints' => [new Range(['min' => 1, 'max' => 500]), new NotBlank()],
         ]);
 
         if (self::RELATION_TO_RUMBLE === $options['relation_to']) {
