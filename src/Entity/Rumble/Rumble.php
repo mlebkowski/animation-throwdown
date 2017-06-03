@@ -38,6 +38,11 @@ class Rumble
         return $this->id;
     }
 
+    public function setId()
+    {
+        // noop
+    }
+
     /**
      * @return \DateTime
      */
