@@ -4,7 +4,7 @@ harvesting_deck:
       _controller: CartoonBattleBundle:Harvesting:deck
 
 rumble_stats:
-    path: /rumble-stats/{rumble}/{factionId}.csv
+    path: /rumble-stats/{factionId}/{rumble}.csv
     defaults:
       _controller: CartoonBattleBundle:RumbleStats:csv
 
