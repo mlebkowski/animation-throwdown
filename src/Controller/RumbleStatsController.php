@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RumbleStatsController extends Controller
 {
-    public function csvAction(Rumble $rumble, $factionId)
+    public function csvAction(Rumble $rumble = null, $factionId)
     {
         $handle = fopen('php://memory', 'w');
 

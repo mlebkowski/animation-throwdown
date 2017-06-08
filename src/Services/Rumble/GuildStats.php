@@ -29,7 +29,7 @@ class GuildStats
     }
 
 
-    public function getStats(Rumble $rumble, $factionId)
+    public function getStats(Rumble $rumble = null, $factionId)
     {
         $guild = $this->game->getGuildInfo($factionId);
 
@@ -41,12 +41,12 @@ class GuildStats
         }, $guild['members']));
 
         /** @noinspection PhpMethodParametersCountMismatchInspection */
-        $stats = $this->db->query(sprintf(
+        $stats = $rumble ? $this->db->query(sprintf(
             'SELECT user_id, match_number, points FROM rumble_result 
             WHERE rumble_id = %d AND user_id in (%s) ORDER BY match_number ASC',
             $rumble->getId(),
             implode(',', array_map('intval', array_keys($result)))
-        ))->fetchAll(\PDO::FETCH_NUM);
+        ))->fetchAll(\PDO::FETCH_NUM) : [];
 
         foreach ($stats as $stat) {
             list ($userId, $number, $points) = $stat;
