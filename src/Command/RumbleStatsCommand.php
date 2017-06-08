@@ -36,6 +36,11 @@ class RumbleStatsCommand extends ContainerAwareCommand
     private function fetchStats(Game $game)
     {
         $rumble = $game->getRumble();
+
+        if (false === $rumble->isActive()) {
+            return;
+        }
+
         $stats = $game->getRumbleStats($rumble);
 
         $db = $this->getContainer()->get('doctrine.dbal.default_connection');

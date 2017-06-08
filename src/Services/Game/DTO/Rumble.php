@@ -16,6 +16,11 @@ class Rumble
         return $this->data['guild_war_event_data']['id'];
     }
 
+    public function isActive()
+    {
+        return isset($this->data['guild_war_active']) && false !== $this->data['guild_war_active'];
+    }
+
     public function getHighestStartedMatchNumber()
     {
         return sizeof(array_filter($this->data['guild_war_matches'], function (array $match) {
