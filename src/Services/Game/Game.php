@@ -4,6 +4,7 @@ namespace Nassau\CartoonBattle\Services\Game;
 
 use GuzzleHttp\Client;
 use Nassau\CartoonBattle\Services\AnimationThrowdown\Mission;
+use Nassau\CartoonBattle\Services\Game\DTO\Guild;
 use Nassau\CartoonBattle\Services\Game\DTO\Rumble;
 
 class Game
@@ -100,6 +101,13 @@ class Game
     public function init()
     {
         return $this('init');
+    }
+
+    public function searchGuildName($name)
+    {
+        return array_map(function ($guild) {
+            return new Guild($guild);
+        }, $this('searchGuildName', ['name' => $name])['guilds']);
     }
 
     public function buySinglePackItem()

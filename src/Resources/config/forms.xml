@@ -7,6 +7,7 @@
     <services>
         <service class="Nassau\CartoonBattle\Form\GuildAdminType" id="nassau.cartoon_battle.form.guild_admin_type">
             <argument id="security.authorization_checker" type="service"/>
+            <argument id="cartoon_battle.game.default" type="service"/>
             <tag name="form.type"/>
         </service>
     </services>
