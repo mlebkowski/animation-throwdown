@@ -111,8 +111,8 @@ class GuildAdminType extends AbstractType
         });
 
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
-            $factionId = $event->getData()['faction_id'];
-            $name = $event->getData()['name'];
+            $factionId = (string)$event->getData()['faction_id'];
+            $name = (string)$event->getData()['name'];
 
             if ("" !== $factionId || "" === $name) {
                 return;
