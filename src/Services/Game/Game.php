@@ -105,9 +105,9 @@ class Game
 
     public function searchGuildName($name)
     {
-        return array_map(function ($guild) {
+        return array_values(array_map(function ($guild) {
             return new Guild($guild);
-        }, $this('searchGuildName', ['name' => $name])['guilds']);
+        }, $this('searchGuildName', ['name' => $name])['guilds']));
     }
 
     public function buySinglePackItem()

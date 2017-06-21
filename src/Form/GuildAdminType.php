@@ -123,6 +123,14 @@ class GuildAdminType extends AbstractType
                 return;
             }
 
+            if (1 === sizeof($matches)) {
+                /** @var Guild $guild */
+                list ($guild) = $matches;
+                $event->setData(['faction_id' => $guild->getId()] + $event->getData());
+
+                return;
+            }
+
             $event->getForm()->add('faction_id', ChoiceType::class, [
                 'label' => 'Select a guild matching your name',
                 'choices' => $matches,
