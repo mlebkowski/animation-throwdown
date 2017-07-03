@@ -17,6 +17,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -62,6 +63,11 @@ class GuildAdminType extends AbstractType
             'label' => 'In-game guild id',
             'required' => true,
             'constraints' => new NotBlank(),
+        ]);
+
+        $builder->add('skip_faction_id', CheckboxType::class, [
+            'label' => 'Skip entering guild id',
+            'mapped' => false,
         ]);
 
         $builder->add('recruiting', CheckboxType::class, [
@@ -137,7 +143,7 @@ class GuildAdminType extends AbstractType
                 'choices_as_values' => true,
                 'choice_label' => 'name',
                 'choice_value' => 'id',
-                'constraints' => new NotBlank(),
+                'constraints' => new NotBlank(['groups' => 'faction_id']),
             ]);
         });
     }
@@ -146,6 +152,15 @@ class GuildAdminType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Guild::class,
+            'validation_groups' => function (FormInterface $form) {
+                $groups = [NotBlank::DEFAULT_GROUP];
+
+                if (!$form->get('skip_faction_id')->getData()) {
+                    $groups[] = 'faction_id';
+                }
+
+                return $groups;
+            }
         ]);
     }
 
