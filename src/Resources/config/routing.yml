@@ -6,7 +6,12 @@ harvesting_deck:
 rumble_stats:
     path: /rumble-stats/{factionId}/{rumble}.csv
     defaults:
-      _controller: CartoonBattleBundle:RumbleStats:csv
+      _controller: CartoonBattleBundle:RumbleStats:scores
+
+rumble_stats_header:
+    path: /rumble-stats-header/{userId}.csv
+    defaults:
+      _controller: CartoonBattleBundle:RumbleStats:header
 
 cartoonbattlebundle_rumble_standings:
     resource: '@CartoonBattleBundle/Controller/RumbleStandingsController.php'
