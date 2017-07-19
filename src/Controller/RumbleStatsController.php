@@ -32,7 +32,7 @@ class RumbleStatsController extends Controller
 
         $response = new CsvResponse();
 
-        $matches = $rumble->getMatches();
+        $matches = array_slice($rumble->getMatches(), 0, 18);
 
         $response->pushRow(array_map(function ($match) { return $match['them_name']; }, $matches));
         $response->pushRow(array_map(function ($match) { return $match['them_kills']; }, $matches));
