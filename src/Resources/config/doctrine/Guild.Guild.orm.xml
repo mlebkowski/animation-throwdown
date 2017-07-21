@@ -31,6 +31,9 @@
         </field>
 
         <one-to-many target-entity="Nassau\CartoonBattle\Entity\Rumble\RumbleStanding" mapped-by="guild" field="standings" orphan-removal="true">
+            <order-by>
+                <order-by-field name="rumble" direction="ASC"/>
+            </order-by>
             <cascade><cascade-persist/></cascade>
         </one-to-many>
 
