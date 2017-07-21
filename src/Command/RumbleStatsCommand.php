@@ -47,7 +47,7 @@ class RumbleStatsCommand extends ContainerAwareCommand
         $db->prepare('INSERT IGNORE INTO rumble (`id`, `start`, `end`) VALUES (:id, :start, :end)')->execute([
             'id' => $rumble->getId(),
             'start' => $rumble->getStart()->format('Y-m-d H:i:s'),
-            'end' => $rumble->getEnd()->format('Y-m-d H:i:s'),
+            'end' => $rumble->getEnd()->modify('-3 days')->format('Y-m-d H:i:s'),
         ]);
 
         $query = $db->prepare('
