@@ -30,6 +30,23 @@ class User implements SynapseUserInterface
     private $password;
 
     /**
+     * @param string $name
+     * @param int $userId
+     * @param string $password
+     */
+    public function __construct($name, $userId, $password)
+    {
+        $this->name = $name;
+        $this->userId = $userId;
+        $this->password = $password;
+    }
+
+    public static function fromUser(SynapseUserInterface $user)
+    {
+        return new User($user->getName(), $user->getUserId(), $user->getPassword());
+    }
+
+    /**
      * @return string
      */
     public function getId()

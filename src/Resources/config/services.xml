@@ -70,6 +70,14 @@
             <argument id="doctrine.dbal.default_connection" type="service"/>
         </service>
 
+        <service class="Nassau\CartoonBattle\Services\Kongregate\GetGameCredentials" id="cartoon_battle.kongregate.auth">
+            <argument id="nassau.cartoon_battle.services.kongregate.get_game_credentials.client" type="service"/>
+            <argument id="cartoon_battle.game.default" type="service"/>
+        </service>
+
+        <service id="nassau.cartoon_battle.services.kongregate.get_game_credentials.client" class="GuzzleHttp\Client"  public="false" />
+
+
 
     </services>
 </container>

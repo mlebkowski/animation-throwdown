@@ -10,14 +10,13 @@ class User implements SynapseUserInterface
 
     private $password;
 
-    /**
-     * @param $userId
-     * @param $password
-     */
-    public function __construct($userId, $password)
+    private $name;
+
+    public function __construct($userId, $password, $name = 'Player')
     {
         $this->userId = $userId;
         $this->password = $password;
+        $this->name = $name;
     }
 
     /**
@@ -36,5 +35,12 @@ class User implements SynapseUserInterface
         return $this->password;
     }
 
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
 }
