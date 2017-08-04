@@ -2,7 +2,7 @@
 
 namespace Nassau\CartoonBattle\Command;
 
-use Nassau\CartoonBattle\Entity\Game\User;
+use Nassau\CartoonBattle\Entity\Game\UserGatherRumbleStats;
 use Nassau\CartoonBattle\Services\Game\Game;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,14 +20,15 @@ class RumbleStatsCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /** @var User[] $users */
-        $users = $this->getContainer()->get('doctrine.orm.entity_manager')
-            ->getRepository('CartoonBattleBundle:Game\User')
-            ->findAll();
+        /** @var UserGatherRumbleStats[] $queue */
+        $queue = $this->getContainer()->get('doctrine.orm.entity_manager')
+            ->getRepository('CartoonBattleBundle:Game\UserGatherRumbleStats')
+            ->findBy(['enabled' => true]);
 
         $gameFactory = $this->getContainer()->get('cartoon_battle.game.factory');
 
-        foreach ($users as $user) {
+        foreach ($queue as $request) {
+            $user = $request->getUser();
             $output->writeln(sprintf('Fetching stats for <comment>%s</comment>', $user->getName()));
             $this->fetchStats($gameFactory->getGame($user));
         }
