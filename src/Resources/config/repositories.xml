@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="cartoon_battle.repository.hero" class="Doctrine\ORM\EntityRepository" public="true">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="cartoon_battle.metadata.hero" />
+        </service>
+
+        <service id="cartoon_battle.metadata.hero" class="Doctrine\ORM\Mapping\ClassMetadata" public="false">
+            <argument>Nassau\CartoonBattle\Entity\Game\Hero</argument>
+        </service>
+
+        <service id="cartoon_battle.repository.unit" class="Doctrine\ORM\EntityRepository" public="true">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="cartoon_battle.metadata.unit" />
+        </service>
+
+        <service id="cartoon_battle.metadata.unit" class="Doctrine\ORM\Mapping\ClassMetadata" public="false">
+            <argument>Nassau\CartoonBattle\Entity\Unit</argument>
+        </service>
+
+    </services>
+</container>

@@ -4,6 +4,11 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
+    <imports>
+        <import resource="repositories.xml"/>
+        <import resource="farming.xml"/>
+    </imports>
+
     <services>
         <service class="Nassau\CartoonBattle\Services\Assets" id="nassau.cartoon_battle.services.assets">
             <argument>%cartoon_battle.url%</argument>
@@ -77,6 +82,13 @@
 
         <service id="nassau.cartoon_battle.services.kongregate.get_game_credentials.client" class="GuzzleHttp\Client"  public="false" />
 
+        <service class="Nassau\CartoonBattle\Services\Authentication\GameAuthenticator" id="nassau.cartoon_battle.services.authentication.game_authenticator"/>
+
+        <service class="Nassau\CartoonBattle\Services\Authentication\ApiGameFactory"
+                 id="nassau.cartoon_battle.services.authentication.api_game_factory" public="false">
+            <argument id="cartoon_battle.game.factory" type="service"/>
+            <argument id="security.token_storage" type="service"/>
+        </service>
 
 
     </services>

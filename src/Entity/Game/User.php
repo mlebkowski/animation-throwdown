@@ -4,9 +4,12 @@ namespace Nassau\CartoonBattle\Entity\Game;
 
 use Gedmo\Timestampable\Traits\Timestampable;
 use Nassau\CartoonBattle\Services\Game\SynapseUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
-class User implements SynapseUserInterface
+class User implements SynapseUserInterface, UserInterface
 {
+    const ROLE_USER = self::class;
+
     use Timestampable;
 
     /**
@@ -106,5 +109,42 @@ class User implements SynapseUserInterface
         $this->password = $password;
 
         return $this;
+    }
+
+    public function getRoles()
+    {
+        return [self::ROLE_USER];
+    }
+
+    /**
+     * Returns the salt that was originally used to encode the password.
+     *
+     * This can return null if the password was not encoded using a salt.
+     *
+     * @return string|null The salt
+     */
+    public function getSalt()
+    {
+        return null;
+    }
+
+    /**
+     * Returns the username used to authenticate the user.
+     *
+     * @return string The username
+     */
+    public function getUsername()
+    {
+        return $this->userId;
+    }
+
+    public function eraseCredentials()
+    {
+        // noop
+    }
+
+    public function __toString()
+    {
+        return sprintf('%s [%s]', $this->name, $this->userId);
     }
 }

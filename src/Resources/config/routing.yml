@@ -3,6 +3,11 @@ kongregate_auth:
     defaults:
       _controller: nassau.cartoon_battle.controller.kongregate_authorization_controller:getUser
 
+game_echo:
+    path: /game/echo/{message}
+    defaults:
+      _controller: nassau.cartoon_battle.controller.game.echo_controller
+
 harvesting_deck:
     path: /enemy-deck/{enemy}
     defaults:

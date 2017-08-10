@@ -13,8 +13,19 @@ security:
     providers:
         fos_userbundle:
                 id: fos_user.user_provider.username
-
+        game:
+            entity:
+                class: 'CartoonBattleBundle:Game\User'
+                property: userId
     firewalls:
+        game:
+            pattern: ^/game/
+            stateless: true
+            guard:
+                provider: game
+                authenticators:
+                  - nassau.cartoon_battle.services.authentication.game_authenticator
+
         main:
             pattern: .*
             form_login:
@@ -39,3 +50,4 @@ security:
         - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin, role: ROLE_ADMIN }
+        - { path: ^/game, role: IS_AUTHENTICATED_FULLY }

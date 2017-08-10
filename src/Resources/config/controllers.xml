@@ -10,9 +10,15 @@
 
     <services>
         <service class="Nassau\CartoonBattle\Controller\KongregateAuthorizationController"
-                 id="nassau.cartoon_battle.controller.kongregate_authorization_controller" >
+                 id="nassau.cartoon_battle.controller.kongregate_authorization_controller">
             <argument id="cartoon_battle.kongregate.auth" type="service"/>
             <argument id="doctrine.orm.entity_manager" type="service"/>
         </service>
+
+        <service class="Nassau\CartoonBattle\Controller\Game\EchoController"
+                 id="nassau.cartoon_battle.controller.game.echo_controller">
+            <argument id="nassau.cartoon_battle.services.authentication.api_game_factory" type="service"/>
+        </service>
+
     </services>
 </container>

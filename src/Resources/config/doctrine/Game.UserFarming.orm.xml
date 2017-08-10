@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          http://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
+
+    <entity name="Nassau\CartoonBattle\Entity\Game\UserFarming" table="game_user_farming">
+
+        <id name="id" type="string" column="id">
+            <generator strategy="UUID"/>
+        </id>
+
+        <field name="enabled" type="boolean" nullable="false"/>
+
+        <field name="settings" type="simple_array" nullable="false" />
+        <field name="adventureMissions" column="adventure_missions" type="simple_array" nullable="false" />
+
+        <one-to-one target-entity="User" field="user">
+            <join-column nullable="false" name="user_id"/>
+        </one-to-one>
+
+        <one-to-many target-entity="UserFarmingLog" mapped-by="userFarming" field="logs">
+            <cascade><cascade-all/></cascade>
+        </one-to-many>
+
+        <one-to-many target-entity="UserFarmingResult" mapped-by="userFarming" field="results">
+            <cascade><cascade-all/></cascade>
+        </one-to-many>
+
+    </entity>
+
+</doctrine-mapping>

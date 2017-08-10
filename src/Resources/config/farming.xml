@@ -1,0 +1,103 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service class="Nassau\CartoonBattle\Services\Farming\FarmCommand"
+                 id="nassau.cartoon_battle.services.farming.farm_command">
+            <argument id="doctrine.orm.entity_manager" type="service"/>
+            <argument id="nassau.cartoon_battle.services.farming.farming_handler" type="service"/>
+            <tag name="console.command"/>
+        </service>
+
+        <service class="Nassau\CartoonBattle\Services\Farming\FarmingHandler"
+                 id="nassau.cartoon_battle.services.farming.farming_handler" public="false">
+            <argument id="nassau.cartoon_battle.services.farming.farming_handler.chores" type="service"/>
+            <argument id="cartoon_battle.game.factory" type="service"/>
+        </service>
+
+        <service id="nassau.cartoon_battle.services.farming.farming_handler.chores" class="ArrayObject">
+            <tag name="nassau.registry"
+                 tag="cartoon_battle.farming.chore"
+                 order="priority"
+                 method="offsetSet"
+                 class="Nassau\CartoonBattle\Services\Farming\FarmingChore"
+            />
+        </service>
+
+        <service class="Nassau\CartoonBattle\Services\Farming\Chores\WatchAdsChore"
+                 id="nassau.cartoon_battle.services.farming.chores.watch_ads_chore" public="false">
+            <tag name="cartoon_battle.farming.chore" priority="10"/>
+        </service>
+
+
+        <service class="Nassau\CartoonBattle\Services\Farming\Chores\AdventureChore"
+                 id="nassau.cartoon_battle.services.farming.chores.adventure_chore" public="false">
+            <argument id="nassau.cartoon_battle.services.farming.loot_extractor.loot_extractor" type="service"/>
+            <tag name="cartoon_battle.farming.chore" priority="20"/>
+        </service>
+
+        <service class="Nassau\CartoonBattle\Services\Farming\Chores\ArenaChore"
+                 id="nassau.cartoon_battle.services.farming.chores.arena_chore" public="false">
+            <argument id="nassau.cartoon_battle.services.farming.loot_extractor.loot_extractor" type="service"/>
+            <tag name="cartoon_battle.farming.chore" priority="30"/>
+        </service>
+
+        <service class="Nassau\CartoonBattle\Services\Farming\Chores\ChallengeChore"
+                 id="nassau.cartoon_battle.services.farming.chores.challenge_chore" public="false">
+            <argument id="nassau.cartoon_battle.services.farming.loot_extractor.loot_extractor" type="service"/>
+            <tag name="cartoon_battle.farming.chore" priority="40"/>
+        </service>
+
+        <service class="Nassau\CartoonBattle\Services\Farming\Chores\QuestsChore"
+                 id="nassau.cartoon_battle.services.farming.chores.quests_chore" public="false">
+            <tag name="cartoon_battle.farming.chore" priority="50"/>
+        </service>
+
+        <service class="Nassau\CartoonBattle\Services\Farming\Chores\AdCrateChore"
+                 id="nassau.cartoon_battle.services.farming.chores.ad_crate_chore" public="false">
+            <tag name="cartoon_battle.farming.chore" priority="60"/>
+        </service>
+
+        <service class="Nassau\CartoonBattle\Services\Farming\Chores\BasicPacksChore"
+                 id="nassau.cartoon_battle.services.farming.chores.basic_packs_chore" public="false">
+            <argument id="cartoon_battle.repository.unit" type="service"/>
+            <tag name="cartoon_battle.farming.chore" priority="70"/>
+        </service>
+
+
+        <service class="Nassau\CartoonBattle\Services\Farming\LootExtractor\LootExtractor"
+                 id="nassau.cartoon_battle.services.farming.loot_extractor.loot_extractor" public="false">
+            <argument id="nassau.cartoon_battle.services.farming.loot_extractor.loot_extractor.handlers" type="service"/>
+        </service>
+
+        <service id="nassau.cartoon_battle.services.farming.loot_extractor.loot_extractor.handlers" class="ArrayObject">
+            <tag name="nassau.registry"
+                 tag="cartoon_battle.loot.handler"
+                 method="offsetSet"
+                 order="indexed"
+                 class="Nassau\CartoonBattle\Services\Farming\LootExtractor\LootHandler"
+            />
+        </service>
+
+        <service class="Nassau\CartoonBattle\Services\Farming\LootExtractor\HeroTokenFormatter"
+                 id="nassau.cartoon_battle.services.farming.loot_extractor.hero_token_formatter" public="false">
+            <argument id="cartoon_battle.repository.hero" type="service"/>
+            <tag name="cartoon_battle.loot.handler" alias="hero_xp"/>
+        </service>
+
+        <service class="Nassau\CartoonBattle\Services\Farming\LootExtractor\GiggitywattsExtractor"
+                 id="nassau.cartoon_battle.services.farming.loot_extractor.giggitywatts_extractor" public="false">
+            <tag name="cartoon_battle.loot.handler" alias="sp"/>
+        </service>
+
+        <service class="Nassau\CartoonBattle\Services\Farming\LootExtractor\ItemsExtractor"
+                 id="nassau.cartoon_battle.services.farming.loot_extractor.items_extractor" public="false">
+            <tag name="cartoon_battle.loot.handler" alias="items"/>
+        </service>
+
+    </services>
+</container>
