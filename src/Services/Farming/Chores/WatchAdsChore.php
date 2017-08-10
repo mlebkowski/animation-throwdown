@@ -16,7 +16,7 @@ class WatchAdsChore implements FarmingChore
         while (false === $this->check($game) && $ads++ < 3) {
             $logWriter('Watching an ad to Boost your chances');
             $game->recordAdBoost();
-            sleep(3);
+            sleep(8);
         }
     }
 
