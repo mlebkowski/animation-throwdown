@@ -17,7 +17,7 @@ class FarmingHandler
     private $buffer;
 
     /**
-     * @var FarmingChore[]|\ArrayObject
+     * @var FarmingChore[]
      */
     private $chores;
 
@@ -32,7 +32,7 @@ class FarmingHandler
      */
     public function __construct(\ArrayObject $chores, GameFactory $factory)
     {
-        $this->chores = $chores;
+        $this->chores = array_reverse($chores->getArrayCopy());
         $this->factory = $factory;
     }
 
