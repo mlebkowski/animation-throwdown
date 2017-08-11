@@ -16,7 +16,7 @@ class RumbleStandingsController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $serializer = $this->get('serializer');
+        $serializer = $this->get('jms_serializer');
         $rumbles = $this->get('doctrine.orm.entity_manager')->getRepository('CartoonBattleBundle:Rumble\Rumble')->findAll();
 
 

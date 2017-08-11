@@ -87,7 +87,18 @@
         <service class="Nassau\CartoonBattle\Services\Authentication\ApiGameFactory"
                  id="nassau.cartoon_battle.services.authentication.api_game_factory" public="false">
             <argument id="cartoon_battle.game.factory" type="service"/>
+            <argument id="nassau.cartoon_battle.services.authentication.authorized_user_retriever" type="service"/>
+        </service>
+
+        <service class="Nassau\CartoonBattle\Services\Authentication\AuthorizedUserRetriever"
+                 id="nassau.cartoon_battle.services.authentication.authorized_user_retriever" public="false">
             <argument id="security.token_storage" type="service"/>
+        </service>
+
+        <service class="Nassau\CartoonBattle\EventListener\OnRequestUserInjectorListener"
+                 id="nassau.cartoon_battle.event_listener.on_request_user_injector_listener">
+            <argument id="nassau.cartoon_battle.services.authentication.authorized_user_retriever" type="service"/>
+            <tag name="kernel.event_subscriber"/>
         </service>
 
 

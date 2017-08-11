@@ -26,5 +26,12 @@
             <argument id="twig" type="service"/>
         </service>
 
+        <service class="Nassau\CartoonBattle\Controller\Game\FarmingSetupController"
+                 id="nassau.cartoon_battle.controller.game.farming_setup_controller">
+            <argument id="doctrine.orm.entity_manager" type="service"/>
+            <argument id="form.factory" type="service"/>
+            <argument id="jms_serializer" type="service"/>
+        </service>
+
     </services>
 </container>

@@ -3,8 +3,7 @@
 namespace Nassau\CartoonBattle\Services\Authentication;
 
 use Nassau\CartoonBattle\Services\Game\GameFactory;
-use Nassau\CartoonBattle\Services\Game\SynapseUserInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class ApiGameFactory
 {
@@ -14,18 +13,14 @@ class ApiGameFactory
     private $factory;
 
     /**
-     * @var TokenStorageInterface
+     * @var AuthorizedUserRetriever
      */
-    private $tokenStorage;
+    private $userRetriever;
 
-    /**
-     * @param GameFactory $factory
-     * @param TokenStorageInterface $tokenStorage
-     */
-    public function __construct(GameFactory $factory, TokenStorageInterface $tokenStorage)
+    public function __construct(GameFactory $factory, AuthorizedUserRetriever $userRetriever)
     {
         $this->factory = $factory;
-        $this->tokenStorage = $tokenStorage;
+        $this->userRetriever = $userRetriever;
     }
 
     /**
@@ -33,10 +28,9 @@ class ApiGameFactory
      */
     public function getAuthorizedGame()
     {
-        $token = $this->tokenStorage->getToken();
-        $user = $token ? $token->getUser() : null;
-
-        if (false === $user instanceof SynapseUserInterface) {
+        try {
+            $user = $this->userRetriever->getAuthorizedUser();
+        } catch (AccessDeniedHttpException $e) {
             return null;
         }
 

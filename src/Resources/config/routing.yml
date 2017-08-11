@@ -1,7 +1,12 @@
-farming:
+farming_logs:
     path: /farming/{id}.{_format}
     defaults:
       _controller: nassau.cartoon_battle.controller.game.farming_controller:farming
+
+farming_setup:
+    path: /game/farming
+    defaults:
+      _controller: nassau.cartoon_battle.controller.game.farming_setup_controller:setup
 
 kongregate_auth:
     path: /api/kongregate/login
