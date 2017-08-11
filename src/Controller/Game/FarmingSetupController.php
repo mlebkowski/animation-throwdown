@@ -72,6 +72,13 @@ class FarmingSetupController
             'form' => $this->normalizeForm($form->createView()),
             'farming' => $this->serializer->toArray($farming, (new SerializationContext)->setGroups(['settings'])),
             'logs' => $this->serializer->toArray($logs)
+        ], JsonResponse::HTTP_OK, [
+            'Access-Control-Allow-Credentials' => 'true',
+            'Access-Control-Allow-Methods' => 'POST, GET, PUT, DELETE, PATCH, OPTIONS',
+            'Access-Control-Allow-Headers' => 'Origin, Content-Type, Accept, Authorization',
+            'Access-Control-Allow-Origin' => $request->headers->get('origin'),
+            'Access-Control-Max-Age' => 3600,
+            'Vary' => 'Origin',
         ]);
     }
 
