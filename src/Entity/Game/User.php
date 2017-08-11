@@ -33,6 +33,11 @@ class User implements SynapseUserInterface, UserInterface
     private $password;
 
     /**
+     * @var UserFarming
+     */
+    private $farming;
+
+    /**
      * @param string $name
      * @param int $userId
      * @param string $password
@@ -110,6 +115,15 @@ class User implements SynapseUserInterface, UserInterface
 
         return $this;
     }
+
+    /**
+     * @return UserFarming|null
+     */
+    public function getFarming()
+    {
+        return $this->farming;
+    }
+
 
     public function getRoles()
     {

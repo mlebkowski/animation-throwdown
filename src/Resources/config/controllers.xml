@@ -20,5 +20,11 @@
             <argument id="nassau.cartoon_battle.services.authentication.api_game_factory" type="service"/>
         </service>
 
+        <service class="Nassau\CartoonBattle\Controller\Game\FarmingController"
+                 id="nassau.cartoon_battle.controller.game.farming_controller">
+            <argument id="jms_serializer.serializer" type="service"/>
+            <argument id="twig" type="service"/>
+        </service>
+
     </services>
 </container>

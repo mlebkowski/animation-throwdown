@@ -21,6 +21,9 @@
 
         <one-to-many target-entity="UserFarmingLog" mapped-by="userFarming" field="logs">
             <cascade><cascade-all/></cascade>
+            <order-by>
+                <order-by-field name="createdAt" direction="DESC"/>
+            </order-by>
         </one-to-many>
 
         <one-to-many target-entity="UserFarmingResult" mapped-by="userFarming" field="results">

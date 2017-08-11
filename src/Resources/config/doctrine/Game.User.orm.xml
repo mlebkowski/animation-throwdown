@@ -22,6 +22,9 @@
         <field name="updatedAt" type="datetime" column="updated_at">
             <gedmo:timestampable on="update"/>
         </field>
+
+        <one-to-one field="farming" target-entity="Nassau\CartoonBattle\Entity\Game\UserFarming" mapped-by="user"/>
+
     </entity>
 
 </doctrine-mapping>
