@@ -37,7 +37,7 @@ class FarmCommand extends Command
         $ids = array_column($items, 'id');
 
         foreach ($ids as $id) {
-            (new ProcessBuilder(['app/console', 'animation-throwdown:farm-single-user', $id]))
+            (new ProcessBuilder(['app/console', '--ansi', 'animation-throwdown:farm-single-user', $id]))
                 ->getProcess()
                 ->run(function ($type, $buffer) use ($output) {
                     $output->write($type ? $buffer : $buffer); // unused var
