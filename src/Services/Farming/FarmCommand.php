@@ -5,6 +5,7 @@ namespace Nassau\CartoonBattle\Services\Farming;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -28,13 +29,28 @@ class FarmCommand extends Command
     {
         parent::__construct('animation-throwdown:farm');
 
+        $this->addArgument('name', InputArgument::IS_ARRAY);
+
         $this->em = $em;
         $this->handler = $handler;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $items = $this->em->getRepository('CartoonBattleBundle:Game\UserFarming')->findBy(['enabled' => 1]);
+        $names = $input->getArgument('name');
+
+        $qb = $this->em->createQueryBuilder()
+            ->select('farming')
+            ->from('CartoonBattleBundle:Game\UserFarming', 'farming')
+            ->where('farming.enabled = true');
+
+        if (sizeof($names)) {
+            $qb->join('farming.user', 'user')
+                ->andWhere('user.name in (:names)')
+                ->setParameter('names', $names);
+        }
+
+        $items = $qb->getQuery()->getResult();
 
         while ($farming = array_shift($items)) {
             $output->writeln(sprintf('%s: farming user <comment>%s</comment>', date('r'), $farming->getUser()->getName()));
