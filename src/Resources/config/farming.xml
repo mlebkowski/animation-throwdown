@@ -9,6 +9,12 @@
         <service class="Nassau\CartoonBattle\Services\Farming\FarmCommand"
                  id="nassau.cartoon_battle.services.farming.farm_command">
             <argument id="doctrine.orm.entity_manager" type="service"/>
+            <tag name="console.command"/>
+        </service>
+
+        <service class="Nassau\CartoonBattle\Services\Farming\FarmSingleUserCommand"
+                 id="nassau.cartoon_battle.services.farming.farm_single_user_command">
+            <argument id="doctrine.orm.entity_manager" type="service"/>
             <argument id="nassau.cartoon_battle.services.farming.farming_handler" type="service"/>
             <tag name="console.command"/>
         </service>
