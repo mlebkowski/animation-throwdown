@@ -70,6 +70,8 @@ class FarmingHandler
             throw new FarmingException('Unknown error prevented this session to continue', 0, $e);
         } finally {
             $this->buffer = null;
+
+            unset($game);
         }
     }
 

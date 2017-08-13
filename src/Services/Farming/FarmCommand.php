@@ -36,7 +36,7 @@ class FarmCommand extends Command
     {
         $items = $this->em->getRepository('CartoonBattleBundle:Game\UserFarming')->findBy(['enabled' => 1]);
 
-        foreach ($items as $farming) {
+        while ($farming = array_shift($items)) {
             $output->writeln(sprintf('%s: farming user <comment>%s</comment>', date('r'), $farming->getUser()->getName()));
 
             try {
@@ -47,6 +47,9 @@ class FarmCommand extends Command
 
                 $this->em->persist($farming);
                 $this->em->flush();
+                $this->em->clear();
+
+                unset($farming);
 
                 $output->writeln("\n");
             }
