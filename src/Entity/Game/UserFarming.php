@@ -40,6 +40,11 @@ class UserFarming
     private $adventureMissions;
 
     /**
+     * @var \DateTime
+     */
+    private $expiresAt;
+
+    /**
      * @var UserFarmingLog[]|Collection
      */
     private $logs;
@@ -53,6 +58,7 @@ class UserFarming
     {
         $this->logs = new ArrayCollection();
         $this->results = new ArrayCollection();
+        $this->expiresAt = new \DateTime("+14 days");
     }
 
     /**
@@ -144,6 +150,14 @@ class UserFarming
     }
 
     /**
+     * @return \DateTime
+     */
+    public function getExpiresAt()
+    {
+        return $this->expiresAt;
+    }
+
+    /**
      * @return Collection|UserFarmingLog[]
      */
     public function getLogs()
@@ -186,6 +200,16 @@ class UserFarming
     public function has($setting)
     {
         return in_array($setting, $this->settings);
+    }
+
+    public function bumpFreeTrial()
+    {
+        $this->expiresAt = max($this->expiresAt, new \DateTime('14 days'));
+    }
+
+    public function isExpiring()
+    {
+        return $this->expiresAt < new \DateTime('+7 days');
     }
 
 }

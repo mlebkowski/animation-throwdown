@@ -42,7 +42,9 @@ class FarmCommand extends Command
         $qb = $this->em->createQueryBuilder()
             ->select('farming')
             ->from('CartoonBattleBundle:Game\UserFarming', 'farming')
-            ->where('farming.enabled = true');
+            ->where('farming.enabled = true')
+            ->andWhere('farming.expiresAt > :today')
+            ->setParameter('today', new \DateTime);
 
         if (sizeof($names)) {
             $qb->join('farming.user', 'user')

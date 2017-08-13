@@ -71,6 +71,7 @@ class FarmingSetupController
             'message' => isset($message) ? $message : null,
             'form' => $this->normalizeForm($form->createView()),
             'farming' => $this->serializer->toArray($farming, (new SerializationContext)->setGroups(['settings'])),
+            'expires' => $farming->isExpiring(),
             'logs' => $this->serializer->toArray($logs)
         ], JsonResponse::HTTP_OK, [
             'Access-Control-Allow-Credentials' => 'true',

@@ -11,6 +11,7 @@
         </id>
 
         <field name="enabled" type="boolean" nullable="false"/>
+        <field name="expiresAt" column="expires_at" type="datetime" nullable="false"/>
 
         <field name="settings" type="simple_array" nullable="false" />
         <field name="adventureMissions" column="adventure_missions" type="simple_array" nullable="false" />

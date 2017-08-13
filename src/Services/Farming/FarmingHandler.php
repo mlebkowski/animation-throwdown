@@ -55,6 +55,10 @@ class FarmingHandler
         // fetch current game state
         $game->init();
 
+        if (false === $game->isSpender()) {
+            $configuration->bumpFreeTrial();
+        }
+
         try {
             foreach ($this->chores as $chore) {
                 $chore->make($game, $configuration, $logWriter);

@@ -33,6 +33,10 @@ class Game
 
     private $items = [];
 
+    private $commonFields = [
+        'total_spent_in_usd' => 0,
+    ];
+
     public function __construct(Client $client, SynapseUserInterface $user)
     {
         $this->client = $client;
@@ -103,6 +107,11 @@ class Game
     public function init()
     {
         return $this('init');
+    }
+
+    public function isSpender()
+    {
+        return $this->commonFields['total_spent_in_usd'] > 100;
     }
 
     public function getMoney()
@@ -235,6 +244,10 @@ class Game
 
         if (isset($result['user_items'])) {
             $this->items = $result['user_items'];
+        }
+
+        if (isset($result['common_fields'])) {
+            $this->commonFields = $result['common_fields'];
         }
 
         return $result;
