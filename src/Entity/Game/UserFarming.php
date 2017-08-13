@@ -212,4 +212,9 @@ class UserFarming
         return $this->expiresAt < new \DateTime('+7 days');
     }
 
+    public function __toString()
+    {
+        return sprintf('Farming[%s]' , $this->getUser()->getName());
+    }
+
 }

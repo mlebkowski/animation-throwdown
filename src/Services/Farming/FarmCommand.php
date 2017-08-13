@@ -65,7 +65,9 @@ class FarmCommand extends Command
 
                 $this->em->persist($farming);
                 $this->em->flush();
+
                 $this->em->detach($farming);
+                $this->em->detach($farming->getUser());
 
                 unset($farming);
 
