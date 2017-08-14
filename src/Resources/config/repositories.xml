@@ -23,5 +23,14 @@
             <argument>Nassau\CartoonBattle\Entity\Unit</argument>
         </service>
 
+        <service id="cartoon_battle.repository.referral_code" class="Doctrine\ORM\EntityRepository" public="true">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="cartoon_battle.metadata.referral_code" />
+        </service>
+
+        <service id="cartoon_battle.metadata.referral_code" class="Doctrine\ORM\Mapping\ClassMetadata" public="false">
+            <argument>Nassau\CartoonBattle\Entity\Game\Farming\UserFarmingReferralCode</argument>
+        </service>
+
     </services>
 </container>

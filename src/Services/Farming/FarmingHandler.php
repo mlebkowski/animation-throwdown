@@ -3,8 +3,8 @@
 namespace Nassau\CartoonBattle\Services\Farming;
 
 use GuzzleHttp\Exception\TransferException;
-use Nassau\CartoonBattle\Entity\Game\UserFarming;
-use Nassau\CartoonBattle\Entity\Game\UserFarmingLog;
+use Nassau\CartoonBattle\Entity\Game\Farming\UserFarming;
+use Nassau\CartoonBattle\Entity\Game\Farming\UserFarmingLog;
 use Nassau\CartoonBattle\Services\Game\GameFactory;
 use Symfony\Component\Console\Output\OutputInterface;
 

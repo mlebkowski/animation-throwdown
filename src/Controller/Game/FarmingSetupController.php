@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\Serializer;
 use Nassau\CartoonBattle\Entity\Game\User;
-use Nassau\CartoonBattle\Entity\Game\UserFarming;
+use Nassau\CartoonBattle\Entity\Game\Farming\UserFarming;
 use Nassau\CartoonBattle\Form\FarmingType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -43,7 +43,11 @@ class FarmingSetupController
     {
         $farming = $user->getFarming() ?: (new UserFarming())->setUser($user);
 
-        $form = $this->formFactory->create(FarmingType::class, $farming, ['csrf_protection' => false]);
+        $form = $this->formFactory->create(FarmingType::class, $farming, [
+            'csrf_protection' => false,
+            'require_code' => null === $farming->getId()
+        ]);
+
 
         $form->handleRequest($request);
 
@@ -58,7 +62,7 @@ class FarmingSetupController
         if ($farming->getId()) {
             $logs = $this->em->createQueryBuilder()
                 ->select('log')
-                ->from('CartoonBattleBundle:Game\UserFarmingLog', 'log')
+                ->from('CartoonBattleBundle:Game\Farming\UserFarmingLog', 'log')
                 ->where('log.userFarming = :farming')
                 ->orderBy('log.createdAt', 'DESC')
                 ->setMaxResults(15)

@@ -4,7 +4,7 @@ namespace Nassau\CartoonBattle\Controller\Game;
 
 use JMS\Serializer\Exception\UnsupportedFormatException;
 use JMS\Serializer\Serializer;
-use Nassau\CartoonBattle\Entity\Game\UserFarming;
+use Nassau\CartoonBattle\Entity\Game\Farming\UserFarming;
 use Symfony\Component\HttpFoundation\Response;
 
 class FarmingController

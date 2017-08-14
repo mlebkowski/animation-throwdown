@@ -28,7 +28,7 @@ class FarmCommand extends Command
     {
         $qb = $this->em->createQueryBuilder()
             ->select(['farming.id'])
-            ->from('CartoonBattleBundle:Game\UserFarming', 'farming')
+            ->from('CartoonBattleBundle:Game\Farming\UserFarming', 'farming')
             ->where('farming.enabled = true')
             ->andWhere('farming.expiresAt > :today')
             ->setParameter('today', new \DateTime);

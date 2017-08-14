@@ -5,7 +5,7 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                           http://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
-    <entity name="Nassau\CartoonBattle\Entity\Game\UserFarmingResult" table="game_user_farming_result">
+    <entity name="Nassau\CartoonBattle\Entity\Game\Farming\UserFarmingResult" table="game_user_farming_result">
 
         <id name="id" type="integer" column="id">
             <generator strategy="AUTO"/>

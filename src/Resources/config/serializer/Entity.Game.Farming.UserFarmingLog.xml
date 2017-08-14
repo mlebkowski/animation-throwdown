@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer>
+    <class name="Nassau\CartoonBattle\Entity\Game\Farming\UserFarmingLog" exclusion-policy="ALL" xml-root-name="user-farming-log" access-type="public_method" >
+        <property name="createdAt" expose="true" type="DateTime" />
+        <property name="content" expose="true" type="string" />
+    </class>
+</serializer>

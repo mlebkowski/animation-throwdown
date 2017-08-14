@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <serializer>
-    <class name="Nassau\CartoonBattle\Entity\Game\UserFarming" exclusion-policy="ALL" xml-root-name="user-farming" access-type="public_method" >
+    <class name="Nassau\CartoonBattle\Entity\Game\Farming\UserFarming" exclusion-policy="ALL" xml-root-name="user-farming" access-type="public_method" >
         <property name="id" expose="true" type="string" read-only="true" groups="settings"/>
         <property name="enabled" expose="true" type="boolean" groups="settings"/>
         <property name="settings" expose="true" groups="settings"><![CDATA[array<string>]]></property>
         <property name="adventureMissions" expose="true" groups="settings"><![CDATA[array<string>]]></property>
+        <property name="referralCode" expose="true" groups="settings"/>
         <property name="expiresAt" expose="true" groups="settings" read-only="true"><![CDATA[DateTime<D, d M Y H:i:s O>]]></property>
-        <property name="logs" expose="true" read-only="true"><![CDATA[ArrayCollection<Nassau\CartoonBattle\Entity\Game\UserFarmingLog>]]></property>
+        <property name="logs" expose="true" read-only="true">
+            <![CDATA[ArrayCollection<Nassau\CartoonBattle\Entity\Game\Farming\UserFarmingLog>]]>
+        </property>
     </class>
 </serializer>

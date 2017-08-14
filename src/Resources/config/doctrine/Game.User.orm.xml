@@ -23,7 +23,7 @@
             <gedmo:timestampable on="update"/>
         </field>
 
-        <one-to-one field="farming" target-entity="Nassau\CartoonBattle\Entity\Game\UserFarming" mapped-by="user"/>
+        <one-to-one field="farming" target-entity="Nassau\CartoonBattle\Entity\Game\Farming\UserFarming" mapped-by="user"/>
 
     </entity>
 

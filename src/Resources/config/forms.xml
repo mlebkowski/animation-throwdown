@@ -10,5 +10,16 @@
             <argument id="cartoon_battle.game.default" type="service"/>
             <tag name="form.type"/>
         </service>
+
+        <service class="Nassau\CartoonBattle\Form\FarmingType" id="nassau.cartoon_battle.form.farming_type">
+            <argument id="nassau.cartoon_battle.form.data_transformer.referral_code_transformer" type="service"/>
+            <tag name="form.type"/>
+        </service>
+
+        <service class="Nassau\CartoonBattle\Form\DataTransformer\ReferralCodeTransformer"
+                 id="nassau.cartoon_battle.form.data_transformer.referral_code_transformer" public="false">
+            <argument id="cartoon_battle.repository.referral_code" type="service"/>
+        </service>
+
     </services>
 </container>

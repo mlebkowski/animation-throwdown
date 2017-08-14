@@ -35,7 +35,7 @@ class FarmSingleUserCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $id = $input->getArgument('id');
-        $farming = $this->em->getRepository('CartoonBattleBundle:Game\UserFarming')->find($id);
+        $farming = $this->em->getRepository('CartoonBattleBundle:Game\Farming\UserFarming')->find($id);
 
         if (!$farming) {
             throw new \InvalidArgumentException('There is no such farming: ' . $id);

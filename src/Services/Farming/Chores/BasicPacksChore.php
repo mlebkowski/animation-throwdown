@@ -3,7 +3,7 @@
 namespace Nassau\CartoonBattle\Services\Farming\Chores;
 
 use Doctrine\Common\Persistence\ObjectRepository;
-use Nassau\CartoonBattle\Entity\Game\UserFarming;
+use Nassau\CartoonBattle\Entity\Game\Farming\UserFarming;
 use Nassau\CartoonBattle\Entity\Unit;
 use Nassau\CartoonBattle\Services\Farming\FarmingChore;
 use Nassau\CartoonBattle\Services\Game\Game;

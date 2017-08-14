@@ -1,6 +1,6 @@
 <?php
 
-namespace Nassau\CartoonBattle\Entity\Game;
+namespace Nassau\CartoonBattle\Entity\Game\Farming;
 
 use Gedmo\Timestampable\Traits\Timestampable;
 

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer>
+    <class name="Nassau\CartoonBattle\Entity\Game\Farming\UserFarmingReferralCode" exclusion-policy="ALL" xml-root-name="user-farming-referral-code" access-type="public_method" >
+        <property name="name" expose="true" type="string" read-only="true" groups="settings"/>
+        <property name="paypalButton" expose="true" type="string" read-only="true" groups="settings"/>
+    </class>
+</serializer>

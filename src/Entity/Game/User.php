@@ -3,6 +3,7 @@
 namespace Nassau\CartoonBattle\Entity\Game;
 
 use Gedmo\Timestampable\Traits\Timestampable;
+use Nassau\CartoonBattle\Entity\Game\Farming\UserFarming;
 use Nassau\CartoonBattle\Services\Game\SynapseUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 

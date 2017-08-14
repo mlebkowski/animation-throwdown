@@ -3,20 +3,41 @@
 
 namespace Nassau\CartoonBattle\Form;
 
-use Nassau\CartoonBattle\Entity\Game\UserFarming;
+use Nassau\CartoonBattle\Entity\Game\Farming\UserFarming;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class FarmingType extends AbstractType
 {
+    /**
+     * @var DataTransformerInterface
+     */
+    private $referralCodeTransformer;
+
+    public function __construct(DataTransformerInterface $referralCodeTransformer)
+    {
+        $this->referralCodeTransformer = $referralCodeTransformer;
+    }
+
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('enabled', CheckboxType::class, [
             'label' => 'Enable farming',
         ]);
+
+        if ($options['require_code']) {
+            $builder->add($builder->create('referralCode', TextType::class, [
+                'label' => 'Referral Code (ask around)',
+                'constraints' => new NotBlank(['message' => 'This code is not valid']),
+            ])->addModelTransformer($this->referralCodeTransformer));
+        }
 
         $builder->add('settings', ChoiceType::class, [
             'label' => 'Choose your chores',
@@ -47,6 +68,7 @@ class FarmingType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => UserFarming::class,
+            'require_code' => false,
         ]);
     }
 

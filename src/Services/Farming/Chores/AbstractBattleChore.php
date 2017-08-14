@@ -2,7 +2,7 @@
 
 namespace Nassau\CartoonBattle\Services\Farming\Chores;
 
-use Nassau\CartoonBattle\Entity\Game\UserFarming;
+use Nassau\CartoonBattle\Entity\Game\Farming\UserFarming;
 use Nassau\CartoonBattle\Services\Farming\FarmingChore;
 use Nassau\CartoonBattle\Services\Farming\LootExtractor\LootExtractor;
 use Nassau\CartoonBattle\Services\Game\Game;
