@@ -41,7 +41,7 @@ abstract class AbstractBattleChore implements FarmingChore
 
             $winner = (bool)$result['battle_data']['winner'];
 
-            $configuration->addResult($nextTarget, $winner, $result);
+            $configuration->addResult($nextTarget, $winner, $this->stripResult($result));
 
             $loot = $winner ? $this->lootExtractor->extractLoot($result) : null;
 
@@ -87,6 +87,19 @@ abstract class AbstractBattleChore implements FarmingChore
         }
 
         $logWriter("");
+    }
+
+    private function stripResult(array $result)
+    {
+        return array_diff_key($result, [
+            'active_events' => false,
+            'item_data' => false,
+            'current_missions' => false,
+            'mission_completions' => false,
+            'pvp_ranks' => false,
+            'store_items' => false,
+            'user_units' => false,
+        ]);
     }
 
 }
