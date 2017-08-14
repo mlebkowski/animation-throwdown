@@ -38,6 +38,7 @@ class FarmCommand extends Command
 
         foreach ($ids as $id) {
             (new ProcessBuilder(['app/console', '--ansi', 'animation-throwdown:farm-single-user', $id]))
+                ->setTimeout(300)
                 ->getProcess()
                 ->run(function ($type, $buffer) use ($output) {
                     $output->write($type ? $buffer : $buffer); // unused var
