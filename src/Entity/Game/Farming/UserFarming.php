@@ -64,7 +64,7 @@ class UserFarming
     {
         $this->logs = new ArrayCollection();
         $this->results = new ArrayCollection();
-        $this->expiresAt = new \DateTime("+14 days");
+        $this->expiresAt = new \DateTime("+3 days");
     }
 
     /**
@@ -227,11 +227,6 @@ class UserFarming
     public function bumpFreeTrial()
     {
         $this->expiresAt = max($this->expiresAt, new \DateTime('14 days'));
-    }
-
-    public function isExpiring()
-    {
-        return $this->expiresAt < new \DateTime('+7 days');
     }
 
     public function __toString()
