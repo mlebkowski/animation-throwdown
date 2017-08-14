@@ -5,6 +5,7 @@
         <property name="enabled" expose="true" type="boolean" groups="settings"/>
         <property name="settings" expose="true" groups="settings"><![CDATA[array<string>]]></property>
         <property name="adventureMissions" expose="true" groups="settings"><![CDATA[array<string>]]></property>
+        <property name="expiresAt" expose="true" groups="settings" read-only="true"><![CDATA[DateTime<D, d M Y H:i:s O>]]></property>
         <property name="logs" expose="true" read-only="true"><![CDATA[ArrayCollection<Nassau\CartoonBattle\Entity\Game\UserFarmingLog>]]></property>
     </class>
 </serializer>
