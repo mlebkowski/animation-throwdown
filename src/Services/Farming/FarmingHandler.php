@@ -5,6 +5,7 @@ namespace Nassau\CartoonBattle\Services\Farming;
 use GuzzleHttp\Exception\TransferException;
 use Nassau\CartoonBattle\Entity\Game\Farming\UserFarming;
 use Nassau\CartoonBattle\Entity\Game\Farming\UserFarmingLog;
+use Nassau\CartoonBattle\Services\Farming\LootExtractor\LootExtractor;
 use Nassau\CartoonBattle\Services\Game\GameFactory;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -27,13 +28,15 @@ class FarmingHandler
     private $factory;
 
     /**
-     * @param FarmingChore[]|\ArrayObject $chores
-     * @param GameFactory $factory
+     * @var LootExtractor
      */
-    public function __construct(\ArrayObject $chores, GameFactory $factory)
+    private $lootExtractor;
+
+    public function __construct(\ArrayObject $chores, GameFactory $factory, LootExtractor $lootExtractor)
     {
         $this->chores = array_reverse($chores->getArrayCopy());
         $this->factory = $factory;
+        $this->lootExtractor = $lootExtractor;
     }
 
 
@@ -53,7 +56,22 @@ class FarmingHandler
         $game = $this->factory->getGame($configuration->getUser());
 
         // fetch current game state
-        $game->init();
+        $result = $game->init();
+
+        $dailyRewards = [
+            'monthly_daily_rewards' => 'Monthly activity rewards',
+            'weekly_daily_rewards' => 'Weekly activity rewards'
+        ];
+
+        foreach ($dailyRewards as $key => $label) {
+            if (isset($result[$key])) {
+                $loot = $this->lootExtractor->extractLoot($result[$key], true);
+                $loot = array_filter(iterator_to_array($loot));
+                if (sizeof($loot)) {
+                    $logWriter(sprintf('%s: <comment>%s</comment>', $label, implode('</comment>, <comment>', $loot)));
+                }
+            }
+        }
 
         if (false === $game->isSpender()) {
             $configuration->bumpFreeTrial();

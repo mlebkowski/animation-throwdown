@@ -23,6 +23,7 @@
                  id="nassau.cartoon_battle.services.farming.farming_handler" public="false">
             <argument id="nassau.cartoon_battle.services.farming.farming_handler.chores" type="service"/>
             <argument id="cartoon_battle.game.factory" type="service"/>
+            <argument id="nassau.cartoon_battle.services.farming.loot_extractor.loot_extractor" type="service"/>
         </service>
 
         <service id="nassau.cartoon_battle.services.farming.farming_handler.chores" class="ArrayObject">
@@ -104,6 +105,18 @@
                  id="nassau.cartoon_battle.services.farming.loot_extractor.items_extractor" public="false">
             <tag name="cartoon_battle.loot.handler" alias="items"/>
         </service>
+
+        <service class="Nassau\CartoonBattle\Services\Farming\LootExtractor\SingleItemExtractor"
+                 id="nassau.cartoon_battle.services.farming.loot_extractor.single_item_extractor" public="false">
+            <argument id="nassau.cartoon_battle.services.farming.loot_extractor.items_extractor" type="service"/>
+            <tag name="cartoon_battle.loot.handler" alias="item"/>
+        </service>
+
+        <service class="Nassau\CartoonBattle\Services\Farming\LootExtractor\GemsExtractor"
+                 id="nassau.cartoon_battle.services.farming.loot_extractor.gems_extractor" public="false">
+            <tag name="cartoon_battle.loot.handler" alias="hc"/>
+        </service>
+
 
     </services>
 </container>

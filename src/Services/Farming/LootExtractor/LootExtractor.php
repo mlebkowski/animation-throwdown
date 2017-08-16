@@ -17,9 +17,9 @@ class LootExtractor
         $this->handlers = $handlers;
     }
 
-    public function extractLoot(array $result)
+    public function extractLoot(array $result, $normalized = false)
     {
-        $rewards = $this->normalizeRewards($result);
+        $rewards = $normalized ? $result : $this->normalizeRewards($result);
 
         foreach ($rewards as $type => $value) {
             if (false === isset($this->handlers[$type])) {
