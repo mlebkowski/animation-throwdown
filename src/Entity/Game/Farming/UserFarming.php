@@ -140,7 +140,7 @@ class UserFarming
      */
     public function getAdventureMissions()
     {
-        return array_filter($this->adventureMissions);
+        return $this->adventureMissions ? array_filter($this->adventureMissions) : [];
     }
 
     /**
