@@ -28,9 +28,10 @@ abstract class AbstractBattleChore implements FarmingChore
     {
         foreach ($this->shouldDoBattle($game, $configuration) as $nextTarget) {
             $logWriter(sprintf(
-                'Playing %s battle: <comment>%s</comment>… ',
+                'Playing %s battle: <comment>%s</comment>%s… ',
                 $nextTarget->getType(),
-                $nextTarget->getLabel()
+                $nextTarget->getLabel(),
+                $nextTarget->getComment() ? sprintf(' (%s)', $nextTarget->getComment()) : ''
             ), false);
 
             $battleId = $this->startBattle($nextTarget, $game);

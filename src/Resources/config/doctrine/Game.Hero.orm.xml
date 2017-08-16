@@ -9,6 +9,7 @@
         <id name="id" type="integer" column="id"/>
         <field name="name" type="string" nullable="false"/>
         <field name="tokenId" column="token_id" type="integer" nullable="false" />
+        <field name="farmable" type="boolean" nullable="false" />
 
         <one-to-one field="card" target-entity="Nassau\CartoonBattle\Entity\Unit">
             <join-column nullable="false" on-delete="CASCADE"/>

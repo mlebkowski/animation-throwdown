@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Nassau\CartoonBattle\Form;
+namespace Nassau\CartoonBattle\Form\Farming;
 
 use Nassau\CartoonBattle\Entity\Game\Farming\UserFarming;
 use Symfony\Component\Form\AbstractType;
@@ -61,6 +61,10 @@ class FarmingType extends AbstractType
             'label' => 'Choose your desired adventure islands',
             'choices' => array_combine($missions, $missions),
             'multiple' => true,
+        ]);
+
+        $builder->add('arenaHeroes', FarmableHeroType::class, [
+            'label' => 'Refresh arena to get these hero tokens'
         ]);
     }
 

@@ -7,7 +7,7 @@ use JMS\Serializer\SerializationContext;
 use JMS\Serializer\Serializer;
 use Nassau\CartoonBattle\Entity\Game\User;
 use Nassau\CartoonBattle\Entity\Game\Farming\UserFarming;
-use Nassau\CartoonBattle\Form\FarmingType;
+use Nassau\CartoonBattle\Form\Farming\FarmingType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormView;

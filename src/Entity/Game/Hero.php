@@ -14,6 +14,8 @@ class Hero
 
     private $tokenId;
 
+    private $farmable;
+
     /**
      * @return string
      */
@@ -46,6 +48,15 @@ class Hero
     {
         return $this->tokenId;
     }
+
+    /**
+     * @return bool
+     */
+    public function isFarmable()
+    {
+        return $this->farmable;
+    }
+
 
 
 }

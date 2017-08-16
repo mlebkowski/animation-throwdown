@@ -41,6 +41,11 @@ class UserFarming
     private $adventureMissions;
 
     /**
+     * @var array
+     */
+    private $arenaHeroes;
+
+    /**
      * @var UserFarmingReferralCode
      */
     private $referralCode;
@@ -154,6 +159,24 @@ class UserFarming
 
         return $this;
     }
+
+    /**
+     * @return array
+     */
+    public function getArenaHeroes()
+    {
+        return $this->arenaHeroes ? array_filter($this->arenaHeroes) : [];
+    }
+
+    /**
+     * @param array $arenaHeroes
+     */
+    public function setArenaHeroes(array $arenaHeroes)
+    {
+        $this->arenaHeroes = $arenaHeroes;
+    }
+
+
 
     /**
      * @return \DateTime

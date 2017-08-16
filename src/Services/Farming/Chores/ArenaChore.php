@@ -7,7 +7,6 @@ use Nassau\CartoonBattle\Services\Game\Game;
 
 class ArenaChore extends AbstractBattleChore
 {
-
     /**
      * @param Game $game
      * @param UserFarming $configuration
@@ -27,9 +26,7 @@ class ArenaChore extends AbstractBattleChore
         }
 
         for ($i = 0; $i < $stamina; $i++) {
-            $target = $game->getRandomHuntingTarget();
-
-            yield new BattleTarget('arena', $target['name'], $target['user_id']);
+            yield $this->getHuntingTarget($game, $configuration);
         }
     }
 
@@ -42,5 +39,31 @@ class ArenaChore extends AbstractBattleChore
     protected function startBattle(BattleTarget $target, Game $game)
     {
         return $game->startArenaBattle($target->getTarget());
+    }
+
+    private function getHuntingTarget(Game $game, UserFarming $configuration)
+    {
+        $shouldRefreshForHero = function ($target) use ($configuration) {
+            $heroes = $configuration->getArenaHeroes();
+            if (0 === sizeof($heroes)) {
+                return false;
+            }
+
+            return false === in_array($target['hero_xp_id'], $heroes);
+        };
+
+        $refreshes = 0;
+        $target = $game->getRandomHuntingTarget();
+
+        while ($shouldRefreshForHero($target) && $refreshes++ < 10) {
+            // refresh opponent
+            $practice = $game->startPracticeBattle($target['user_id']);
+            $result = $game->skipBattle($practice['battle_id']);
+            $target = reset($result['hunting_targets']);
+
+            sleep(1);
+        }
+
+        return new BattleTarget('arena', $target['name'], $target['user_id'], $refreshes ? "after $refreshes refreshes" : "");
     }
 }
