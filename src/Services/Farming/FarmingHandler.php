@@ -65,10 +65,9 @@ class FarmingHandler
 
         foreach ($dailyRewards as $key => $label) {
             if (isset($result[$key])) {
-                $loot = $this->lootExtractor->extractLoot($result[$key], true);
-                $loot = array_filter(iterator_to_array($loot));
+                $loot = $this->lootExtractor->extractLoot($result[$key]);
                 if (sizeof($loot)) {
-                    $logWriter(sprintf('%s: <comment>%s</comment>', $label, implode('</comment>, <comment>', $loot)));
+                    $logWriter(sprintf('%s: %s', $label, implode(', ', $loot)));
                 }
             }
         }

@@ -43,7 +43,7 @@ abstract class AbstractBattleChore implements FarmingChore
 
             $configuration->addResult($nextTarget, $winner, $this->stripResult($result));
 
-            $loot = $winner ? $this->lootExtractor->extractLoot($result) : null;
+            $loot = $winner ? $this->lootExtractor->extractLoot($this->normalizeRewards($result)) : [];
 
             $this->reportBattleResult($winner, $loot, $logWriter);
         }
@@ -67,11 +67,11 @@ abstract class AbstractBattleChore implements FarmingChore
 
     /**
      * @param bool $winner
-     * @param \Iterator $loot
+     * @param array $loot
      * @param \Closure $logWriter
      * @return void
      */
-    private function reportBattleResult($winner, \Iterator $loot = null, \Closure $logWriter)
+    private function reportBattleResult($winner, array $loot, \Closure $logWriter)
     {
         if (false === $winner) {
             $logWriter('<error>Defeat</error>');
@@ -81,9 +81,8 @@ abstract class AbstractBattleChore implements FarmingChore
 
         $logWriter('<info>Victory</info>', false);
 
-        $loot = array_filter(iterator_to_array($loot));
         if (sizeof($loot)) {
-            $logWriter(sprintf('. Loot: <comment>%s</comment>', implode('</comment>, <comment>', $loot)), false);
+            $logWriter(sprintf('. Loot: %s', implode(', ', $loot)), false);
         }
 
         $logWriter("");
@@ -100,6 +99,13 @@ abstract class AbstractBattleChore implements FarmingChore
             'store_items' => false,
             'user_units' => false,
         ]);
+    }
+
+    private function normalizeRewards(array $result)
+    {
+        return array_replace([
+            'items' => isset($result['new_items']) ? $result['new_items'] : [],
+        ], isset($result['battle_data']['rewards'][0]) ? $result['battle_data']['rewards'][0] : []);
     }
 
 }

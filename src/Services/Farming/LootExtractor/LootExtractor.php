@@ -17,9 +17,9 @@ class LootExtractor
         $this->handlers = $handlers;
     }
 
-    public function extractLoot(array $result, $normalized = false)
+    public function extractLoot(array $rewards)
     {
-        $rewards = $normalized ? $result : $this->normalizeRewards($result);
+        $loot = [];
 
         foreach ($rewards as $type => $value) {
             if (false === isset($this->handlers[$type])) {
@@ -27,19 +27,15 @@ class LootExtractor
             }
 
             foreach ($this->handlers[$type]->formatLoot($value) as $formattedItem) {
-                yield $formattedItem;
-            };
+                if ($formattedItem) {
+                    $loot[$formattedItem] = true;
+                }
+            }
         }
+
+        return array_map(function ($loot) {
+            return sprintf('<comment>%s</comment>', $loot);
+        }, array_keys($loot));
     }
 
-    /**
-     * @param array $result
-     * @return array
-     */
-    private function normalizeRewards(array $result)
-    {
-        return array_replace([
-            'items' => isset($result['new_items']) ? $result['new_items'] : [],
-        ], isset($result['battle_data']['rewards'][0]) ? $result['battle_data']['rewards'][0] : []);
-    }
 }
