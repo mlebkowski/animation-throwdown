@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Exception\ProcessTimedOutException;
 use Symfony\Component\Process\ProcessBuilder;
 
 class FarmCommand extends Command
@@ -37,12 +38,16 @@ class FarmCommand extends Command
         $ids = array_column($items, 'id');
 
         foreach ($ids as $id) {
-            (new ProcessBuilder(['app/console', '--ansi', 'animation-throwdown:farm-single-user', $id]))
-                ->setTimeout(300)
-                ->getProcess()
-                ->run(function ($type, $buffer) use ($output) {
-                    $output->write($type ? $buffer : $buffer); // unused var
-                });
+            try {
+                (new ProcessBuilder(['app/console', '--ansi', 'animation-throwdown:farm-single-user', $id]))
+                    ->setTimeout(300)
+                    ->getProcess()
+                    ->run(function ($type, $buffer) use ($output) {
+                        $output->write($type ? $buffer : $buffer); // unused var
+                    });
+            } catch (ProcessTimedOutException $e) {
+                $this->getApplication()->renderException($e, $output);
+            }
         }
 
     }

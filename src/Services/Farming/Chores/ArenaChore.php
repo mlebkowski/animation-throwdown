@@ -59,6 +59,11 @@ class ArenaChore extends AbstractBattleChore
             // refresh opponent
             $practice = $game->startPracticeBattle($target['user_id']);
             $result = $game->skipBattle($practice['battle_id']);
+            if (false === isset($result['hunting_targets'])) {
+                $refreshes = 0;
+                break; // we cant cycle tokens
+            }
+
             $target = reset($result['hunting_targets']);
 
             sleep(1);
