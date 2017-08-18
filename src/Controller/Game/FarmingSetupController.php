@@ -52,7 +52,6 @@ class FarmingSetupController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $message = 'Successfully saved';
             $this->em->persist($farming);
             $this->em->flush();
         }
@@ -72,7 +71,7 @@ class FarmingSetupController
         }
 
         return new JsonResponse([
-            'message' => isset($message) ? $message : null,
+            'message' => $form->isSubmitted() ? ($form->isValid() ? 'Settings saved' : 'There was an error saving settings') : "",
             'form' => $this->normalizeForm($form->createView()),
             'farming' => $this->serializer->toArray($farming, (new SerializationContext)->setGroups(['settings'])),
             'logs' => $this->serializer->toArray($logs)
@@ -94,7 +93,7 @@ class FarmingSetupController
             'label' => $form->vars['label'],
             'value' => $compound ? null : $form->vars['value'],
             'choices' => isset($form->vars['choices']) ? $form->vars['choices'] : null,
-            'children' => array_map([$this,'normalizeForm'], $form->children),
+            'children' => array_map([$this, 'normalizeForm'], $form->children),
             'errors' => array_map(function (FormError $e) {
                 return $e->getMessage();
             }, iterator_to_array($form->vars['errors'])),

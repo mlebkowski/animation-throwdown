@@ -33,17 +33,17 @@ class UserFarming
     /**
      * @var array
      */
-    private $settings;
+    private $settings = [];
 
     /**
      * @var array
      */
-    private $adventureMissions;
+    private $adventureMissions = [];
 
     /**
      * @var array
      */
-    private $arenaHeroes;
+    private $arenaHeroes = [];
 
     /**
      * @var UserFarmingReferralCode
