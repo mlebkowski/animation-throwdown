@@ -5,6 +5,7 @@ namespace Nassau\CartoonBattle\Controller\Game;
 use Doctrine\ORM\EntityManagerInterface;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\Serializer;
+use Nassau\CartoonBattle\Entity\Game\Farming\UserFarmingLog;
 use Nassau\CartoonBattle\Entity\Game\User;
 use Nassau\CartoonBattle\Entity\Game\Farming\UserFarming;
 use Nassau\CartoonBattle\Form\Farming\FarmingType;
@@ -41,7 +42,10 @@ class FarmingSetupController
 
     public function setup(Request $request, User $user)
     {
-        $farming = $user->getFarming() ?: (new UserFarming())->setUser($user);
+        $farming = $user->getFarming() ?:
+            (new UserFarming())->setUser($user)->addLog(new UserFarmingLog(
+                'You are all set up. It may take about an hour for your first results to appear!'
+            ));
 
         $form = $this->formFactory->create(FarmingType::class, $farming, [
             'csrf_protection' => false,

@@ -23,6 +23,12 @@ class UserFarmingLog
      */
     private $content;
 
+    public function __construct($content = '')
+    {
+        $this->content = (string)$content;
+    }
+
+
     /**
      * @return string
      */
