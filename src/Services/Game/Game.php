@@ -36,6 +36,7 @@ class Game
 
     private $commonFields = [
         'total_spent_in_usd' => 0,
+        'pvp_level' => 1,
     ];
 
     public function __construct(Client $client, SynapseUserInterface $user)
@@ -108,6 +109,11 @@ class Game
     public function init()
     {
         return $this('init');
+    }
+
+    public function getArenaLevel()
+    {
+        return $this->commonFields['pvp_level'];
     }
 
     public function isSpender()

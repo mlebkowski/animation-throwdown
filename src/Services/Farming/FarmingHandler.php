@@ -72,7 +72,7 @@ class FarmingHandler
             }
         }
 
-        if (false === $game->isSpender()) {
+        if (false === $game->isSpender() && $game->getArenaLevel() >= 10) {
             $configuration->bumpFreeTrial();
         }
 
