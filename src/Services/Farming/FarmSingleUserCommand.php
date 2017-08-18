@@ -43,8 +43,9 @@ class FarmSingleUserCommand extends Command
 
         $output->writeln(strftime('%Y-%m-%d %H:%M:%S'));
         $output->writeln(sprintf(
-            'Farming user <comment>%s</comment>, membership expires at <comment>%s</comment>',
+            'Farming user <comment>%s</comment>, %smembership expires at <comment>%s</comment>',
             $farming->getUser()->getName(),
+            $farming->getSubscription() ? '<info>VIP</info> ': '',
             $farming->getExpiresAt()->format('Y-m-d H:i:s')
         ));
 
