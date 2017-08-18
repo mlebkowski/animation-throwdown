@@ -33,5 +33,10 @@
             <argument id="jms_serializer" type="service"/>
         </service>
 
+        <service class="Nassau\CartoonBattle\Controller\Paypal\InstantPaymentNotificationController"
+                 id="nassau.cartoon_battle.controller.paypal.instant_payment_notification_controller">
+            <argument id="doctrine.orm.entity_manager" type="service"/>
+        </service>
+
     </services>
 </container>

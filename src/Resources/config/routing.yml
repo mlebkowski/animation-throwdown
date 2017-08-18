@@ -13,6 +13,11 @@ kongregate_auth:
     defaults:
       _controller: nassau.cartoon_battle.controller.kongregate_authorization_controller:getUser
 
+paypal_ipn:
+    path: /paypal
+    defaults:
+      _controller: nassau.cartoon_battle.controller.paypal.instant_payment_notification_controller:listener
+
 game_echo:
     path: /game/echo/{message}
     defaults:
