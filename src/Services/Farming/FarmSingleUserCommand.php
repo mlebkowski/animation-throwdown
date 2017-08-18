@@ -41,7 +41,12 @@ class FarmSingleUserCommand extends Command
             throw new \InvalidArgumentException('There is no such farming: ' . $id);
         }
 
-        $output->writeln(sprintf('%s: farming user <comment>%s</comment>', date('r'), $farming->getUser()->getName()));
+        $output->writeln(strftime('%Y-%m-%d %H:%M:%S'));
+        $output->writeln(sprintf(
+            'Farming user <comment>%s</comment>, membership expires at <comment>%s</comment>',
+            $farming->getUser()->getName(),
+            $farming->getExpiresAt()->format('Y-m-d H:i:s')
+        ));
 
         try {
             $this->handler->farm($farming, $output);

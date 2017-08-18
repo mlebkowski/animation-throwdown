@@ -54,13 +54,15 @@ class ArenaChore extends AbstractBattleChore
 
         $refreshes = 0;
         $target = $game->getRandomHuntingTarget();
+        $comment = "";
 
         while ($shouldRefreshForHero($target) && $refreshes++ < 10) {
+            $comment = "after $refreshes refreshes";
             // refresh opponent
             $practice = $game->startPracticeBattle($target['user_id']);
             $result = $game->skipBattle($practice['battle_id']);
             if (false === isset($result['hunting_targets'])) {
-                $refreshes = 0;
+                $comment = "too much refreshes, falling back";
                 break; // we cant cycle tokens
             }
 
@@ -69,6 +71,6 @@ class ArenaChore extends AbstractBattleChore
             sleep(1);
         }
 
-        return new BattleTarget('arena', $target['name'], $target['user_id'], $refreshes ? "after $refreshes refreshes" : "");
+        return new BattleTarget('arena', $target['name'], $target['user_id'], $comment);
     }
 }
