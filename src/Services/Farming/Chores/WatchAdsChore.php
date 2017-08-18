@@ -22,6 +22,10 @@ class WatchAdsChore implements FarmingChore
 
     private function check(Game $game)
     {
+        if ($game->isVIP()) {
+            return false;
+        }
+
         $result = $game('getBoostLevel');
         $userData = isset($result['user_data']) ? $result['user_data'] : null;
 

@@ -10,6 +10,7 @@ class Game
 {
     const ITEM_AD_CRATE = 30001;
     const ITEM_BASIC_PACK = 1;
+    const ITEM_VIP_PASS = 202;
 
     /**
      * @var Client
@@ -150,6 +151,11 @@ class Game
     public function recordAdBoost()
     {
         return $this('recordAdBoost');
+    }
+
+    public function isVIP()
+    {
+        return isset($this->items[self::ITEM_VIP_PASS]);
     }
 
     public function useAdCrate()
