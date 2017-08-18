@@ -16,6 +16,7 @@
         <field name="settings" type="simple_array" nullable="false" />
         <field name="adventureMissions" column="adventure_missions" type="simple_array" nullable="false" />
         <field name="arenaHeroes" column="arena_heroes" type="simple_array" nullable="false" />
+        <field name="subscription" type="string" nullable="true" />
 
         <one-to-one target-entity="Nassau\CartoonBattle\Entity\Game\User" field="user">
             <join-column nullable="false" name="user_id"/>

@@ -51,6 +51,11 @@ class UserFarming
     private $referralCode;
 
     /**
+     * @var string|null
+     */
+    private $subscription;
+
+    /**
      * @var \DateTime
      */
     private $expiresAt;
@@ -187,6 +192,18 @@ class UserFarming
     }
 
     /**
+     * @param \DateTime $expiresAt
+     *
+     * @return $this
+     */
+    public function setExpiresAt(\DateTime $expiresAt)
+    {
+        $this->expiresAt = $expiresAt;
+
+        return $this;
+    }
+
+    /**
      * @return UserFarmingReferralCode|null
      */
     public function getReferralCode()
@@ -240,6 +257,26 @@ class UserFarming
     public function addResult(BattleTarget $nextTarget, $winner, array $result)
     {
         $this->results->add(new UserFarmingResult($this, $nextTarget->getType(), $nextTarget->getTarget(), $winner, $result));
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getSubscription()
+    {
+        return $this->subscription;
+    }
+
+    /**
+     * @param null|string $subscription
+     *
+     * @return $this
+     */
+    public function setSubscription($subscription)
+    {
+        $this->subscription = $subscription;
+
+        return $this;
     }
 
     public function has($setting)
