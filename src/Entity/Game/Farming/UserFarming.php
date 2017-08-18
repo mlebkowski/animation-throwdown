@@ -133,14 +133,9 @@ class UserFarming
         return $this->settings;
     }
 
-    /**
-     * @param array $settings
-     *
-     * @return $this
-     */
     public function setSettings(array $settings)
     {
-        $this->settings = $settings;
+        $this->settings = $settings ?: [];
 
         return $this;
     }
@@ -153,14 +148,9 @@ class UserFarming
         return $this->adventureMissions ? array_filter($this->adventureMissions) : [];
     }
 
-    /**
-     * @param array $adventureMissions
-     *
-     * @return $this
-     */
     public function setAdventureMissions(array $adventureMissions)
     {
-        $this->adventureMissions = $adventureMissions;
+        $this->adventureMissions = $adventureMissions ?: [];
 
         return $this;
     }
@@ -173,12 +163,11 @@ class UserFarming
         return $this->arenaHeroes ? array_filter($this->arenaHeroes) : [];
     }
 
-    /**
-     * @param array $arenaHeroes
-     */
     public function setArenaHeroes(array $arenaHeroes)
     {
-        $this->arenaHeroes = $arenaHeroes;
+        $this->arenaHeroes = $arenaHeroes ?: [];
+
+        return $this;
     }
 
 
