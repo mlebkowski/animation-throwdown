@@ -71,7 +71,6 @@
         </service>
 
         <service class="Nassau\CartoonBattle\Services\Rumble\GuildStats" id="cartoon_battle.guild_stats">
-            <argument id="cartoon_battle.game.default" type="service"/>
             <argument id="doctrine.dbal.default_connection" type="service"/>
         </service>
 

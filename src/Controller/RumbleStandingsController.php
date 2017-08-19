@@ -2,6 +2,7 @@
 
 namespace Nassau\CartoonBattle\Controller;
 
+use Nassau\CartoonBattle\Services\Request\CorsResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,13 +23,6 @@ class RumbleStandingsController extends Controller
 
         $format = $request->getRequestFormat();
 
-        return new Response($serializer->serialize($rumbles, $format), Response::HTTP_OK, [
-            'Access-Control-Allow-Credentials' => 'true',
-            'Access-Control-Allow-Methods' => 'POST, GET, PUT, DELETE, PATCH, OPTIONS',
-            'Access-Control-Allow-Headers' => 'Origin, Content-Type, Accept, Authorization',
-            'Access-Control-Allow-Origin' => $request->headers->get('origin'),
-            'Access-Control-Max-Age' => 3600,
-            'Vary' => 'Origin',
-        ]);
+        return new CorsResponse($serializer->toArray($rumbles, $format), $request);
     }
 }

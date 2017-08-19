@@ -42,6 +42,7 @@ class Game
 
     private $faction = [
         'name' => null,
+        'id' => null
     ];
 
     public function __construct(Client $client, SynapseUserInterface $user)
@@ -121,9 +122,9 @@ class Game
         return $this->userData['name'];
     }
 
-    public function getGuildName()
+    public function getPlayerGuild()
     {
-        return $this->faction['name'];
+        return new Guild($this->faction);
     }
 
     public function getArenaLevel()

@@ -2,17 +2,16 @@
 
 namespace Nassau\CartoonBattle\Controller;
 
-use Nassau\CartoonBattle\Entity\Game\User;
-use Nassau\CartoonBattle\Entity\Guild\Guild;
+use Nassau\CartoonBattle\Entity\Game\UserGatherRumbleStats;
 use Nassau\CartoonBattle\Entity\Rumble\Rumble;
 use Nassau\CartoonBattle\Services\Request\CsvResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class RumbleStatsController extends Controller
 {
-    public function scoresAction(Guild $guild, Rumble $rumble = null)
+    public function scoresAction(UserGatherRumbleStats $request, Rumble $rumble = null)
     {
-        $stats = $this->get('cartoon_battle.guild_stats')->getStats($rumble, $guild->getFactionId());
+        $stats = $this->get('cartoon_battle.guild_stats')->getStats($rumble, $request);
 
         $response = new CsvResponse();
 
@@ -24,9 +23,9 @@ class RumbleStatsController extends Controller
         return $response;
     }
 
-    public function headerAction(User $user)
+    public function headerAction(UserGatherRumbleStats $request)
     {
-        $game = $this->get('cartoon_battle.game.factory')->getGame($user);
+        $game = $this->get('cartoon_battle.game.factory')->getGame($request->getUser());
 
         $rumble = $game->getRumble();
 

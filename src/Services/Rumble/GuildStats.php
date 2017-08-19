@@ -3,54 +3,45 @@
 namespace Nassau\CartoonBattle\Services\Rumble;
 
 use Doctrine\DBAL\Driver\Connection;
+use Nassau\CartoonBattle\Entity\Game\UserGatherRumbleStats;
 use Nassau\CartoonBattle\Entity\Rumble\Rumble;
-use Nassau\CartoonBattle\Services\Game\Game;
 
 class GuildStats
 {
-    /**
-     * @var Game
-     */
-    private $game;
-
     /**
      * @var Connection
      */
     private $db;
 
     /**
-     * @param Game $game
      * @param Connection $db
      */
-    public function __construct(Game $game, Connection $db)
+    public function __construct(Connection $db)
     {
-        $this->game = $game;
         $this->db = $db;
     }
 
 
-    public function getStats(Rumble $rumble = null, $factionId)
+    public function getStats(Rumble $rumble = null, UserGatherRumbleStats $request)
     {
-        $guild = $this->game->getGuildInfo($factionId);
+        $query = $this->db->prepare('
+            SELECT name, user_id, match_number, points FROM rumble_result
+            WHERE rumble_id = :rumble_id AND request_id = :request_id
+            ORDER BY match_number ASC
+        ');
 
-        $result = array_combine(array_column($guild['members'], 'user_id'), array_map(function ($user) {
-            return [
-                'name' => $user['name'],
-                'points' => [],
-            ];
-        }, $guild['members']));
+        $query->execute([
+            'rumble_id' => $rumble ? $rumble->getId() : null,
+            'request_id' => $request->getId(),
+        ]);
 
-        /** @noinspection PhpMethodParametersCountMismatchInspection */
-        $stats = $rumble ? $this->db->query(sprintf(
-            'SELECT user_id, match_number, points FROM rumble_result 
-            WHERE rumble_id = %d AND user_id in (%s) ORDER BY match_number ASC',
-            $rumble->getId(),
-            implode(',', array_map('intval', array_keys($result)))
-        ))->fetchAll(\PDO::FETCH_NUM) : [];
+        $stats = $query->fetchAll(\PDO::FETCH_NUM);
 
+        $result = [];
         foreach ($stats as $stat) {
-            list ($userId, $number, $points) = $stat;
+            list ($name, $userId, $number, $points) = $stat;
 
+            $result[$userId]['name'] = $name;
             $result[$userId]['points'][$number] = $points - array_sum($result[$userId]['points']);
         }
 

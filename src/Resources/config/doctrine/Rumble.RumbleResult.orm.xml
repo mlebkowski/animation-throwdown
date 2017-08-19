@@ -5,11 +5,11 @@
                           http://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
     <entity name="Nassau\CartoonBattle\Entity\Rumble\RumbleResult" table="rumble_result">
-
         <id name="id" type="integer" column="id">
             <generator strategy="AUTO"/>
         </id>
 
+        <field name="name" type="string" nullable="false"/>
         <field name="userId" column="user_id" type="integer" nullable="false"/>
         <field name="matchNumber" column="match_number" type="integer" nullable="false"/>
         <field name="points" column="points" type="integer" nullable="false"/>
@@ -17,6 +17,10 @@
         <unique-constraints>
             <unique-constraint columns="rumble_id,user_id,match_number" name="match_result" />
         </unique-constraints>
+
+        <many-to-one target-entity="Nassau\CartoonBattle\Entity\Game\UserGatherRumbleStats" field="request">
+            <join-column nullable="false" name="request_id"/>
+        </many-to-one>
 
         <many-to-one target-entity="Rumble" field="rumble">
             <join-column nullable="false" name="rumble_id"/>

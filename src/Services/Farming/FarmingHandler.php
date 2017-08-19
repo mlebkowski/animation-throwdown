@@ -60,7 +60,7 @@ class FarmingHandler
 
         $configuration->setComment(implode("\n", [
             $game->getPlayerName(),
-            $game->getGuildName() ?: "<no guild>",
+            $game->getPlayerGuild()->getName() ?: "<no guild>",
             $game->getArenaLevel(),
             $game->getRichness(),
         ]));

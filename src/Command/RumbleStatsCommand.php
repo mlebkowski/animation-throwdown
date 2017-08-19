@@ -30,11 +30,11 @@ class RumbleStatsCommand extends ContainerAwareCommand
         foreach ($queue as $request) {
             $user = $request->getUser();
             $output->writeln(sprintf('Fetching stats for <comment>%s</comment>', $user->getName()));
-            $this->fetchStats($gameFactory->getGame($user));
+            $this->fetchStats($gameFactory->getGame($user), $request->getId());
         }
     }
 
-    private function fetchStats(Game $game)
+    private function fetchStats(Game $game, $requestId)
     {
         $rumble = $game->getRumble();
 
@@ -52,8 +52,8 @@ class RumbleStatsCommand extends ContainerAwareCommand
         ]);
 
         $query = $db->prepare('
-            INSERT INTO rumble_result (rumble_id, user_id, match_number, points)
-            VALUES (:rumble_id, :user_id, :match_number, :points)
+            INSERT INTO rumble_result (rumble_id, name, user_id, match_number, points, request_id)
+            VALUES (:rumble_id, :name, :user_id, :match_number, :points, :request_id)
             ON DUPLICATE KEY UPDATE points = :points
         ');
 
@@ -62,9 +62,11 @@ class RumbleStatsCommand extends ContainerAwareCommand
         foreach ($stats as $user) {
             $query->execute([
                 'rumble_id' => $rumble->getId(),
+                'name' => $user['name'],
                 'user_id' => $user['user_id'],
                 'match_number' => $matchNumber,
                 'points' => (int)$user['stat'],
+                'request_id' => $requestId
             ]);
         }
 

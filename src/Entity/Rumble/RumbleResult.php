@@ -2,17 +2,41 @@
 
 namespace Nassau\CartoonBattle\Entity\Rumble;
 
+use Nassau\CartoonBattle\Entity\Game\UserGatherRumbleStats;
+
 class RumbleResult
 {
     private $id;
 
+    /**
+     * @var Rumble
+     */
     private $rumble;
 
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @var integer
+     */
     private $userId;
 
+    /**
+     * @var integer
+     */
     private $matchNumber;
 
+    /**
+     * @var integer
+     */
     private $points;
+
+    /**
+     * @var UserGatherRumbleStats
+     */
+    private $request;
 
     /**
      * @return integer
@@ -28,6 +52,14 @@ class RumbleResult
     public function getRumble()
     {
         return $this->rumble;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
@@ -52,6 +84,14 @@ class RumbleResult
     public function getPoints()
     {
         return $this->points;
+    }
+
+    /**
+     * @return UserGatherRumbleStats
+     */
+    public function getRequest()
+    {
+        return $this->request;
     }
 
 

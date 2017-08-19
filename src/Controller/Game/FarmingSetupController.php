@@ -9,10 +9,10 @@ use Nassau\CartoonBattle\Entity\Game\Farming\UserFarmingLog;
 use Nassau\CartoonBattle\Entity\Game\User;
 use Nassau\CartoonBattle\Entity\Game\Farming\UserFarming;
 use Nassau\CartoonBattle\Form\Farming\FarmingType;
+use Nassau\CartoonBattle\Services\Request\CorsResponse;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class FarmingSetupController
@@ -74,19 +74,12 @@ class FarmingSetupController
                 ->getResult();
         }
 
-        return new JsonResponse([
+        return new CorsResponse([
             'message' => $form->isSubmitted() ? ($form->isValid() ? 'Settings saved' : 'There was an error saving settings') : "",
             'form' => $this->normalizeForm($form->createView()),
             'farming' => $this->serializer->toArray($farming, (new SerializationContext)->setGroups(['settings'])),
             'logs' => $this->serializer->toArray($logs)
-        ], JsonResponse::HTTP_OK, [
-            'Access-Control-Allow-Credentials' => 'true',
-            'Access-Control-Allow-Methods' => 'POST, GET, PUT, DELETE, PATCH, OPTIONS',
-            'Access-Control-Allow-Headers' => 'Origin, Content-Type, Accept, Authorization',
-            'Access-Control-Allow-Origin' => $request->headers->get('origin'),
-            'Access-Control-Max-Age' => 3600,
-            'Vary' => 'Origin',
-        ]);
+        ], $request);
     }
 
     private function normalizeForm(FormView $form)

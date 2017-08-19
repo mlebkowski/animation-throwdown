@@ -29,12 +29,12 @@ harvesting_deck:
       _controller: CartoonBattleBundle:Harvesting:deck
 
 rumble_stats:
-    path: /rumble-stats/{factionId}/{rumble}.csv
+    path: /rumble-stats/{id}/{rumble}.csv
     defaults:
       _controller: CartoonBattleBundle:RumbleStats:scores
 
 rumble_stats_header:
-    path: /rumble-stats-header/{userId}.csv
+    path: /rumble-stats-header/{id}.csv
     defaults:
       _controller: CartoonBattleBundle:RumbleStats:header
 
