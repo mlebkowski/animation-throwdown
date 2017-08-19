@@ -17,14 +17,11 @@
         <field name="adventureMissions" column="adventure_missions" type="simple_array" nullable="false" />
         <field name="arenaHeroes" column="arena_heroes" type="simple_array" nullable="false" />
         <field name="subscription" type="string" nullable="true" />
+        <field name="comment" type="text" nullable="false" />
 
         <one-to-one target-entity="Nassau\CartoonBattle\Entity\Game\User" field="user">
             <join-column nullable="false" name="user_id"/>
         </one-to-one>
-
-        <many-to-one target-entity="Nassau\CartoonBattle\Entity\Game\Farming\UserFarmingReferralCode" field="referralCode">
-            <join-column nullable="true" name="referral_code_id"/>
-        </many-to-one>
 
         <one-to-many target-entity="UserFarmingLog" mapped-by="userFarming" field="logs">
             <cascade><cascade-all/></cascade>
@@ -36,6 +33,10 @@
         <one-to-many target-entity="UserFarmingResult" mapped-by="userFarming" field="results">
             <cascade><cascade-all/></cascade>
         </one-to-many>
+
+        <many-to-one target-entity="Nassau\CartoonBattle\Entity\Game\Farming\UserFarmingReferralCode" field="referralCode">
+            <join-column nullable="true" name="referral_code_id"/>
+        </many-to-one>
 
     </entity>
 

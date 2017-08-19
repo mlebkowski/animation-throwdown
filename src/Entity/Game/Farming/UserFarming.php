@@ -56,6 +56,11 @@ class UserFarming
     private $subscription;
 
     /**
+     * @var string
+     */
+    private $comment = "";
+
+    /**
      * @var \DateTime
      */
     private $expiresAt;
@@ -267,6 +272,20 @@ class UserFarming
 
         return $this;
     }
+
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    public function setComment($comment)
+    {
+        $this->comment = (string)$comment;
+
+        return $this;
+    }
+
+
 
     public function has($setting)
     {

@@ -58,6 +58,13 @@ class FarmingHandler
         // fetch current game state
         $result = $game->init();
 
+        $configuration->setComment(implode("\n", [
+            $game->getPlayerName(),
+            $game->getGuildName() ?: "<no guild>",
+            $game->getArenaLevel(),
+            $game->getRichness(),
+        ]));
+
         $dailyRewards = [
             'monthly_daily_rewards' => 'Monthly activity rewards',
             'weekly_daily_rewards' => 'Weekly activity rewards'

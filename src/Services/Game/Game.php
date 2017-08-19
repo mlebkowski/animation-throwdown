@@ -26,6 +26,7 @@ class Game
         'money' => 0,
         'energy' => 0,
         'stamina' => 0,
+        'name' => 'Player',
     ];
 
     private $events = [];
@@ -37,6 +38,10 @@ class Game
     private $commonFields = [
         'total_spent_in_usd' => 0,
         'pvp_level' => 1,
+    ];
+
+    private $faction = [
+        'name' => null,
     ];
 
     public function __construct(Client $client, SynapseUserInterface $user)
@@ -111,6 +116,16 @@ class Game
         return $this('init');
     }
 
+    public function getPlayerName()
+    {
+        return $this->userData['name'];
+    }
+
+    public function getGuildName()
+    {
+        return $this->faction['name'];
+    }
+
     public function getArenaLevel()
     {
         return $this->commonFields['pvp_level'];
@@ -119,6 +134,11 @@ class Game
     public function isSpender()
     {
         return $this->commonFields['total_spent_in_usd'] > 100;
+    }
+
+    public function getRichness()
+    {
+        return $this->commonFields['total_spent_in_usd'];
     }
 
     public function getMoney()
@@ -248,6 +268,10 @@ class Game
 
         if (isset($result['active_events'])) {
             $this->events = $result['active_events'];
+        }
+
+        if (isset($result['faction'])) {
+            $this->faction = array_replace($this->faction, (array)$result['faction']);
         }
 
         if (isset($result['user_achievements'])) {
