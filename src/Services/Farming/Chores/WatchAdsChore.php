@@ -13,14 +13,14 @@ class WatchAdsChore implements FarmingChore
     {
         $ads = 0;
 
-        while (false === $this->check($game) && $ads++ < 3) {
+        while ($this->shouldWatchAds($game) && $ads++ < 3) {
             $logWriter('Watching an ad to Boost your chances');
             $game->recordAdBoost();
             sleep(8);
         }
     }
 
-    private function check(Game $game)
+    private function shouldWatchAds(Game $game)
     {
         if ($game->isVIP()) {
             return false;
@@ -30,9 +30,9 @@ class WatchAdsChore implements FarmingChore
         $userData = isset($result['user_data']) ? $result['user_data'] : null;
 
         if ((int)$userData['boost_level'] === 3 && $userData['boost_end_time'] > time() + 60 * 60 * 1.5) {
-            return true;
+            return false;
         }
 
-        return false;
+        return true;
     }
 }
