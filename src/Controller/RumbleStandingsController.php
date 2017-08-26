@@ -20,9 +20,6 @@ class RumbleStandingsController extends Controller
         $serializer = $this->get('jms_serializer');
         $rumbles = $this->get('doctrine.orm.entity_manager')->getRepository('CartoonBattleBundle:Rumble\Rumble')->findAll();
 
-
-        $format = $request->getRequestFormat();
-
-        return new CorsResponse($serializer->toArray($rumbles, $format), $request);
+        return new CorsResponse($serializer->toArray($rumbles), $request);
     }
 }
