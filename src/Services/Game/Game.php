@@ -10,7 +10,7 @@ class Game
 {
     const ITEM_AD_CRATE = 30001;
     const ITEM_BASIC_PACK = 1;
-    const ITEM_VIP_PASS = 202;
+    const ITEM_VIP_PASS = 212;
 
     /**
      * @var Client
