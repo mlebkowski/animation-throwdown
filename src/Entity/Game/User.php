@@ -4,10 +4,11 @@ namespace Nassau\CartoonBattle\Entity\Game;
 
 use Gedmo\Timestampable\Traits\Timestampable;
 use Nassau\CartoonBattle\Entity\Game\Farming\UserFarming;
+use Nassau\CartoonBattle\Services\Game\HasEnvironmentType;
 use Nassau\CartoonBattle\Services\Game\SynapseUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class User implements SynapseUserInterface, UserInterface
+class User implements SynapseUserInterface, UserInterface, HasEnvironmentType
 {
     const ROLE_USER = self::class;
 
@@ -37,6 +38,11 @@ class User implements SynapseUserInterface, UserInterface
      * @var UserFarming
      */
     private $farming;
+
+    /**
+     * @var string
+     */
+    private $environmentType = HasEnvironmentType::PROD;
 
     /**
      * @param string $name
@@ -123,6 +129,14 @@ class User implements SynapseUserInterface, UserInterface
     public function getFarming()
     {
         return $this->farming;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEnvironmentType()
+    {
+        return $this->environmentType;
     }
 
 

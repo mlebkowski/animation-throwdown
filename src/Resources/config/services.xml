@@ -37,7 +37,7 @@
         </service>
 
         <service class="Nassau\CartoonBattle\Services\Game\GameFactory" id="cartoon_battle.game.factory">
-            <argument type="service" id="cartoon_battle.game.http_client"/>
+            <argument type="service" id="cartoon_battle.game.http_client.collection"/>
         </service>
 
         <service class="Nassau\CartoonBattle\Services\Game\Game" id="cartoon_battle.game.default">
@@ -50,10 +50,28 @@
             <argument>%cartoon_battle.password%</argument>
         </service>
 
-        <service id="cartoon_battle.game.http_client" class="GuzzleHttp\Client" public="false">
+        <service id="cartoon_battle.game.http_client.collection" class="ArrayObject" public="false">
+            <tag name="nassau.registry"
+                 tag="game.http.client"
+                 order="indexed"
+                 method="offsetSet"
+            />
+        </service>
+
+        <service id="cartoon_battle.game.http_client" alias="cartoon_battle.game.http_client.prod"/>
+
+        <service id="cartoon_battle.game.http_client.prod" class="GuzzleHttp\Client" public="false">
             <argument type="collection">
                 <argument key="base_uri">https://cb-live.synapse-games.com/api.php</argument>
             </argument>
+            <tag name="game.http.client" alias="prod"/>
+        </service>
+
+        <service id="cartoon_battle.game.http_client.dev" class="GuzzleHttp\Client" public="false">
+            <argument type="collection">
+                <argument key="base_uri">https://cartoon-dev.synapse-games.com/api.php</argument>
+            </argument>
+            <tag name="game.http.client" alias="dev"/>
         </service>
 
         <service class="Nassau\CartoonBattle\Security\GuildVoter" id="nassau.cartoon_battle.security.guild_voter" public="false">

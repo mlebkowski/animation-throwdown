@@ -14,6 +14,7 @@
         <field name="name" type="string" nullable="false"/>
         <field name="userId" column="user_id" type="integer" nullable="false" unique="true"/>
         <field name="password" type="string" nullable="false" unique="true"/>
+        <field name="environmentType" column="environment_type" type="string" nullable="false" />
 
         <field name="createdAt" type="datetime" column="created_at" nullable="false">
             <gedmo:timestampable on="create"/>

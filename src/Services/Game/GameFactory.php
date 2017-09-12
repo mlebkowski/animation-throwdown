@@ -7,21 +7,27 @@ use GuzzleHttp\Client;
 class GameFactory
 {
     /**
-     * @var Client
+     * @var Client[]
      */
-    private $client;
+    private $clients;
 
     /**
-     * @param Client $client
+     * @param \ArrayAccess|Client[] $clients
      */
-    public function __construct(Client $client)
+    public function __construct(\ArrayAccess $clients)
     {
-        $this->client = $client;
+        $this->clients = $clients;
     }
 
 
     public function getGame(SynapseUserInterface $user)
     {
-        return new Game($this->client, $user);
+        $type = HasEnvironmentType::PROD;
+
+        if ($user instanceof HasEnvironmentType) {
+            $type = $user->getEnvironmentType();
+        }
+
+        return new Game($this->clients->offsetGet($type), $user);
     }
 }
