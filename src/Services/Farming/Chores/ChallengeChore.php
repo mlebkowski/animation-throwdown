@@ -43,7 +43,9 @@ class ChallengeChore extends AbstractBattleChore
         do {
 
             $events = array_filter($game->getEvents(), function ($data) {
-                return isset($data['challenge']) && $data['challenge_data']['energy']['current_value'] > 0;
+                return isset($data['challenge'])
+                    && $data['challenge_data']['energy']['current_value'] > 0
+                    && "1025" !== $data['challenge_data']['id'];
             });
 
             $currentEvent = reset($events);
