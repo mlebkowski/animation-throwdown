@@ -43,8 +43,18 @@ class ChallengeChore extends AbstractBattleChore
         do {
 
             $events = array_filter($game->getEvents(), function ($data) {
-                return isset($data['challenge'])
-                    && $data['challenge_data']['energy']['current_value'] > 0
+                if (false === isset($data['challenge_data'])) {
+                    return false;
+                }
+
+                $trackingEndTime = (int)$data['tracking_end_time'];
+                $lastRechargeTime = (int)$data['challenge_data']['energy']['last_recharge_time'];
+                $rechargeTime = (int)$data['challenge_data']['energy']['recharge_time'];
+
+                $roundEnds = min($trackingEndTime, $lastRechargeTime + $rechargeTime);
+
+                return $data['challenge_data']['energy']['current_value'] > 0
+                    && time() > $roundEnds - (60*90)  // last 90 minutes
                     && "1025" !== $data['challenge_data']['id'];
             });
 
