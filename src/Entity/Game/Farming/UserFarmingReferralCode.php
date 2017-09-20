@@ -10,6 +10,8 @@ class UserFarmingReferralCode
 
     private $paypalButton;
 
+    private $freeTier;
+
     /**
      * @return string
      */
@@ -34,5 +36,12 @@ class UserFarmingReferralCode
         return $this->paypalButton;
     }
 
+    /**
+     * @return boolean
+     */
+    public function hasFreeTier()
+    {
+        return $this->freeTier;
+    }
 
 }

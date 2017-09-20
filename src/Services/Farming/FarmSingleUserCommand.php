@@ -4,6 +4,7 @@
 namespace Nassau\CartoonBattle\Services\Farming;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Nassau\CartoonBattle\Entity\Game\Farming\UserFarming;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -35,6 +36,8 @@ class FarmSingleUserCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $id = $input->getArgument('id');
+
+        /** @var UserFarming $farming */
         $farming = $this->em->getRepository('CartoonBattleBundle:Game\Farming\UserFarming')->find($id);
 
         if (!$farming) {

@@ -23,7 +23,7 @@
                  id="nassau.cartoon_battle.services.farming.farming_handler" public="false">
             <argument id="nassau.cartoon_battle.services.farming.farming_handler.chores" type="service"/>
             <argument id="cartoon_battle.game.factory" type="service"/>
-            <argument id="nassau.cartoon_battle.services.farming.loot_extractor.loot_extractor" type="service"/>
+            <argument id="nassau.cartoon_battle.services.farming.chores.init_chore" type="service"/>
         </service>
 
         <service id="nassau.cartoon_battle.services.farming.farming_handler.chores" class="ArrayObject">
@@ -33,6 +33,11 @@
                  method="offsetSet"
                  class="Nassau\CartoonBattle\Services\Farming\FarmingChore"
             />
+        </service>
+
+        <service class="Nassau\CartoonBattle\Services\Farming\Chores\InitChore" id="nassau.cartoon_battle.services.farming.chores.init_chore" public="false">
+            <argument id="nassau.cartoon_battle.services.farming.loot_extractor.loot_extractor" type="service"/>
+            <!-- this one should not be registered with farming tag -->
         </service>
 
         <service class="Nassau\CartoonBattle\Services\Farming\Chores\WatchAdsChore"

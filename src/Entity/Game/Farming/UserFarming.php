@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Nassau\CartoonBattle\Entity\Game\User;
 use Nassau\CartoonBattle\Services\Farming\Chores\BattleTarget;
+use Nassau\CartoonBattle\Services\Game\Game;
 
 class UserFarming
 {
@@ -285,16 +286,24 @@ class UserFarming
         return $this;
     }
 
+    public function updateFreeTrial(Game $game)
+    {
+        if (null === $this->referralCode || false === $this->referralCode->hasFreeTier()) {
+            return false;
+        }
 
+        if ($game->isSpender() || $game->getArenaLevel() < 10) {
+            return false;
+        }
+
+        $this->expiresAt = max($this->expiresAt, new \DateTime('14 days'));
+
+        return true;
+    }
 
     public function has($setting)
     {
         return in_array($setting, $this->settings);
-    }
-
-    public function bumpFreeTrial()
-    {
-        $this->expiresAt = max($this->expiresAt, new \DateTime('14 days'));
     }
 
     public function __toString()

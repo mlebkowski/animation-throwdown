@@ -12,6 +12,7 @@
 
         <field name="name" type="string" nullable="false" unique="true"/>
         <field name="paypalButton" type="string" nullable="false" column="paypal_button"/>
+        <field name="freeTier" type="boolean" nullable="false" column="free_tier"/>
 
     </entity>
 

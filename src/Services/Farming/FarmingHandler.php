@@ -5,7 +5,7 @@ namespace Nassau\CartoonBattle\Services\Farming;
 use GuzzleHttp\Exception\TransferException;
 use Nassau\CartoonBattle\Entity\Game\Farming\UserFarming;
 use Nassau\CartoonBattle\Entity\Game\Farming\UserFarmingLog;
-use Nassau\CartoonBattle\Services\Farming\LootExtractor\LootExtractor;
+use Nassau\CartoonBattle\Services\Farming\Chores\InitChore;
 use Nassau\CartoonBattle\Services\Game\GameFactory;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -28,15 +28,15 @@ class FarmingHandler
     private $factory;
 
     /**
-     * @var LootExtractor
+     * @var InitChore
      */
-    private $lootExtractor;
+    private $initChore;
 
-    public function __construct(\ArrayObject $chores, GameFactory $factory, LootExtractor $lootExtractor)
+    public function __construct(\ArrayObject $chores, GameFactory $factory, InitChore $initChore)
     {
         $this->chores = array_reverse($chores->getArrayCopy());
         $this->factory = $factory;
-        $this->lootExtractor = $lootExtractor;
+        $this->initChore = $initChore;
     }
 
 
@@ -55,35 +55,10 @@ class FarmingHandler
 
         $game = $this->factory->getGame($configuration->getUser());
 
-        // fetch current game state
-        $result = $game->init();
-
-        $configuration->setComment(implode("\n", [
-            $game->getPlayerName(),
-            $game->getPlayerGuild()->getName() ?: "<no guild>",
-            $game->getArenaLevel(),
-            $game->getRichness(),
-        ]));
-
-        $dailyRewards = [
-            'monthly_daily_rewards' => 'Monthly activity rewards',
-            'weekly_daily_rewards' => 'Weekly activity rewards'
-        ];
-
-        foreach ($dailyRewards as $key => $label) {
-            if (isset($result[$key])) {
-                $loot = $this->lootExtractor->extractLoot($result[$key]);
-                if (sizeof($loot)) {
-                    $logWriter(sprintf('%s: %s', $label, implode(', ', $loot)));
-                }
-            }
-        }
-
-        if (false === $game->isSpender() && $game->getArenaLevel() >= 10) {
-            $configuration->bumpFreeTrial();
-        }
-
         try {
+            // you always need to init the game before anything:
+            $this->initChore->make($game, $configuration, $logWriter);
+
             foreach ($this->chores as $chore) {
                 $chore->make($game, $configuration, $logWriter);
             }
