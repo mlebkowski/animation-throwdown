@@ -12,6 +12,8 @@ class UserFarmingReferralCode
 
     private $freeTier;
 
+    private $days;
+
     /**
      * @return string
      */
@@ -42,6 +44,11 @@ class UserFarmingReferralCode
     public function hasFreeTier()
     {
         return $this->freeTier;
+    }
+
+    public function getDays()
+    {
+        return $this->days;
     }
 
 }

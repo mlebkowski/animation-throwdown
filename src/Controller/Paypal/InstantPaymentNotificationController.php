@@ -43,9 +43,11 @@ class InstantPaymentNotificationController
         ]);
 
         if (0 === sizeof($errors)) {
+            $days = $farming->getReferralCode() ? $farming->getReferralCode()->getDays() : 45;
+
             $this->em->persist($farming
                 ->setSubscription($subscription)
-                ->setExpiresAt((new \DateTime($date))->modify("+45 days"))
+                ->setExpiresAt((new \DateTime($date))->modify("+$days days"))
             );
         }
 
