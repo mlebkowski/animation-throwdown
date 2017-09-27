@@ -11,6 +11,7 @@ use Nassau\CartoonBattle\Services\Game\Game;
 class UserFarming
 {
     const SETTING_ADVENTURE = 'adventure';
+    const SETTING_ADVENTURE_REFILL = 'adventure-refill';
     const SETTING_ARENA = 'arena';
     const SETTING_CHALLENGES = 'challenges';
     const SETTING_CARDS = 'cards';

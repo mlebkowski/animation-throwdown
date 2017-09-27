@@ -9,12 +9,13 @@ class ChallengeChore extends AbstractBattleChore
 {
 
     /**
-     * @param Game $game
+     * @param Game        $game
      * @param UserFarming $configuration
+     * @param \Closure    $logWriter
      *
      * @return \Generator|BattleTarget[]
      */
-    protected function shouldDoBattle(Game $game, UserFarming $configuration)
+    protected function shouldDoBattle(Game $game, UserFarming $configuration, \Closure $logWriter)
     {
         if (false === $configuration->has($configuration::SETTING_CHALLENGES)) {
             return ;

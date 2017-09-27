@@ -4,6 +4,7 @@ namespace Nassau\CartoonBattle\Services\Game;
 
 use GuzzleHttp\Client;
 use Nassau\CartoonBattle\Services\Game\DTO\Guild;
+use Nassau\CartoonBattle\Services\Game\DTO\Mission;
 use Nassau\CartoonBattle\Services\Game\DTO\Rumble;
 
 class Game
@@ -45,6 +46,10 @@ class Game
         'id' => null
     ];
 
+    private $nextMissions;
+
+    private $energyPerMission = [];
+
     public function __construct(Client $client, SynapseUserInterface $user)
     {
         $this->client = $client;
@@ -56,9 +61,25 @@ class Game
         return ($this->userData['max_energy'] - $this->userData['energy']) * $this->userData['energy_recharge_time'] / 60 < $minutes;
     }
 
+    public function getNextMissions()
+    {
+        return $this->nextMissions;
+    }
+
     public function getRemainingEnergy()
     {
         return $this->userData['energy'];
+    }
+
+    public function getEnergyRequired(Mission $mission)
+    {
+        $id = $mission->getMissionId();
+
+        if (isset($this->energyPerMission[$id])) {
+            return $this->energyPerMission[$id];
+        }
+
+        return $mission->getEnergyRequired();
     }
 
     public function getRemainingStamina()
@@ -285,6 +306,17 @@ class Game
 
         if (isset($result['common_fields'])) {
             $this->commonFields = $result['common_fields'];
+        }
+
+        if (isset($result['mission_completions'], $result['current_missions'])) {
+            $this->energyPerMission = array_combine(
+                array_column($result['current_missions'], 'id'),
+                array_column($result['current_missions'], 'energy')
+            );
+
+            if (sizeof($result['mission_completions']) < sizeof($result['current_missions'])) {
+                $this->nextMissions = [end($result['current_missions'])['id'] - 100];
+            }
         }
 
         return $result;

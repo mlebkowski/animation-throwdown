@@ -44,6 +44,7 @@ class FarmingType extends AbstractType
             'choices_as_values' => true,
             'choices' => [
                 'Adventure' => UserFarming::SETTING_ADVENTURE,
+                'Use all adventure refills' => UserFarming::SETTING_ADVENTURE_REFILL,
                 'Arena' => UserFarming::SETTING_ARENA,
                 'Challenges' => UserFarming::SETTING_CHALLENGES,
                 'Daily quests (buy 3 basic packs and do one upgrade on each)' => UserFarming::SETTING_CARDS,

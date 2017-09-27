@@ -26,7 +26,7 @@ abstract class AbstractBattleChore implements FarmingChore
 
     public function make(Game $game, UserFarming $configuration, \Closure $logWriter)
     {
-        foreach ($this->shouldDoBattle($game, $configuration) as $nextTarget) {
+        foreach ($this->shouldDoBattle($game, $configuration, $logWriter) as $nextTarget) {
             $logWriter(sprintf(
                 'Playing %s battle: <comment>%s</comment>%s… ',
                 $nextTarget->getType(),
@@ -51,12 +51,13 @@ abstract class AbstractBattleChore implements FarmingChore
     }
 
     /**
-     * @param Game $game
+     * @param Game        $game
      * @param UserFarming $configuration
+     * @param \Closure    $logWriter
      *
      * @return \Generator|BattleTarget[]
      */
-    abstract protected function shouldDoBattle(Game $game, UserFarming $configuration);
+    abstract protected function shouldDoBattle(Game $game, UserFarming $configuration, \Closure $logWriter);
 
     /**
      * @param BattleTarget $target
