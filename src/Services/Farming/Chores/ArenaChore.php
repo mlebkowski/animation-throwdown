@@ -57,7 +57,7 @@ class ArenaChore extends AbstractBattleChore
         $target = $game->getRandomHuntingTarget();
         $comment = "";
 
-        while ($shouldRefreshForHero($target) && $refreshes++ < 10) {
+        while ($configuration->isVIP() && $shouldRefreshForHero($target) && $refreshes++ < 10) {
             $comment = "after $refreshes refreshes";
             // refresh opponent
             $practice = $game->startPracticeBattle($target['user_id']);
