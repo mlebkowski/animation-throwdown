@@ -14,6 +14,8 @@ class UserFarmingReferralCode
 
     private $days;
 
+    private $enabled;
+
     /**
      * @return string
      */
@@ -51,4 +53,8 @@ class UserFarmingReferralCode
         return $this->days;
     }
 
+    public function isEnabled()
+    {
+        return $this->enabled;
+    }
 }
