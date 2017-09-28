@@ -302,6 +302,11 @@ class UserFarming
         return true;
     }
 
+    public function isVIP()
+    {
+        return null !== $this->getSubscription();
+    }
+
     public function has($setting)
     {
         return in_array($setting, $this->settings);

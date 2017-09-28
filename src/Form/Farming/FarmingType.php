@@ -44,11 +44,11 @@ class FarmingType extends AbstractType
             'choices_as_values' => true,
             'choices' => [
                 'Adventure' => UserFarming::SETTING_ADVENTURE,
-                'Use all adventure refills' => UserFarming::SETTING_ADVENTURE_REFILL,
+                'Refills (VIP)' => UserFarming::SETTING_ADVENTURE_REFILL,
                 'Arena' => UserFarming::SETTING_ARENA,
                 'Challenges' => UserFarming::SETTING_CHALLENGES,
-                'Daily quests (buy 3 basic packs and do one upgrade on each)' => UserFarming::SETTING_CARDS,
-                'Spend all nixons above 100k and recycle everything under epic' => UserFarming::SETTING_GOLD,
+                'Daily quests' => UserFarming::SETTING_CARDS,
+                'Basic Packs (VIP)' => UserFarming::SETTING_GOLD,
             ],
             'multiple' => true,
         ]);

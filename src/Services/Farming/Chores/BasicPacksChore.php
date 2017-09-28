@@ -31,7 +31,7 @@ class BasicPacksChore implements FarmingChore
             return $game->hasMoney(.20);
         };
 
-        if (false === $configuration->has($configuration::SETTING_GOLD) || false === $hasMoney()) {
+        if (false === $configuration->has($configuration::SETTING_GOLD) || false === $configuration->isVIP() || false === $hasMoney()) {
             return ;
         }
 

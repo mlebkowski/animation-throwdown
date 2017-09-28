@@ -36,7 +36,7 @@ class AdventureChore extends AbstractBattleChore
 
             $remainingEnergy -= $game->getEnergyRequired($mission);
 
-            if ($configuration->has(UserFarming::SETTING_ADVENTURE_REFILL)) {
+            if ($configuration->isVIP() && $configuration->has(UserFarming::SETTING_ADVENTURE_REFILL)) {
                 $remainingEnergy = $this->refill($remainingEnergy, $game, $logWriter);
             }
 
