@@ -78,7 +78,8 @@ class FarmingSetupController
             'message' => $form->isSubmitted() ? ($form->isValid() ? 'Settings saved' : 'There was an error saving settings') : "",
             'form' => $this->normalizeForm($form->createView()),
             'farming' => $this->serializer->toArray($farming, (new SerializationContext)->setGroups(['settings'])),
-            'logs' => $this->serializer->toArray($logs)
+            'logs' => $this->serializer->toArray($logs),
+            'canSubscribe' => null !== $farming->getId() && false === $farming->isVIP(),
         ], $request);
     }
 
