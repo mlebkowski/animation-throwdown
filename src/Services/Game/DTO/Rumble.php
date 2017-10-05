@@ -43,6 +43,11 @@ class Rumble
         return \DateTime::createFromFormat('U', $this->data['guild_war_event_data']['end_time']);
     }
 
+    public function getMatchStartTime()
+    {
+        return \DateTime::createFromFormat("U", $this->data['guild_war_event_data']['match_start_time']);
+    }
+
     public function getMatches()
     {
         return array_reverse($this->data['guild_war_matches']);

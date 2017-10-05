@@ -28,7 +28,7 @@ class RumbleChore extends AbstractBattleChore
         }
 
         $currentMatch = $rumble->getCurrentMatch();
-        if ($currentMatch->getEndTime() > new \DateTime("90 minutes")) {
+        if ($currentMatch->getEndTime() > new \DateTime("90 minutes") || $rumble->getMatchStartTime() > new \DateTime) {
             return;
         }
 
