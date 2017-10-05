@@ -21,6 +21,11 @@ class Rumble
         return isset($this->data['guild_war_active']) && false !== $this->data['guild_war_active'];
     }
 
+    public function getEnergy()
+    {
+        return $this->data['guild_war_event_data']['energy']['current_value'];
+    }
+
     public function getHighestStartedMatchNumber()
     {
         return sizeof(array_filter($this->data['guild_war_matches'], function (array $match) {
@@ -41,6 +46,11 @@ class Rumble
     public function getMatches()
     {
         return array_reverse($this->data['guild_war_matches']);
+    }
+
+    public function getCurrentMatch()
+    {
+        return new RumbleCurrentMatch($this->data['guild_war_current_match']);
     }
 
 }

@@ -16,6 +16,7 @@ class UserFarming
     const SETTING_CHALLENGES = 'challenges';
     const SETTING_CARDS = 'cards';
     const SETTING_GOLD = 'gold';
+    const SETTING_RUMBLE = 'rumble';
 
     /**
      * @var string

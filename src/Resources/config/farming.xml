@@ -64,6 +64,12 @@
             <tag name="cartoon_battle.farming.chore" priority="40"/>
         </service>
 
+        <service class="Nassau\CartoonBattle\Services\Farming\Chores\RumbleChore"
+                 id="nassau.cartoon_battle.services.farming.chores.rumble_chore" public="false">
+            <argument id="nassau.cartoon_battle.services.farming.loot_extractor.loot_extractor" type="service"/>
+            <tag name="cartoon_battle.farming.chore" priority="45"/>
+        </service>
+
         <service class="Nassau\CartoonBattle\Services\Farming\Chores\QuestsChore"
                  id="nassau.cartoon_battle.services.farming.chores.quests_chore" public="false">
             <tag name="cartoon_battle.farming.chore" priority="50"/>
