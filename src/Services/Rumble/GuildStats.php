@@ -41,8 +41,9 @@ class GuildStats
         foreach ($stats as $stat) {
             list ($name, $userId, $number, $points) = $stat;
 
+            $currentValue = isset($result[$userId]['points']) ? array_sum($result[$userId]['points']?:[]) : 0;
             $result[$userId]['name'] = $name;
-            $result[$userId]['points'][$number] = $points - array_sum($result[$userId]['points']);
+            $result[$userId]['points'][$number] = $points - $currentValue;
         }
 
         usort($result, function ($alpha, $bravo) {
