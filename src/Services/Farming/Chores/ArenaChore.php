@@ -5,7 +5,7 @@ namespace Nassau\CartoonBattle\Services\Farming\Chores;
 use Nassau\CartoonBattle\Entity\Game\Farming\UserFarming;
 use Nassau\CartoonBattle\Services\Game\Game;
 
-class ArenaChore extends AbstractBattleChore
+class ArenaChore extends AbstractRefillableBattleChore
 {
     /**
      * @param Game        $game
@@ -26,9 +26,19 @@ class ArenaChore extends AbstractBattleChore
             return;
         }
 
-        for ($i = 0; $i < $stamina; $i++) {
+        do {
+            $stamina--;
+
+            if ($configuration->isVIP() && $configuration->has($configuration::SETTING_ARENA_REFILL)) {
+                $stamina = $this->refill($stamina, $game, $logWriter);
+            }
+
+            if ($stamina < 0) {
+                return;
+            }
+
             yield $this->getHuntingTarget($game, $configuration);
-        }
+        } while (true);
     }
 
     /**

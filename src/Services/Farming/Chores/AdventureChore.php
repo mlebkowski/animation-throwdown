@@ -3,11 +3,10 @@
 namespace Nassau\CartoonBattle\Services\Farming\Chores;
 
 use Nassau\CartoonBattle\Entity\Game\Farming\UserFarming;
-use Nassau\CartoonBattle\Services\Game\DTO\Item;
 use Nassau\CartoonBattle\Services\Game\DTO\Mission;
 use Nassau\CartoonBattle\Services\Game\Game;
 
-class AdventureChore extends AbstractBattleChore
+class AdventureChore extends AbstractRefillableBattleChore
 {
 
     /**
@@ -67,23 +66,4 @@ class AdventureChore extends AbstractBattleChore
         }, $game->getNextMissions() ?: range(1, 30*3));
     }
 
-    private function refill($remainingEnergy, Game $game, \Closure $logWriter)
-    {
-        while ($remainingEnergy < 0) {
-            foreach ([Item::ENERGY_REFILL_5 => 5, Item::ENERGY_REFILL_10 => 10] as $item => $energy) {
-                if ($game->getItemCount($item)) {
-                    $logWriter(sprintf('Refilling adventure energy: <comment>%d</comment>', $energy));
-                    $game('useItem', ['item_id' => $item, 'number' => 1]);
-
-                    $remainingEnergy += $energy;
-
-                    continue 2; // while
-                }
-            }
-
-            break; // no item matched!
-        }
-
-        return $remainingEnergy;
-    }
 }

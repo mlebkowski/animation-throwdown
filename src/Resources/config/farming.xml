@@ -49,13 +49,25 @@
         <service class="Nassau\CartoonBattle\Services\Farming\Chores\AdventureChore"
                  id="nassau.cartoon_battle.services.farming.chores.adventure_chore" public="false">
             <argument id="nassau.cartoon_battle.services.farming.loot_extractor.loot_extractor" type="service"/>
+            <argument id="nassau.cartoon_battle.services.farming.refill.adventure" type="service"/>
             <tag name="cartoon_battle.farming.chore" priority="20"/>
+        </service>
+
+        <service class="Nassau\CartoonBattle\Services\Farming\Refill"
+                 id="nassau.cartoon_battle.services.farming.refill.adventure" public="false">
+            <argument>adventure</argument>
         </service>
 
         <service class="Nassau\CartoonBattle\Services\Farming\Chores\ArenaChore"
                  id="nassau.cartoon_battle.services.farming.chores.arena_chore" public="false">
             <argument id="nassau.cartoon_battle.services.farming.loot_extractor.loot_extractor" type="service"/>
+            <argument id="nassau.cartoon_battle.services.farming.refill.arena" type="service"/>
             <tag name="cartoon_battle.farming.chore" priority="30"/>
+        </service>
+
+        <service class="Nassau\CartoonBattle\Services\Farming\Refill"
+                 id="nassau.cartoon_battle.services.farming.refill.arena" public="false">
+            <argument>arena</argument>
         </service>
 
         <service class="Nassau\CartoonBattle\Services\Farming\Chores\ChallengeChore"
