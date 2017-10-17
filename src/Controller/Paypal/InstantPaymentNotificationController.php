@@ -22,33 +22,38 @@ class InstantPaymentNotificationController
 
     public function listener(Request $request)
     {
-        /** @var UserFarming $farming */
-        $farming = $this->em->createQueryBuilder()
+        $subscription = (string)$request->request->get('subscr_id');
+
+        /** @var UserFarming[] $results */
+        $results = $this->em->createQueryBuilder()
             ->select('farming')
             ->from('CartoonBattleBundle:Game\Farming\UserFarming', 'farming')
             ->join('farming.user', 'user')
             ->where('user.userId = :userId')
             ->setParameter('userId', $request->request->get('custom'))
+            ->orWhere('farming.subscription = :subscription')
+            ->setParameter('subscription', $subscription)
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getResult();
 
-        $subscription = (string)$request->request->get('subscr_id');
         $date = $request->request->get('payment_date');
 
         $errors = array_filter([
             'subscr_payment' !== $request->request->get('txn_type'),
             'Completed' !== $request->request->get('payment_status'),
             "" === $subscription,
-            null === $farming,
+            0 === sizeof($results),
         ]);
 
         if (0 === sizeof($errors)) {
-            $days = $farming->getReferralCode() ? $farming->getReferralCode()->getDays() : 45;
+            foreach ($results as $farming) {
+                $days = $farming->getReferralCode() ? $farming->getReferralCode()->getDays() : 45;
 
-            $this->em->persist($farming
-                ->setSubscription($subscription)
-                ->setExpiresAt((new \DateTime($date))->modify("+$days days"))
-            );
+                $this->em->persist($farming
+                    ->setSubscription($subscription)
+                    ->setExpiresAt((new \DateTime($date))->modify("+$days days"))
+                );
+            }
         }
 
         $this->em->persist(new InstantNotification($request->getContent()));
