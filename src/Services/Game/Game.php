@@ -12,6 +12,7 @@ class Game
     const ITEM_AD_CRATE = 30001;
     const ITEM_BASIC_PACK = 1;
     const ITEM_VIP_PASS = 212;
+    const ITEM_MAX_BASIC_PACK = 2;
 
     /**
      * @var Client
@@ -28,6 +29,7 @@ class Game
         'energy' => 0,
         'stamina' => 0,
         'name' => 'Player',
+        'max_cards' => 250,
     ];
 
     private $events = [];
@@ -39,6 +41,7 @@ class Game
     private $commonFields = [
         'total_spent_in_usd' => 0,
         'pvp_level' => 1,
+        'total_card_count' => 250,
     ];
 
     private $faction = [
@@ -163,6 +166,21 @@ class Game
         return $this->commonFields['total_spent_in_usd'];
     }
 
+    public function getInventorySize()
+    {
+        return $this->commonFields['total_card_count'];
+    }
+
+    public function getInventoryCapacity()
+    {
+        return $this->userData['caps']['max_cards'];
+    }
+
+    public function getInventorySpace()
+    {
+        return $this->getInventoryCapacity() - $this->getInventorySize();
+    }
+
     public function getMoney()
     {
         return $this->userData['money'];
@@ -170,7 +188,7 @@ class Game
 
     public function hasMoney($percent = .25)
     {
-        return $this->userData['money'] / $this->userData['money_cap'] > $percent;
+        return $this->userData['money'] / $this->userData['money_cap'] >= $percent;
     }
 
     public function searchGuildName($name)
@@ -189,6 +207,24 @@ class Game
         ]);
 
         return isset($result['new_units']) ? $result['new_units'] : null;
+    }
+
+    public function buyMaxBasicPacks()
+    {
+        $cards = $this->getInventorySpace();
+
+        $result = $this('buyStoreItem', [
+            'item_id' => self::ITEM_MAX_BASIC_PACK,
+            'expected_cost' => $cards * 1000,
+            'cost_type' => 2,
+        ]);
+
+        return isset($result['new_units']) ? $result['new_units'] : null;
+    }
+
+    public function recycle(array $unitIds = [])
+    {
+        return $this('salvageUnitList', ['units' => json_encode(array_values($unitIds))]);
     }
 
     public function upgradeUnit($unitIndex)
@@ -305,7 +341,7 @@ class Game
         }
 
         if (isset($result['common_fields'])) {
-            $this->commonFields = $result['common_fields'];
+            $this->commonFields = array_replace($this->commonFields, $result['common_fields']);
         }
 
         if (isset($result['mission_completions'], $result['current_missions'])) {

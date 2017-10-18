@@ -17,66 +17,94 @@ class BasicPacksChore implements FarmingChore
     private $repository;
 
     /**
-     * @param ObjectRepository $repository
+     * @var int
      */
-    public function __construct(ObjectRepository $repository)
+    private $sleep;
+
+    public function __construct(ObjectRepository $repository, $sleep = 1)
     {
         $this->repository = $repository;
+        $this->sleep = $sleep;
     }
 
 
     public function make(Game $game, UserFarming $configuration, \Closure $logWriter)
     {
-        $hasMoney = function () use ($game) {
-            return $game->hasMoney(.20);
+        $shouldRun = function () use ($game) {
+            //
+            // buy packs if the user has either > 400k coins (80%),
+            // or if buying max would keep him above 100k (20%)
+            //
+            return $game->hasMoney(min(.80, .20 + $game->getInventorySpace() * 2 * pow(10, -3)));
         };
 
-        if (false === $configuration->has($configuration::SETTING_GOLD) || false === $configuration->isVIP() || false === $hasMoney()) {
+        if (false === $configuration->has($configuration::SETTING_GOLD) || false === $configuration->isVIP()) {
             return ;
         }
 
-        $logWriter('Buying basic packs: ', false);
-        $uncommon = [];
+        while ($shouldRun()) {
+            $logWriter('Buying basic packs: ', false);
 
-        while ($hasMoney()) {
-            $newItems = $game->buySinglePackItem();
+            $newItems = $game->buyMaxBasicPacks();
 
             if (0 === sizeof($newItems)) {
                 $logWriter('<error>Failed to buy a basic pack</error>');
                 return;
             }
 
-            sleep(1);
+            sleep($this->sleep);
 
-            // log items bought:
-            $logWriter(str_repeat('+', sizeof($newItems)), false);
+            $uncommon = $this->filterUncommonUnits($newItems);
 
-            $units = $this->repository->findBy(['id' => array_column($newItems, 'unit_id')]);
-            $uncommon = array_merge($uncommon, array_map(function (Unit $unit) {
-                return $unit->getName();
-            }, array_filter($units, function (Unit $unit) {
-                return false === in_array($unit->getRarity()->getSlug(), ['common', 'rare']);
-            })));
+            $logWriter(sprintf('<info>%d</info>, drops: %s',
+                sizeof($newItems),
+                sizeof($uncommon) ? sprintf('<comment>%s</comment>', implode('</comment>, <comment>', $uncommon)) : 'none'
+            ));
 
-            $units = $game('salvageUnitList', ['units' => '[]'])['user_units'];
-            $recycleList = array_values(array_map(function ($unit) {
-                return (int)$unit['unit_index'];
-            }, array_filter($units, function ($unit) {
-                 return $unit['rarity'] < 3 && null === $unit['deck_id'] && null === $unit['reserved'];
-            })));
+            $recycleList = $this->getUnitsToRecycle($game);
+            if (sizeof($recycleList)) {
+                $game->recycle($recycleList);
+            }
 
-            $game('salvageUnitList', ['units' => json_encode($recycleList)]);
 
-            // log items sold
-            $logWriter(str_repeat('-', sizeof($recycleList)). ' ', false);
-
-            sleep(1);
+            sleep($this->sleep);
         }
 
-        $logWriter("");
-        if (sizeof($uncommon)) {
-            $logWriter(sprintf('Drops: <comment>%s</comment>', implode('</comment>, <comment>', $uncommon)));
-        }
+    }
+
+    private function filterUncommonUnits(array $newItems)
+    {
+        $units = $this->repository->findBy(['id' => array_column($newItems, 'unit_id')]);
+
+        $uncommon = array_filter($units, function (Unit $unit) {
+            return false === in_array($unit->getRarity()->getSlug(), ['common', 'rare']);
+        });
+
+        $names = array_map(function (Unit $unit) {
+            return $unit->getName();
+        }, $uncommon);
+
+        return $names;
+    }
+
+    /**
+     * @param Game $game
+     *
+     * @return array
+     */
+    private function getUnitsToRecycle(Game $game)
+    {
+        $units = $game->recycle()['user_units'];
+
+        $common = array_filter($units, function ($unit) {
+            return $unit['rarity'] < 3 && null === $unit['deck_id'] && null === $unit['reserved'];
+        });
+
+        $recycleList = array_values(array_map(function ($unit) {
+            return (int)$unit['unit_index'];
+        }, $common));
+
+        return $recycleList;
     }
 
 }
