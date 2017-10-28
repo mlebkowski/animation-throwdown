@@ -79,6 +79,8 @@ class UserFarming
      */
     private $results;
 
+    private $runtimeSettings = [];
+
     public function __construct()
     {
         $this->logs = new ArrayCollection();
@@ -309,9 +311,14 @@ class UserFarming
         return null !== $this->getSubscription();
     }
 
+    public function setRuntimeSettings(array $settings)
+    {
+        $this->runtimeSettings = $settings;
+    }
+
     public function has($setting)
     {
-        return in_array($setting, $this->settings);
+        return in_array($setting, $this->settings) || in_array($setting, $this->runtimeSettings);
     }
 
     public function __toString()

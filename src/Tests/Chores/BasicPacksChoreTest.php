@@ -30,7 +30,7 @@ class BasicPacksChoreTest extends \PHPUnit_Framework_TestCase
             return chop($log .= $s . (($s && $newline) ? "\n" : ""));
         };
 
-        $configuration = (new UserFarming)->setSettings([UserFarming::SETTING_GOLD])->setSubscription(true);
+        $configuration = (new UserFarming)->setSettings([UserFarming::SETTING_GOLD]);
 
         $chore->make($game, $configuration, $logger);
 

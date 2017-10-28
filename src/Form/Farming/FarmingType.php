@@ -48,7 +48,7 @@ class FarmingType extends AbstractType
                 'Arena' => UserFarming::SETTING_ARENA,
                 'Challenges' => UserFarming::SETTING_CHALLENGES,
                 'Daily quests' => UserFarming::SETTING_CARDS,
-                'Basic Packs (VIP)' => UserFarming::SETTING_GOLD,
+                'Basic Packs' => UserFarming::SETTING_GOLD,
             ],
             'multiple' => true,
         ]);
