@@ -55,7 +55,7 @@ class Rumble
 
     public function getCurrentMatch()
     {
-        return new RumbleCurrentMatch($this->data['guild_war_current_match']);
+        return new RumbleCurrentMatch($this->data['guild_war_current_match'] ?: []);
     }
 
 }

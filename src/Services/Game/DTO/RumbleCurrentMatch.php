@@ -10,7 +10,7 @@ class RumbleCurrentMatch
 
     public function __construct(array $data)
     {
-        $this->data = $data;
+        $this->data = array_replace(['them_name' => "Unknown", 'end_time' => time()], $data);
     }
 
     public function getEnemyName()
