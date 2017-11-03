@@ -59,6 +59,17 @@ class FarmingHandler
             // you always need to init the game before anything:
             $this->initChore->make($game, $configuration, $logWriter);
 
+            if ($game->getArenaLevel() < $configuration->getMinLevel()) {
+                $logWriter(sprintf(
+                    'You need to be at least %d arena level to use this tool.',
+                    $configuration->getMinLevel()
+                ));
+
+                $configuration->setEnabled(false);
+
+                return;
+            }
+
             foreach ($this->chores as $chore) {
                 $chore->make($game, $configuration, $logWriter);
             }

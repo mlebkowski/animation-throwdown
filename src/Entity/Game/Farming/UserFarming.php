@@ -326,4 +326,13 @@ class UserFarming
         return sprintf('Farming[%s]' , $this->getUser()->getName());
     }
 
+    public function getMinLevel()
+    {
+        if (null === $this->getReferralCode()) {
+            return 15;
+        }
+
+        return $this->getReferralCode()->getMinLevel() ?: 15;
+    }
+
 }

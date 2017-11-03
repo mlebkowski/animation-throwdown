@@ -14,6 +14,8 @@ class UserFarmingReferralCode
 
     private $days;
 
+    private $minLevel;
+
     private $enabled;
 
     /**
@@ -51,6 +53,14 @@ class UserFarmingReferralCode
     public function getDays()
     {
         return $this->days;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getMinLevel()
+    {
+        return $this->minLevel;
     }
 
     public function isEnabled()
