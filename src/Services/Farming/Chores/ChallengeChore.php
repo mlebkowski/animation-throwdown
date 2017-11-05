@@ -55,6 +55,7 @@ class ChallengeChore extends AbstractBattleChore
                 $roundEnds = min($trackingEndTime, $lastRechargeTime + $rechargeTime);
 
                 return $data['challenge_data']['energy']['current_value'] > 0
+                    && $trackingEndTime > time()
                     && time() > $roundEnds - (60*90)  // last 90 minutes
                     && "1025" !== $data['challenge_data']['id'];
             });
