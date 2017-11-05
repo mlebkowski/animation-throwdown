@@ -74,12 +74,15 @@ class FarmingSetupController
                 ->getResult();
         }
 
+        list (, , $level) = array_pad(explode("\n", $farming->getComment()), 3, 1);
+        $canSubscribe = null !== $farming->getId() && false === $farming->isVIP() && $level >= $farming->getMinLevel();
+
         return new CorsResponse([
             'message' => $form->isSubmitted() ? ($form->isValid() ? 'Settings saved' : 'There was an error saving settings') : "",
             'form' => $this->normalizeForm($form->createView()),
             'farming' => $this->serializer->toArray($farming, (new SerializationContext)->setGroups(['settings'])),
             'logs' => $this->serializer->toArray($logs),
-            'canSubscribe' => null !== $farming->getId() && false === $farming->isVIP(),
+            'canSubscribe' => $canSubscribe,
         ], $request);
     }
 
