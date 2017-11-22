@@ -11,13 +11,14 @@ class AdCrateChore implements FarmingChore
 
     public function make(Game $game, UserFarming $configuration, \Closure $logWriter)
     {
-        $count = $game->getItemCount($game::ITEM_AD_CRATE);
+        foreach ([$game::ITEM_AD_CRATE, $game::ITEM_VIP_AD_CRATE] as $item) {
+            $count = $game->getItemCount($item);
 
-        for ($i = $count; $i > 0; $i--) {
-            $game->useAdCrate();
-            $logWriter("Opening an AdCrate");
-            sleep(5);
+            for ($i = $count; $i > 0; $i--) {
+                $game->useAdCrate($item);
+                $logWriter("Opening an AdCrate");
+                sleep(5);
+            }
         }
-
     }
 }

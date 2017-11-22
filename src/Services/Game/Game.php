@@ -10,6 +10,7 @@ use Nassau\CartoonBattle\Services\Game\DTO\Rumble;
 class Game
 {
     const ITEM_AD_CRATE = 30001;
+    const ITEM_VIP_AD_CRATE = 30002;
     const ITEM_BASIC_PACK = 1;
     const ITEM_VIP_PASS = 212;
     const ITEM_MAX_BASIC_PACK = 2;
@@ -242,9 +243,9 @@ class Game
         return isset($this->items[self::ITEM_VIP_PASS]);
     }
 
-    public function useAdCrate()
+    public function useAdCrate($item = self::ITEM_AD_CRATE)
     {
-        return $this('useAdLockedItem', ['item_id' => self::ITEM_AD_CRATE]);
+        return $this('useAdLockedItem', ['item_id' => $item]);
     }
 
     public function getItemCount($itemId)
