@@ -16,9 +16,9 @@ class Mission
 
     public function __construct($chapter, $number)
     {
-        if ($chapter < 1 || $chapter > 30) {
+        if ($chapter < 1 || $chapter > 32) {
             throw new \InvalidArgumentException(sprintf(
-                '<error>Mission chapter needs to be in range from 1 to 30, %s given',
+                '<error>Mission chapter needs to be in range from 1 to 32, %s given',
                 $chapter
             ));
         }
