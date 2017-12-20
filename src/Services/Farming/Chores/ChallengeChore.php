@@ -57,7 +57,7 @@ class ChallengeChore extends AbstractBattleChore
                 return $data['challenge_data']['energy']['current_value'] > 0
                     && $trackingEndTime > time()
                     && time() > $roundEnds - (60*90)  // last 90 minutes
-                    && "1025" !== $data['challenge_data']['id'];
+                    && "1027" !== $data['challenge_data']['id'];
             });
 
             $currentEvent = reset($events);
