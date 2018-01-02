@@ -30,6 +30,7 @@ class FarmSingleUserCommand extends Command
 
         $this->addArgument('id', InputArgument::REQUIRED);
         $this->addOption('chore', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED);
+        $this->addOption('force', null, InputOption::VALUE_NONE);
 
         $this->em = $em;
         $this->handler = $handler;
@@ -39,6 +40,7 @@ class FarmSingleUserCommand extends Command
     {
         $id = $input->getArgument('id');
         $chores = $input->getOption('chore');
+        $force = $input->getOption('force');
 
         /** @var UserFarming $farming */
         $farming = $this->em->getRepository('CartoonBattleBundle:Game\Farming\UserFarming')->find($id);
@@ -47,14 +49,22 @@ class FarmSingleUserCommand extends Command
             throw new \InvalidArgumentException('There is no such farming: ' . $id);
         }
 
+        $name = $farming->getUser()->getName();
+
+        if (false === $farming->isEnabled() && !$force) {
+            $output->writeln(sprintf(
+                'Farming is disabled for user <comment>%s</comment>. Use <question>--force</question> to override',
+                $name
+            ));
+            return ;
+        }
+
         $farming->setRuntimeSettings($chores);
 
-        $output->writeln(strftime('%Y-%m-%d %H:%M:%S'));
         $output->writeln(sprintf(
-            'Farming user <comment>%s</comment>, %smembership expires at <comment>%s</comment>',
-            $farming->getUser()->getName(),
-            $farming->getSubscription() ? '<info>VIP</info> ': '',
-            $farming->getExpiresAt()->format('Y-m-d H:i:s')
+            '<info>%s</info>: Farming user <comment>%s</comment>',
+            strftime('%Y-%m-%d %H:%M:%S'),
+            $name
         ));
 
         try {
