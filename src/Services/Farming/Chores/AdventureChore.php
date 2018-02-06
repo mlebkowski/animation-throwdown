@@ -26,6 +26,16 @@ class AdventureChore extends AbstractRefillableBattleChore
             return ;
         }
 
+        $currentHero = $game->getHero();
+        $adventureHero = $configuration->getAdventureHero();
+
+        $changeHero = $adventureHero && $currentHero && $adventureHero->getId() != $currentHero;
+
+        if ($changeHero) {
+            $logWriter(sprintf('Adventure battles are played with <comment>%s</comment> hero', $adventureHero->getName()));
+            $game->setDeckCommander($adventureHero->getId());
+        }
+
         $remainingEnergy = $game->getRemainingEnergy();
 
         do {
@@ -46,6 +56,10 @@ class AdventureChore extends AbstractRefillableBattleChore
             yield new BattleTarget('adventure', $mission->getCode(), $mission->getMissionId());
 
         } while (true);
+
+        if ($changeHero) {
+            $game->setDeckCommander($currentHero);
+        }
     }
 
     /**

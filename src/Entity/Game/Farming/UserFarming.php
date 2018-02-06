@@ -4,6 +4,7 @@ namespace Nassau\CartoonBattle\Entity\Game\Farming;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Nassau\CartoonBattle\Entity\Game\Hero;
 use Nassau\CartoonBattle\Entity\Game\User;
 use Nassau\CartoonBattle\Services\Farming\Chores\BattleTarget;
 use Nassau\CartoonBattle\Services\Game\Game;
@@ -78,6 +79,11 @@ class UserFarming
      * @var UserFarmingResult[]|Collection
      */
     private $results;
+
+    /**
+     * @var Hero
+     */
+    private $adventureHero;
 
     private $runtimeSettings = [];
 
@@ -289,6 +295,14 @@ class UserFarming
         $this->comment = (string)$comment;
 
         return $this;
+    }
+
+    /**
+     * @return Hero|null
+     */
+    public function getAdventureHero()
+    {
+        return $this->adventureHero;
     }
 
     public function updateFreeTrial(Game $game)

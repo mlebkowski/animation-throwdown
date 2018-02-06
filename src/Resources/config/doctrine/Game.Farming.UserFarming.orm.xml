@@ -38,6 +38,10 @@
             <join-column nullable="true" name="referral_code_id"/>
         </many-to-one>
 
+        <many-to-one target-entity="Nassau\CartoonBattle\Entity\Game\Hero" field="adventureHero">
+            <join-column nullable="true" name="hero_id"/>
+        </many-to-one>
+
     </entity>
 
 </doctrine-mapping>

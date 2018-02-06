@@ -29,6 +29,7 @@ class Game
         'money' => 0,
         'energy' => 0,
         'stamina' => 0,
+        'active_deck' => 1,
         'name' => 'Player',
         'max_cards' => 250,
     ];
@@ -50,6 +51,8 @@ class Game
         'id' => null
     ];
 
+    private $hero;
+
     private $nextMissions;
 
     private $energyPerMission = [];
@@ -58,6 +61,14 @@ class Game
     {
         $this->client = $client;
         $this->user = $user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHero()
+    {
+        return $this->hero;
     }
 
     public function isEnergySufficient($minutes = 120)
@@ -291,6 +302,19 @@ class Game
         return $result['battle_data']['battle_id'];
     }
 
+    public function getActiveDeck()
+    {
+        return $this->userData['active_deck'];
+    }
+
+    public function setDeckCommander($commanderId, $deckId = null)
+    {
+        $this('setDeckCommander', [
+            'commander_id' => $commanderId,
+            'deck_id' => $deckId ?: $this->getActiveDeck()
+        ]);
+    }
+
     public function getRumble()
     {
         return new Rumble($this('getGuildWarStatus'));
@@ -323,6 +347,10 @@ class Game
 
         if (isset($result['user_data'])) {
             $this->userData = array_replace($this->userData, $result['user_data']);
+        }
+
+        if (!$this->hero && $this->userData['active_deck'] && isset($result['user_decks'][$this->getActiveDeck()])) {
+            $this->hero = $result['user_decks'][$this->getActiveDeck()]['commander']['unit_id'];
         }
 
         if (isset($result['active_events'])) {
