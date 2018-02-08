@@ -50,7 +50,7 @@ class AdventureChore extends AbstractRefillableBattleChore
             }
 
             if ($remainingEnergy < 0) {
-                return;
+                break;
             }
 
             yield new BattleTarget('adventure', $mission->getCode(), $mission->getMissionId());
