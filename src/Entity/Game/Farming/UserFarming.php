@@ -322,7 +322,7 @@ class UserFarming
 
     public function isVIP()
     {
-        return null !== $this->getSubscription();
+        return null !== $this->getSubscription() || isset($this->runtimeSettings['vip']);
     }
 
     public function setRuntimeSettings(array $settings)

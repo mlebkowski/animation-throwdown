@@ -42,12 +42,7 @@ class FarmSingleUserCommand extends Command
         $chores = $input->getOption('chore');
         $force = $input->getOption('force');
 
-        /** @var UserFarming $farming */
-        $farming = $this->em->getRepository('CartoonBattleBundle:Game\Farming\UserFarming')->find($id);
-
-        if (!$farming) {
-            throw new \InvalidArgumentException('There is no such farming: ' . $id);
-        }
+        $farming = $this->getFarming($id);
 
         $name = $farming->getUser()->getName();
 
@@ -79,6 +74,33 @@ class FarmSingleUserCommand extends Command
             $output->writeln("\n");
         }
 
+    }
+
+    /**
+     * @param $id
+     *
+     * @return UserFarming
+     */
+    private function getFarming($id)
+    {
+        if (preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/', $id)) {
+            $farming = $this->em->getRepository('CartoonBattleBundle:Game\Farming\UserFarming')->find($id);
+        } else {
+            $farming = $this->em->createQueryBuilder()
+                ->select('farming')
+                ->from('CartoonBattleBundle:Game\Farming\UserFarming', 'farming')
+                ->join('farming.user', 'user')
+                ->where('user.name = :name')
+                ->setParameter(':name', $id)
+                ->getQuery()
+                ->getOneOrNullResult();
+        }
+
+
+        if (!$farming) {
+            throw new \InvalidArgumentException('There is no such farming: ' . $id);
+        }
+        return $farming;
     }
 
 }
