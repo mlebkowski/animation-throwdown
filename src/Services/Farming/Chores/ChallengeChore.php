@@ -68,6 +68,6 @@ class ChallengeChore extends AbstractBattleChore
 
             yield $currentEvent['challenge'] => $currentEvent['challenge_data']['name'];
 
-        } while ($count++ < 20); // seems like a safe value
+        } while ($count++ < 30); // seems like a safe value
     }
 }
