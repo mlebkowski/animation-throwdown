@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          http://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
+
+    <entity name="Nassau\CartoonBattle\Entity\Rumble\RumbleGuildMatch" table="rumble_guild_match">
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO"/>
+        </id>
+
+        <field name="matchNumber" column="match_number" type="integer" nullable="false"/>
+        <field name="name" type="string" nullable="false"/>
+        <field name="usPoints" column="us_points" type="integer" nullable="false"/>
+        <field name="themPoints" column="them_points" type="integer" nullable="false"/>
+
+        <unique-constraints>
+            <unique-constraint columns="rumble_id,request_id,match_number" name="guild_match" />
+        </unique-constraints>
+
+        <many-to-one target-entity="Nassau\CartoonBattle\Entity\Game\UserGatherRumbleStats" field="request">
+            <join-column nullable="false" name="request_id"/>
+        </many-to-one>
+
+        <many-to-one target-entity="Rumble" field="rumble">
+            <join-column nullable="false" name="rumble_id"/>
+        </many-to-one>
+
+    </entity>
+
+</doctrine-mapping>

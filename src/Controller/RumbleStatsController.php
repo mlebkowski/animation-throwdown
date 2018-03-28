@@ -4,6 +4,7 @@ namespace Nassau\CartoonBattle\Controller;
 
 use Nassau\CartoonBattle\Entity\Game\UserGatherRumbleStats;
 use Nassau\CartoonBattle\Entity\Rumble\Rumble;
+use Nassau\CartoonBattle\Entity\Rumble\RumbleGuildMatch;
 use Nassau\CartoonBattle\Services\Request\CsvResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -23,19 +24,29 @@ class RumbleStatsController extends Controller
         return $response;
     }
 
-    public function headerAction(UserGatherRumbleStats $request)
+    public function headerAction(UserGatherRumbleStats $request, Rumble $rumble)
     {
-        $game = $this->get('cartoon_battle.game.factory')->getGame($request->getUser());
+        $qb = $this->get('doctrine.orm.entity_manager')->createQueryBuilder();
 
-        $rumble = $game->getRumble();
+        /** @var RumbleGuildMatch[] $matches */
+        $matches = $qb->select('match')
+                ->from('CartoonBattleBundle:Rumble\RumbleGuildMatch', 'match')
+                ->where('match.request = :request_id')
+                ->andWhere('match.rumble = :rumble_id')
+                ->setParameter('request_id', $request->getId())
+                ->setParameter('rumble_id', $rumble->getId())
+                ->getQuery()
+            ->getResult();
+
+        $matches = array_filter($matches, function (RumbleGuildMatch $match) {
+            return $match->getUsPoints() || $match->getThemPoints() || $match->getName();
+        });
 
         $response = new CsvResponse();
 
-        $matches = array_slice($rumble->getMatches(), 0, 18);
-
-        $response->pushRow(array_map(function ($match) { return $match['them_name']; }, $matches));
-        $response->pushRow(array_map(function ($match) { return $match['them_kills']; }, $matches));
-        $response->pushRow(array_map(function ($match) { return $match['us_kills']; }, $matches));
+        $response->pushRow(array_map(function (RumbleGuildMatch $match) { return $match->getName(); }, $matches));
+        $response->pushRow(array_map(function (RumbleGuildMatch $match) { return $match->getThemPoints(); }, $matches));
+        $response->pushRow(array_map(function (RumbleGuildMatch $match) { return $match->getUsPoints(); }, $matches));
 
         return $response;
     }

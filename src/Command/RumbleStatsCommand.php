@@ -38,7 +38,7 @@ class RumbleStatsCommand extends ContainerAwareCommand
     {
         $rumble = $game->getRumble();
 
-        if (false === $rumble->isActive()) {
+        if (false === $rumble->isActive() || $rumble->isFightingOver()) {
             return;
         }
 
@@ -69,6 +69,26 @@ class RumbleStatsCommand extends ContainerAwareCommand
                 'request_id' => $requestId
             ]);
         }
+
+        $matches = array_slice($rumble->getMatches(), 0, $rumble->getTotalMatches());
+
+        $query = $db->prepare('
+            INSERT INTO rumble_guild_match (rumble_id, request_id, match_number, name, us_points, them_points)
+            VALUES (:rumble_id, :request_id, :match_number, :name, :us_points, :them_points)
+            ON DUPLICATE KEY UPDATE name = :name, us_points = :us_points, them_points = :them_points
+        ');
+
+        foreach ($matches as $no => $match) {
+            $query->execute([
+                'rumble_id' => $rumble->getId(),
+                'request_id' => $requestId,
+                'match_number' => $no,
+                'name' => (string)$match['them_name'],
+                'us_points' => (int)$match['us_kills'],
+                'them_points' => (int)$match['them_kills'],
+            ]);
+        }
+
 
     }
 

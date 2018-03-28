@@ -21,6 +21,16 @@ class Rumble
         return isset($this->data['guild_war_active']) && false !== $this->data['guild_war_active'];
     }
 
+    public function isFightingOver()
+    {
+        return $this->data['guild_war_event_data']['tracking_end_time'] + (60*60) < time();
+    }
+
+    public function getTotalMatches()
+    {
+        return (int)$this->data['guild_war_event_data']['total_matches'];
+    }
+
     public function getEnergy()
     {
         return $this->data['guild_war_event_data']['energy']['current_value'];
