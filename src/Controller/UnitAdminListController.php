@@ -6,6 +6,7 @@ use Kunstmaan\AdminListBundle\AdminList\Configurator\AbstractAdminListConfigurat
 use Nassau\CartoonBattle\AdminList\UnitAdminListConfigurator;
 use Kunstmaan\AdminListBundle\Controller\AdminListController;
 use Kunstmaan\AdminListBundle\AdminList\Configurator\AdminListConfiguratorInterface;
+use Nassau\CartoonBattle\Entity\Unit;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
@@ -52,17 +53,34 @@ class UnitAdminListController extends AdminListController
      * The edit action
      *
      * @param Request $request
-     * @param int $id
+     * @param Unit $unit
      * @return array|Response
      * @Route("/{id}", requirements={"id" = "\d+"}, name="cartoonbattlebundle_admin_unit_edit")
      * @Method({"GET", "POST"})
-     *
      */
-    public function editAction(Request $request, $id)
+    public function editAction(Request $request, Unit $unit)
     {
         $this->denyAccessUnlessGranted('ROLE_CARDS');
 
-        return parent::doEditAction($this->getAdminListConfigurator(), $id, $request);
+        if ($request->get('find-image')) {
+            $image = $this->get('doctrine.orm.entity_manager')
+                ->createQueryBuilder()
+                ->select('media')
+                ->from('KunstmaanMediaBundle:Media', 'media')
+                ->where('media.name = :name')
+                ->setParameter('name', $unit->getPicture() . '.png')
+                ->getQuery()
+                ->getOneOrNullResult();
+
+            if ($image) {
+                $this->addFlash('success', 'Image found in the library. Click save to confirm');
+                $unit->setImage($image);
+            } else {
+                $this->addFlash('warning', 'No image found by that name');
+            }
+        }
+
+        return parent::doEditAction($this->getAdminListConfigurator(), $unit->getId(), $request);
     }
 
     /**

@@ -4,6 +4,8 @@ namespace Nassau\CartoonBattle\AdminList;
 
 use Doctrine\ORM\EntityManager;
 
+use Kunstmaan\AdminListBundle\AdminList\ItemAction\SimpleItemAction;
+use Nassau\CartoonBattle\Entity\Unit;
 use Nassau\CartoonBattle\Form\UnitAdminType;
 use Kunstmaan\AdminListBundle\AdminList\FilterType\ORM;
 use Kunstmaan\AdminListBundle\AdminList\Configurator\AbstractDoctrineORMAdminListConfigurator;
@@ -56,6 +58,17 @@ class UnitAdminListConfigurator extends AbstractDoctrineORMAdminListConfigurator
     public function canAdd()
     {
         return false;
+    }
+
+    public function buildItemActions()
+    {
+        $this->addItemAction(new SimpleItemAction(function (Unit $item) {
+            return [
+                'path' => 'cartoonbattlebundle_admin_unit_edit',
+                'params' => ['id' => $item->getId(), 'find-image' => true],
+            ];
+
+        }, 'picture-o', 'Find image'));
     }
 
 
