@@ -30,6 +30,7 @@ class SyncImagesCommand extends ContainerAwareCommand
         /** @var Unit[] $items */
         $items = $em->getRepository('CartoonBattleBundle:Unit')
             ->createQueryBuilder('unit')
+            ->leftJoin('unit.imageStorage', 'imageStorage') // propagate it up front
             ->where('unit.image is not null')
             ->getQuery()
             ->getResult();
@@ -44,8 +45,10 @@ class SyncImagesCommand extends ContainerAwareCommand
                 continue;
             }
 
-            if (false === $cacheManager->isStored($path, $filterName)) {
+            if (false === $uploader->doesObjectExist($bucketName, ltrim($source, '/'))) {
                 $output->writeln(sprintf('Storing <comment>%s</comment>', $unit->getName()));
+
+                $path = ltrim(parse_url($path, PHP_URL_PATH), '/');
                 $binary = $dataManager->find($filterName, $path);
                 $cacheManager->store($filterManager->applyFilter($binary, $filterName), $path, $filterName);
             }

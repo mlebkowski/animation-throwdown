@@ -68,6 +68,7 @@ class UnitAdminListController extends AdminListController
                 ->select('media')
                 ->from('KunstmaanMediaBundle:Media', 'media')
                 ->where('media.name = :name')
+                ->andWhere('media.deleted = false')
                 ->setParameter('name', $unit->getPicture() . '.png')
                 ->getQuery()
                 ->getOneOrNullResult();
