@@ -29,6 +29,6 @@ class ReferralCodeTransformer implements DataTransformerInterface
 
     public function reverseTransform($value)
     {
-        return $this->repository->findOneBy(['name' => $value, 'enabled' => 1]);
+        return $this->repository->findOneBy(['name' => (string)$value, 'enabled' => 1]);
     }
 }
