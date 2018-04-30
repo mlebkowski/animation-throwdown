@@ -11,7 +11,6 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 class FarmingType extends AbstractType
 {
@@ -34,8 +33,7 @@ class FarmingType extends AbstractType
 
         if ($options['require_code']) {
             $builder->add($builder->create('referralCode', TextType::class, [
-                'label' => 'Referral Code (ask around)',
-                'constraints' => new NotBlank(['message' => 'This code is not valid']),
+                'label' => 'Discount code',
             ])->addModelTransformer($this->referralCodeTransformer));
         }
 
