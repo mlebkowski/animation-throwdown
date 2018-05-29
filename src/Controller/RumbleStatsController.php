@@ -4,7 +4,6 @@ namespace Nassau\CartoonBattle\Controller;
 
 use Nassau\CartoonBattle\Entity\Game\UserGatherRumbleStats;
 use Nassau\CartoonBattle\Entity\Rumble\Rumble;
-use Nassau\CartoonBattle\Entity\Rumble\RumbleGuildMatch;
 use Nassau\CartoonBattle\Services\Request\CsvResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -16,37 +15,41 @@ class RumbleStatsController extends Controller
 
         $response = new CsvResponse();
 
-        foreach ($stats as $user) {
-            $points = 0 === end($user['points']) ? array_slice($user['points'], 0, -1) : $user['points'];
-            $response->pushRow(array_merge([$user['name']], $points));
+        foreach ($stats as $rumbleId => $users) {
+            foreach ($users as $user) {
+                $points = 0 === end($user['points']) ? array_slice($user['points'], 0, -1) : $user['points'];
+                $response->pushRow(array_merge(
+                    (null === $rumble) ? [$rumbleId] : [],
+                    [$user['name']],
+                    $points
+                ));
+            }
         }
 
         return $response;
     }
 
-    public function headerAction(UserGatherRumbleStats $request, Rumble $rumble)
+    public function headerAction(UserGatherRumbleStats $request, Rumble $rumble = null)
     {
-        $qb = $this->get('doctrine.orm.entity_manager')->createQueryBuilder();
-
-        /** @var RumbleGuildMatch[] $matches */
-        $matches = $qb->select('match')
-                ->from('CartoonBattleBundle:Rumble\RumbleGuildMatch', 'match')
-                ->where('match.request = :request_id')
-                ->andWhere('match.rumble = :rumble_id')
-                ->setParameter('request_id', $request->getId())
-                ->setParameter('rumble_id', $rumble->getId())
-                ->getQuery()
-            ->getResult();
-
-        $matches = array_filter($matches, function (RumbleGuildMatch $match) {
-            return $match->getUsPoints() || $match->getThemPoints() || $match->getName();
-        });
+        $stats = $this->get('cartoon_battle.guild_stats')->getMatches($rumble, $request);
 
         $response = new CsvResponse();
 
-        $response->pushRow(array_map(function (RumbleGuildMatch $match) { return $match->getName(); }, $matches));
-        $response->pushRow(array_map(function (RumbleGuildMatch $match) { return $match->getThemPoints(); }, $matches));
-        $response->pushRow(array_map(function (RumbleGuildMatch $match) { return $match->getUsPoints(); }, $matches));
+
+        $getRow = function ($matches, $rumbleId, $key) use ($rumble) {
+            return array_merge(
+                null === $rumble ? [$rumbleId] : [],
+                array_map(function ($match) use ($key) {
+                    return $match[$key];
+                }, $matches)
+            );
+        };
+
+        foreach ($stats as $rumbleId => $matches) {
+            $response->pushRow($getRow($matches, $rumbleId, 'name'));
+            $response->pushRow($getRow($matches, $rumbleId, 'them_points'));
+            $response->pushRow($getRow($matches, $rumbleId, 'us_points'));
+        }
 
         return $response;
     }

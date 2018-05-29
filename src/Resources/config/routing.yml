@@ -33,8 +33,18 @@ rumble_stats:
     defaults:
       _controller: CartoonBattleBundle:RumbleStats:scores
 
+rumble_stats_all:
+    path: /rumble-stats/{id}.csv
+    defaults:
+      _controller: CartoonBattleBundle:RumbleStats:scores
+
 rumble_stats_header:
     path: /rumble-stats-header/{id}/{rumble}.csv
+    defaults:
+      _controller: CartoonBattleBundle:RumbleStats:header
+
+rumble_stats_header_all:
+    path: /rumble-stats-header/{id}.csv
     defaults:
       _controller: CartoonBattleBundle:RumbleStats:header
 

@@ -24,32 +24,70 @@ class GuildStats
 
     public function getStats(Rumble $rumble = null, UserGatherRumbleStats $request)
     {
-        $query = $this->db->prepare('
-            SELECT name, user_id, match_number, points FROM rumble_result
-            WHERE rumble_id = :rumble_id AND request_id = :request_id
-            ORDER BY match_number ASC
-        ');
+        $query = $this->db->prepare($this->ifRumble($rumble, '
+            SELECT rumble_id, name, user_id, match_number, points FROM rumble_result
+            WHERE request_id = :request_id
+            ORDER BY rumble_id DESC, match_number ASC, name ASC
+        '));
 
-        $query->execute([
+        $query->execute(array_filter([
             'rumble_id' => $rumble ? $rumble->getId() : null,
             'request_id' => $request->getId(),
-        ]);
+        ]));
 
         $stats = $query->fetchAll(\PDO::FETCH_NUM);
 
         $result = [];
         foreach ($stats as $stat) {
-            list ($name, $userId, $number, $points) = $stat;
+            list ($rumbleId, $name, $userId, $number, $points) = $stat;
 
-            $currentValue = isset($result[$userId]['points']) ? array_sum($result[$userId]['points']?:[]) : 0;
-            $result[$userId]['name'] = $name;
-            $result[$userId]['points'][$number] = $points - $currentValue;
+            $currentValue = isset($result[$rumbleId][$userId]['points']) ? array_sum($result[$rumbleId][$userId]['points']?:[]) : 0;
+            $result[$rumbleId][$userId]['name'] = $name;
+            $result[$rumbleId][$userId]['rumble'] = $rumbleId;
+            $result[$rumbleId][$userId]['points'][$number] = $points - $currentValue;
         }
 
-        usort($result, function ($alpha, $bravo) {
-            return strcasecmp($alpha['name'], $bravo['name']);
-        });
-
         return $result;
+    }
+
+    public function getMatches(Rumble $rumble = null, UserGatherRumbleStats $request)
+    {
+        $query = $this->db->prepare($this->ifRumble($rumble, '
+            SELECT
+                us_points,
+                them_points,
+                match_number,
+                name,
+                rumble_id
+            FROM rumble_guild_match
+            WHERE request_id = :request_id
+              AND us_points > 0 
+              AND them_points > 0
+              AND name != ""
+            ORDER BY rumble_id DESC, match_number ASC
+        '));
+
+        $query->execute(array_filter([
+            'rumble_id' => $rumble ? $rumble->getId() : null,
+            'request_id' => $request->getId(),
+        ]));
+
+        $rows = $query->fetchAll(\PDO::FETCH_ASSOC);
+
+        $matches = [];
+        foreach ($rows as $row) {
+            $matches[$row['rumble_id']][] = $row;
+        }
+
+        return $matches;
+    }
+
+    private function ifRumble(Rumble $rumble = null, $query)
+    {
+        if ($rumble) {
+            return str_replace('WHERE', 'WHERE rumble_id = :rumble_id AND', $query);
+        }
+
+        return $query;
     }
 }
