@@ -2,7 +2,7 @@
 
 namespace Nassau\CartoonBattle\Command;
 
-use Nassau\CartoonBattle\Entity\Game\UserGatherRumbleStats;
+use Nassau\CartoonBattle\Entity\Game\UserGatherStats;
 use Nassau\CartoonBattle\Services\Game\Game;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,10 +20,10 @@ class RumbleStatsCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /** @var UserGatherRumbleStats[] $queue */
+        /** @var UserGatherStats[] $queue */
         $queue = $this->getContainer()->get('doctrine.orm.entity_manager')
-            ->getRepository('CartoonBattleBundle:Game\UserGatherRumbleStats')
-            ->findBy(['enabled' => true]);
+            ->getRepository('CartoonBattleBundle:Game\UserGatherStats')
+            ->findBy(['rumble' => true]);
 
         $gameFactory = $this->getContainer()->get('cartoon_battle.game.factory');
 

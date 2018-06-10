@@ -334,6 +334,22 @@ class Game
         return $result['guild_info'];
     }
 
+    public function getUserProfile($id)
+    {
+        $result = $this->__invoke('getUserProfile', [
+            'target_user_id' => $id,
+        ]);
+
+        return $result['user_profile_info'];
+    }
+
+    public function getGuildSiegeStatus()
+    {
+        $result = $this->__invoke('getGuildSiegeStatus');
+
+        return $result['guild_siege_status'];
+    }
+
     public function __invoke($message, array $data = [], array $query = [])
     {
         $url = '?' . http_build_query($query + ['user_id' => $this->user->getUserId(), 'message' => $message]);

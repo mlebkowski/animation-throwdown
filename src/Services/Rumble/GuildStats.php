@@ -3,7 +3,7 @@
 namespace Nassau\CartoonBattle\Services\Rumble;
 
 use Doctrine\DBAL\Driver\Connection;
-use Nassau\CartoonBattle\Entity\Game\UserGatherRumbleStats;
+use Nassau\CartoonBattle\Entity\Game\UserGatherStats;
 use Nassau\CartoonBattle\Entity\Rumble\Rumble;
 
 class GuildStats
@@ -22,7 +22,7 @@ class GuildStats
     }
 
 
-    public function getStats(Rumble $rumble = null, UserGatherRumbleStats $request)
+    public function getStats(Rumble $rumble = null, UserGatherStats $request)
     {
         $query = $this->db->prepare($this->ifRumble($rumble, '
             SELECT rumble_id, name, user_id, match_number, points FROM rumble_result
@@ -50,7 +50,7 @@ class GuildStats
         return $result;
     }
 
-    public function getMatches(Rumble $rumble = null, UserGatherRumbleStats $request)
+    public function getMatches(Rumble $rumble = null, UserGatherStats $request)
     {
         $query = $this->db->prepare($this->ifRumble($rumble, '
             SELECT

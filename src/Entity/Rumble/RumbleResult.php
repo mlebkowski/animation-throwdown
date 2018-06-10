@@ -2,7 +2,7 @@
 
 namespace Nassau\CartoonBattle\Entity\Rumble;
 
-use Nassau\CartoonBattle\Entity\Game\UserGatherRumbleStats;
+use Nassau\CartoonBattle\Entity\Game\UserGatherStats;
 
 class RumbleResult
 {
@@ -34,7 +34,7 @@ class RumbleResult
     private $points;
 
     /**
-     * @var UserGatherRumbleStats
+     * @var UserGatherStats
      */
     private $request;
 
@@ -87,7 +87,7 @@ class RumbleResult
     }
 
     /**
-     * @return UserGatherRumbleStats
+     * @return UserGatherStats
      */
     public function getRequest()
     {

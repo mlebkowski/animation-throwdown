@@ -16,6 +16,16 @@ class CsvResponse extends Response
         parent::__construct("", $status, $headers + ['Content-Type' => 'text/csv']);
     }
 
+    public static function fromArray(array $data)
+    {
+        $response = new self;
+        foreach ($data as $item) {
+            $response->pushRow($item);
+        }
+
+        return $response;
+    }
+
     public function pushRow(array $data)
     {
         fputcsv($this->handle, $data);

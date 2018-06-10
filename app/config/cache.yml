@@ -4,3 +4,8 @@ doctrine_cache:
       type: redis
       redis:
         connection_id: kunstmaan_extra.redis_client
+
+    user_info:
+      type: redis
+      redis:
+        connection_id: kunstmaan_extra.redis_client

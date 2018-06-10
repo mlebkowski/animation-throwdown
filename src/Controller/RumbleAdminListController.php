@@ -85,7 +85,7 @@ class RumbleAdminListController extends AdminListController
      *
      * @param Request $request
      * @param int $id
-     * @return array
+     * @return Response
      * @Route("/{id}", requirements={"id" = "\d+"}, name="cartoonbattlebundle_admin_rumble_rumble_view")
      * @Method({"GET"})
      *

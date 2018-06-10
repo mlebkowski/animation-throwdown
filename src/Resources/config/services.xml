@@ -118,6 +118,12 @@
             <tag name="kernel.event_subscriber"/>
         </service>
 
+        <service class="Nassau\CartoonBattle\Services\Game\User\InfoFetcher" id="cartoon_battle.game.user.info_fetcher">
+            <argument id="doctrine_cache.providers.user_info" type="service"/>
+            <argument id="cartoon_battle.game.default" type="service"/>
+        </service>
+
+
 
     </services>
 </container>

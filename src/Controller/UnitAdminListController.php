@@ -89,7 +89,7 @@ class UnitAdminListController extends AdminListController
      *
      * @param Request $request
      * @param int $id
-     * @return array
+     * @return Response
      * @Route("/{id}", requirements={"id" = "\d+"}, name="cartoonbattlebundle_admin_unit_view")
      * @Method({"GET"})
      *

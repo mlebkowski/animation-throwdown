@@ -2,7 +2,7 @@
 
 namespace Nassau\CartoonBattle\Entity\Game;
 
-class UserGatherRumbleStats
+class UserGatherStats
 {
     /**
      * @var string
@@ -17,7 +17,12 @@ class UserGatherRumbleStats
     /**
      * @var bool
      */
-    private $enabled;
+    private $rumble;
+
+    /**
+     * @var bool
+     */
+    private $siege;
 
     /**
      * @param User $user
@@ -46,24 +51,41 @@ class UserGatherRumbleStats
     /**
      * @return bool
      */
-    public function isEnabled()
+    public function isRumble()
     {
-        return $this->enabled;
+        return $this->rumble;
     }
 
     /**
-     * @param bool $enabled
+     * @param bool $rumble
      *
      * @return $this
      */
-    public function setEnabled($enabled)
+    public function setRumble($rumble)
     {
-        $this->enabled = (bool)$enabled;
+        $this->rumble = (bool)$rumble;
 
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function isSiege()
+    {
+        return $this->siege;
+    }
 
+    /**
+     * @param bool $siege
+     *
+     * @return $this
+     */
+    public function setSiege($siege)
+    {
+        $this->siege = (bool)$siege;
 
+        return $this;
+    }
 
 }

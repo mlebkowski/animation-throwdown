@@ -38,5 +38,11 @@
             <argument id="doctrine.orm.entity_manager" type="service"/>
         </service>
 
+        <service class="Nassau\CartoonBattle\Controller\SiegeTacticsController" id="nassau.cartoon_battle.controller.siege_tactics_controller">
+            <argument id="cartoon_battle.game.factory" type="service"/>
+            <argument id="cartoon_battle.game.user.info_fetcher" type="service"/>
+        </service>
+
+
     </services>
 </container>

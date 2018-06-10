@@ -18,7 +18,7 @@
             <unique-constraint columns="rumble_id,user_id,match_number" name="match_result" />
         </unique-constraints>
 
-        <many-to-one target-entity="Nassau\CartoonBattle\Entity\Game\UserGatherRumbleStats" field="request">
+        <many-to-one target-entity="Nassau\CartoonBattle\Entity\Game\UserGatherStats" field="request">
             <join-column nullable="false" name="request_id"/>
         </many-to-one>
 

@@ -48,6 +48,11 @@ rumble_stats_header_all:
     defaults:
       _controller: CartoonBattleBundle:RumbleStats:header
 
+siege_stats:
+    path: /siege-stats/{id}.csv
+    defaults:
+      _controller: nassau.cartoon_battle.controller.siege_tactics_controller:statsAction
+
 cartoonbattlebundle_rumble_standings:
     resource: '@CartoonBattleBundle/Controller/RumbleStandingsController.php'
     type:     annotation
