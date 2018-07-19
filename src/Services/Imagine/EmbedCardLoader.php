@@ -13,10 +13,13 @@ class EmbedCardLoader implements LoaderInterface
 
     const SUFFIX = '.frame.png';
 
+    private $rootDir;
+
     private $binary;
 
-    public function __construct($binary)
+    public function __construct($rootDir, $binary)
     {
+        $this->rootDir = $rootDir;
         $this->binary = $binary;
     }
 
@@ -40,13 +43,12 @@ class EmbedCardLoader implements LoaderInterface
         $url = 'https://cartoon-battle.cards/screenshot?' . substr($path, 0, -strlen(self::SUFFIX));
 
         $command = sprintf(
-            '%s --javascript-delay 5000 --debug-javascript --width 340 --height 670 --transparent %s - 2>/dev/null',
+            '%s/../%s --javascript-delay 5000 --debug-javascript --width 340 --height 670 --transparent %s - 2>/dev/null',
+            $this->rootDir,
             escapeshellcmd($this->binary),
             escapeshellarg($url)
         );
 
-//        var_dump($command);
-//exit;
         $data = shell_exec($command);
 
         return new Binary($data, 'image/png', 'png');
