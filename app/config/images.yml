@@ -3,6 +3,7 @@ kunstmaan_extra:
 
 liip_imagine:
     filter_sets:
+        frame: ~
         card:
             filters:
                 thumbnail: { size: [231, 331], mode: outbound }

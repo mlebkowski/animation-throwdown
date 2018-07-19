@@ -124,6 +124,9 @@
         </service>
 
 
+        <service class="Nassau\CartoonBattle\Services\Imagine\EmbedCardLoader" id="nassau.cartoon_battle.services.imagine.embed_card_loader">
+            <argument>%wkhtmltoimage_binary%</argument>
+        </service>
 
     </services>
 </container>

@@ -14,3 +14,5 @@ parameters:
     redis.host:                 localhost
     redis.port:                 6379
     redis.password:             ~
+
+    wkhtmltoimage_binary:       vendor/bin/wkhtmltoimage-amd64
