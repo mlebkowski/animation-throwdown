@@ -37,7 +37,7 @@ class ArenaChore extends AbstractRefillableBattleChore
                 return;
             }
 
-            yield $this->getHuntingTarget($game, $configuration);
+            yield $this->getHuntingTarget($game);
         } while (true);
     }
 
@@ -52,36 +52,10 @@ class ArenaChore extends AbstractRefillableBattleChore
         return $game->startArenaBattle($target->getTarget());
     }
 
-    private function getHuntingTarget(Game $game, UserFarming $configuration)
+    private function getHuntingTarget(Game $game)
     {
-        $shouldRefreshForHero = function ($target) use ($configuration) {
-            $heroes = $configuration->getArenaHeroes();
-            if (0 === sizeof($heroes)) {
-                return false;
-            }
-
-            return false === in_array($target['hero_xp_id'], $heroes);
-        };
-
-        $refreshes = 0;
         $target = $game->getRandomHuntingTarget();
-        $comment = "";
 
-        while ($configuration->isVIP() && $shouldRefreshForHero($target) && $refreshes++ < 10) {
-            $comment = "after $refreshes refreshes";
-            // refresh opponent
-            $practice = $game->startPracticeBattle($target['user_id']);
-            $result = $game->skipBattle($practice['battle_id']);
-            if (false === isset($result['hunting_targets'])) {
-                $comment = "too much refreshes, falling back";
-                break; // we cant cycle tokens
-            }
-
-            $target = reset($result['hunting_targets']);
-
-            sleep(1);
-        }
-
-        return new BattleTarget('arena', $target['name'], $target['user_id'], $comment);
+        return new BattleTarget('arena', $target['name'], $target['user_id']);
     }
 }

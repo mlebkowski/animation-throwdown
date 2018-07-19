@@ -10,14 +10,11 @@ class BattleTarget
 
     private $target;
 
-    private $comment;
-
-    public function __construct($type, $label, $target, $comment = '')
+    public function __construct($type, $label, $target)
     {
         $this->type = $type;
         $this->label = $label;
         $this->target = $target;
-        $this->comment = $comment;
     }
 
     /**
@@ -42,14 +39,6 @@ class BattleTarget
     public function getTarget()
     {
         return $this->target;
-    }
-
-    /**
-     * @return string
-     */
-    public function getComment()
-    {
-        return $this->comment;
     }
 
 }

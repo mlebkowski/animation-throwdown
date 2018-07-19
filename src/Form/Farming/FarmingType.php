@@ -64,9 +64,6 @@ class FarmingType extends AbstractType
             'multiple' => true,
         ]);
 
-        $builder->add('arenaHeroes', FarmableHeroType::class, [
-            'label' => 'Refresh arena to get these hero tokens'
-        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
