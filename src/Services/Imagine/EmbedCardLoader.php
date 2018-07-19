@@ -11,6 +11,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class EmbedCardLoader implements LoaderInterface
 {
 
+    const SUFFIX = '.frame.png';
+
     private $binary;
 
     public function __construct($binary)
@@ -30,13 +32,12 @@ class EmbedCardLoader implements LoaderInterface
      */
     public function find($path)
     {
-        $data = json_decode(urldecode($path), true) ?: json_decode(base64_decode(urldecode($path)), true);
-
-        if (false === isset($data['embed'])) {
+        $path = urldecode($path);
+        if (substr($path, - strlen(self::SUFFIX)) !== self::SUFFIX) {
             throw new NotFoundHttpException;
         }
 
-        $url = 'https://cartoon-battle.cards/screenshot?' . $data['embed'];
+        $url = 'https://cartoon-battle.cards/screenshot?' . substr($path, 0, -strlen(self::SUFFIX));
 
         $command = sprintf(
             '%s --javascript-delay 5000 --debug-javascript --width 340 --height 670 --transparent %s - 2>/dev/null',
@@ -44,6 +45,8 @@ class EmbedCardLoader implements LoaderInterface
             escapeshellarg($url)
         );
 
+//        var_dump($command);
+//exit;
         $data = shell_exec($command);
 
         return new Binary($data, 'image/png', 'png');
