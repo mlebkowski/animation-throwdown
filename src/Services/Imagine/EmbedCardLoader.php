@@ -7,6 +7,8 @@ namespace Nassau\CartoonBattle\Services\Imagine;
 use Liip\ImagineBundle\Binary\Loader\LoaderInterface;
 use Liip\ImagineBundle\Model\Binary;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
 class EmbedCardLoader implements LoaderInterface
 {
@@ -43,13 +45,19 @@ class EmbedCardLoader implements LoaderInterface
         $url = 'https://cartoon-battle.cards/screenshot?' . substr($path, 0, -strlen(self::SUFFIX));
 
         $command = sprintf(
-            '%s/../%s --javascript-delay 5000 --debug-javascript --width 340 --height 670 --transparent %s - 2>/dev/null',
-            $this->rootDir,
+            '%s --javascript-delay 5000 --debug-javascript --width 340 --height 670 --transparent %s - 2>/dev/null',
             escapeshellcmd($this->binary),
             escapeshellarg($url)
         );
 
-        $data = shell_exec($command);
+        $process = new Process($command, sprintf('%s/../', $this->rootDir));
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+
+        $data = $process->getOutput();
 
         return new Binary($data, 'image/png', 'png');
     }
