@@ -3,6 +3,8 @@
 namespace Nassau\CartoonBattle\Services\Farming\Chores;
 
 use Nassau\CartoonBattle\Entity\Game\Farming\UserFarming;
+use Nassau\CartoonBattle\Services\Farming\DTO\Battle;
+use Nassau\CartoonBattle\Services\Farming\DTO\BattleTarget;
 use Nassau\CartoonBattle\Services\Game\Game;
 
 class RumbleChore extends AbstractBattleChore
@@ -48,6 +50,6 @@ class RumbleChore extends AbstractBattleChore
      */
     protected function startBattle(BattleTarget $target, Game $game)
     {
-        return $game('fightGuildWar')['battle_data']['battle_id'];
+        return new Battle($game('fightGuildWar'));
     }
 }

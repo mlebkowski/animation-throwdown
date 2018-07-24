@@ -1,8 +1,8 @@
 <?php
 
-namespace Nassau\CartoonBattle\Services\Farming\Chores;
+namespace Nassau\CartoonBattle\Services\Farming\DTO;
 
-class BattleTarget
+final class BattleTarget
 {
     private $type;
 

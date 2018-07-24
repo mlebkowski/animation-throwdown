@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Nassau\CartoonBattle\Entity\Game\Hero;
 use Nassau\CartoonBattle\Entity\Game\User;
-use Nassau\CartoonBattle\Services\Farming\Chores\BattleTarget;
+use Nassau\CartoonBattle\Services\Farming\DTO\BattleTarget;
 use Nassau\CartoonBattle\Services\Game\Game;
 
 class UserFarming

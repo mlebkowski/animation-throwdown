@@ -3,6 +3,9 @@
 namespace Nassau\CartoonBattle\Services\Farming\Chores;
 
 use Nassau\CartoonBattle\Entity\Game\Farming\UserFarming;
+use Nassau\CartoonBattle\Services\Farming\DTO\Battle;
+use Nassau\CartoonBattle\Services\Farming\DTO\BattleTarget;
+use Nassau\CartoonBattle\Services\Farming\DTO\FailedToStartBattle;
 use Nassau\CartoonBattle\Services\Farming\FarmingChore;
 use Nassau\CartoonBattle\Services\Farming\LootExtractor\LootExtractor;
 use Nassau\CartoonBattle\Services\Game\Game;
@@ -26,24 +29,36 @@ abstract class AbstractBattleChore implements FarmingChore
 
     public function make(Game $game, UserFarming $configuration, \Closure $logWriter)
     {
-        foreach ($this->shouldDoBattle($game, $configuration, $logWriter) as $nextTarget) {
+        $targetGenerator = $this->shouldDoBattle($game, $configuration, $logWriter);
+
+        /** @var $nextTarget BattleTarget */
+        while (null !== ($nextTarget = $targetGenerator->current())) {
             $logWriter(sprintf(
                 'Playing %s battle: <comment>%s</comment>… ',
                 $nextTarget->getType(),
                 $nextTarget->getLabel()
             ), false);
 
-            $battleId = $this->startBattle($nextTarget, $game);
+            $battle = $this->startBattle($nextTarget, $game);
 
             sleep(1);
 
-            $result = $game->skipBattle($battleId);
+            if (false === $battle->isSuccess()) {
+                $logWriter(sprintf('<error>Unable to start battle</error> %s', $battle->getMessage()));
+                $targetGenerator->send(new FailedToStartBattle($battle->getMessage()));
+
+                continue;
+            }
+
+            $result = $game->skipBattle($battle->getId());
 
             $winner = (bool)$result['battle_data']['winner'];
 
             $loot = $winner ? $this->lootExtractor->extractLoot($this->normalizeRewards($result)) : [];
 
             $this->reportBattleResult($winner, $loot, $logWriter);
+
+            $targetGenerator->send(null);
         }
     }
 
@@ -60,7 +75,7 @@ abstract class AbstractBattleChore implements FarmingChore
      * @param BattleTarget $target
      * @param Game $game
      *
-     * @return string
+     * @return Battle
      */
     abstract protected function startBattle(BattleTarget $target, Game $game);
 

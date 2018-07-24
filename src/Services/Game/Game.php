@@ -143,9 +143,13 @@ class Game
     {
         $result = $this('getHuntingTargets') + ['hunting_targets' => []];
 
+        if (0 === sizeof($result['hunting_targets'])) {
+            return null;
+        }
+
         $targetId = array_rand($result['hunting_targets']);
 
-        return $targetId ? $result['hunting_targets'][$targetId] : null;
+        return $result['hunting_targets'][$targetId];
     }
 
     public function init()
@@ -273,7 +277,7 @@ class Game
     {
         $result = $this('startMission', ['mission_id' => $missionId]);
 
-        return $result['battle_data']['battle_id'];
+        return $result;
     }
 
     public function startPracticeBattle($targetUserId)
@@ -292,14 +296,14 @@ class Game
     {
         $result = $this('startHuntingBattle', ['target_user_id' => $targetUserId]);
 
-        return $result['battle_data']['battle_id'];
+        return $result;
     }
 
     public function startChallengeBattle($challengeId)
     {
         $result = $this('startChallenge', ['challenge_id' => $challengeId]);
 
-        return $result['battle_data']['battle_id'];
+        return $result;
     }
 
     public function getActiveDeck()

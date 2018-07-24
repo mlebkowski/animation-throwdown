@@ -3,6 +3,9 @@
 namespace Nassau\CartoonBattle\Services\Farming\Chores;
 
 use Nassau\CartoonBattle\Entity\Game\Farming\UserFarming;
+use Nassau\CartoonBattle\Services\Farming\DTO\Battle;
+use Nassau\CartoonBattle\Services\Farming\DTO\BattleTarget;
+use Nassau\CartoonBattle\Services\Farming\DTO\FailedToStartBattle;
 use Nassau\CartoonBattle\Services\Game\Game;
 
 class ArenaChore extends AbstractRefillableBattleChore
@@ -26,6 +29,9 @@ class ArenaChore extends AbstractRefillableBattleChore
             return;
         }
 
+        $failedBattles = 0;
+        $battleLimit = 35;
+
         do {
             $stamina--;
 
@@ -37,7 +43,25 @@ class ArenaChore extends AbstractRefillableBattleChore
                 return;
             }
 
-            yield $this->getHuntingTarget($game);
+            $success = (yield $this->getHuntingTarget($game));
+
+            if ($success instanceof FailedToStartBattle) {
+                $stamina++;
+                $failedBattles++;
+
+                if ($failedBattles > 15) {
+                    $logWriter('<error>Failed over 15 battles, something’s wrong, aborting!</error>');
+
+                    return;
+                }
+            }
+
+            if (--$battleLimit <= 0) {
+                $logWriter('<error>Hit a limit of 35 battles, aborting!</error>');
+
+                return;
+            }
+
         } while (true);
     }
 
@@ -49,13 +73,15 @@ class ArenaChore extends AbstractRefillableBattleChore
      */
     protected function startBattle(BattleTarget $target, Game $game)
     {
-        return $game->startArenaBattle($target->getTarget());
+        return new Battle($game->startArenaBattle($target->getTarget()));
     }
 
     private function getHuntingTarget(Game $game)
     {
         $target = $game->getRandomHuntingTarget();
 
-        return new BattleTarget('arena', $target['name'], $target['user_id']);
+        $message = $target['player_dialog'] ?: $target['opponent_dialog'];
+
+        return new BattleTarget('arena', sprintf('%s (%s)', $target['name'], $message), 0);
     }
 }

@@ -3,6 +3,8 @@
 namespace Nassau\CartoonBattle\Services\Farming\Chores;
 
 use Nassau\CartoonBattle\Entity\Game\Farming\UserFarming;
+use Nassau\CartoonBattle\Services\Farming\DTO\Battle;
+use Nassau\CartoonBattle\Services\Farming\DTO\BattleTarget;
 use Nassau\CartoonBattle\Services\Game\DTO\Mission;
 use Nassau\CartoonBattle\Services\Game\Game;
 
@@ -70,7 +72,7 @@ class AdventureChore extends AbstractRefillableBattleChore
      */
     protected function startBattle(BattleTarget $target, Game $game)
     {
-        return $game->startAdventureBattle($target->getTarget());
+        return new Battle($game->startAdventureBattle($target->getTarget()));
     }
 
     private function getAllPossibleMissions(Game $game)
