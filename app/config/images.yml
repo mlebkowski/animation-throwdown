@@ -8,6 +8,14 @@ liip_imagine:
                 crop:
                   start: [0, 0]
                   size:  [488, 670]
+        frame_thumb:
+            filters:
+                crop:
+                    start: [0, 0]
+                    size:  [488, 670]
+                thumbnail:
+                    size: [146, 200]
+                    mode: outbound
         card:
             filters:
                 thumbnail: { size: [231, 331], mode: outbound }
