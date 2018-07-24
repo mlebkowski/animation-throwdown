@@ -28,7 +28,7 @@ final class Battle
      */
     public function getMessage()
     {
-        return $this->message;
+        return is_array($this->message) ? implode(" ", $this->message) : $this->message;
     }
 
     /**
