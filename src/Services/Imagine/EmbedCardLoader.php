@@ -13,7 +13,7 @@ use Symfony\Component\Process\Process;
 class EmbedCardLoader implements LoaderInterface
 {
 
-    const SUFFIX = '.frame.png';
+    const SUFFIX = '/\.frame(\.v\d+)?\.png$/i';
 
     private $rootDir;
 
@@ -38,11 +38,13 @@ class EmbedCardLoader implements LoaderInterface
     public function find($path)
     {
         $path = urldecode($path);
-        if (substr($path, - strlen(self::SUFFIX)) !== self::SUFFIX) {
+        if (false === preg_match(self::SUFFIX, $path)) {
             throw new NotFoundHttpException;
         }
 
-        $url = 'https://cartoon-battle.cards/screenshot?' . substr($path, 0, -strlen(self::SUFFIX));
+        $path = preg_replace(self::SUFFIX, '', $path);
+
+        $url = 'https://cartoon-battle.cards/screenshot?' . $path;
 
         $command = sprintf(
             '%s --javascript-delay 5000 --debug-javascript --width 8000 --height 670 --transparent --format png %s - 2>/dev/null',
