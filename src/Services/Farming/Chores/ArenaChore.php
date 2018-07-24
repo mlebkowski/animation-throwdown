@@ -78,6 +78,8 @@ class ArenaChore extends AbstractRefillableBattleChore
 
     private function getHuntingTarget(Game $game)
     {
+        sleep(2);
+
         $target = $game->getRandomHuntingTarget();
 
         $message = $target['player_dialog'] ?: $target['opponent_dialog'];
