@@ -47,7 +47,7 @@ class EmbedCardLoader implements LoaderInterface
         $url = 'https://cartoon-battle.cards/screenshot?' . $path;
 
         $command = sprintf(
-            '%s --javascript-delay 5000 --debug-javascript --width 8000 --height 670 --transparent --format png %s - 2>/dev/null',
+            '%s --javascript-delay 10000 --debug-javascript --width 8000 --height 670 --transparent --format png %s - 2>/dev/null',
             escapeshellcmd($this->binary),
             escapeshellarg($url)
         );
